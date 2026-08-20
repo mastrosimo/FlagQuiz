@@ -67,12 +67,17 @@ export interface QuizSessionResult {
   completedAt: number;
 }
 
+export interface AchievementContext {
+  stats: ProfileStats;
+  collectionCount: number;
+}
+
 export interface Achievement {
   id: string;
   titleKey: TranslationKey;
   descriptionKey: TranslationKey;
   icon: string;
-  check: (stats: ProfileStats) => boolean;
+  check: (context: AchievementContext) => boolean;
 }
 
 export interface ProfileStats {

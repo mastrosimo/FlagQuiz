@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useProfileStore } from '../store/profileStore';
+import { useCollectionStore } from '../store/collectionStore';
 import { useTheme } from '../hooks/useTheme';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
@@ -11,6 +12,7 @@ export function SettingsPage() {
   const soundEnabled = useProfileStore((state) => state.soundEnabled);
   const setSoundEnabled = useProfileStore((state) => state.setSoundEnabled);
   const resetProgress = useProfileStore((state) => state.resetProgress);
+  const resetCollection = useCollectionStore((state) => state.resetCollection);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -75,6 +77,7 @@ export function SettingsPage() {
             variant="danger"
             onClick={() => {
               resetProgress();
+              resetCollection();
               setConfirmOpen(false);
             }}
           >

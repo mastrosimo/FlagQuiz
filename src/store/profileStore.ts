@@ -68,6 +68,7 @@ interface ProfileState {
   dailyStreak: DailyStreak;
   dailyChallenge: DailyChallengeState;
   recordSession: (result: QuizSessionResult) => void;
+  checkAchievements: (collectionCount: number) => void;
   completeDailyChallenge: (result: { score: number; correctCount: number; totalQuestions: number }) => void;
   clearLastUnlocked: () => void;
   setSoundEnabled: (enabled: boolean) => void;
@@ -127,17 +128,26 @@ export const useProfileStore = create<ProfileState>()(
 
         const xpGained = computeSessionXp(result);
         const nextXp = get().xp + xpGained;
-        const newlyUnlocked = getNewlyUnlocked(nextStats, get().unlockedAchievements);
 
         set({
           stats: nextStats,
           xp: nextXp,
+          dailyStreak: updateDailyStreak(get().dailyStreak),
+        });
+      },
+
+      checkAchievements: (collectionCount: number) => {
+        const newlyUnlocked = getNewlyUnlocked(
+          { stats: get().stats, collectionCount },
+          get().unlockedAchievements,
+        );
+        if (newlyUnlocked.length === 0) return;
+        set({
           unlockedAchievements: [
             ...get().unlockedAchievements,
             ...newlyUnlocked.map((achievement) => achievement.id),
           ],
           lastUnlocked: newlyUnlocked,
-          dailyStreak: updateDailyStreak(get().dailyStreak),
         });
       },
 

@@ -153,6 +153,20 @@ export interface Translations {
     capital: string;
     isoCode: string;
     difficulty: string;
+    filterAll: string;
+    filterRecognized: string;
+    filterUnrecognized: string;
+    recognizedBadge: string;
+    notRecognizedYet: string;
+    playToAddDescription: string;
+    playNow: string;
+  };
+  collection: {
+    title: string;
+    percentComplete: string;
+    completeTitle: string;
+    completeSubtitle: string;
+    continentProgressHeading: string;
   };
   stats: {
     title: string;
@@ -186,8 +200,12 @@ export interface Translations {
     flags50Description: string;
     flags100Title: string;
     flags100Description: string;
-    flags500Title: string;
-    flags500Description: string;
+    collectionFirstTitle: string;
+    collectionFirstDescription: string;
+    collection25Title: string;
+    collection25Description: string;
+    collectionCompleteTitle: string;
+    collectionCompleteDescription: string;
     precision90Title: string;
     precision90Description: string;
     fast10Title: string;

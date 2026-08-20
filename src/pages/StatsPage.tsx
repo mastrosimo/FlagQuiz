@@ -4,13 +4,18 @@ import { CONTINENTS } from '../data/countries';
 import { getLevelForXp } from '../data/levels';
 import { Card } from '../components/common/Card';
 import { LevelProgressBar } from '../components/common/LevelProgressBar';
+import { CollectionProgress } from '../components/collection/CollectionProgress';
+import { useCollectionStore } from '../store/collectionStore';
+import { getCollectionSummary } from '../utils/collection';
 import { useTranslation } from '../i18n/useTranslation';
 
 export function StatsPage() {
   const stats = useProfileStore((state) => state.stats);
   const xp = useProfileStore((state) => state.xp);
+  const recognizedCodes = useCollectionStore((state) => state.recognizedCodes);
   const { t } = useTranslation();
   const level = getLevelForXp(xp);
+  const collection = getCollectionSummary(recognizedCodes);
 
   const accuracy = stats.questionsAnswered
     ? Math.round((stats.correctAnswers / stats.questionsAnswered) * 100)
@@ -33,7 +38,7 @@ export function StatsPage() {
     { label: t('stats.accuracy'), value: `${accuracy}%` },
     { label: t('stats.bestScore'), value: stats.bestScore },
     { label: t('stats.bestStreak'), value: stats.bestStreak },
-    { label: t('stats.flagsRecognized'), value: stats.flagsRecognized },
+    { label: t('stats.flagsRecognized'), value: `${collection.recognized} / ${collection.total}` },
     { label: t('stats.totalXp'), value: xp },
     { label: t('stats.level'), value: `${level.level} · ${t(level.nameKey)}` },
   ];
@@ -57,9 +62,14 @@ export function StatsPage() {
         ))}
       </div>
 
-      <Card className="mt-4 p-5">
-        <LevelProgressBar xp={xp} />
-      </Card>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <Card className="p-5">
+          <LevelProgressBar xp={xp} />
+        </Card>
+        <Card className="p-5">
+          <CollectionProgress recognized={collection.recognized} total={collection.total} compact />
+        </Card>
+      </div>
 
       <Card className="mt-6 p-5">
         <h2 className="mb-4 font-display text-lg font-bold text-slate-900 dark:text-white">

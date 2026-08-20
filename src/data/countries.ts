@@ -241,3 +241,7 @@ export const CONTINENTS: Continent[] = [
   'SouthAmerica',
   'Oceania',
 ];
+
+export function countByContinent(continent: Continent): number {
+  return COUNTRIES.filter((country) => country.continent === continent).length;
+}

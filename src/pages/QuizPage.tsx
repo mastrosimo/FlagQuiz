@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { QuizConfig, QuizMode, QuizSessionResult } from '../types';
 import { useProfileStore } from '../store/profileStore';
+import { useCollectionStore } from '../store/collectionStore';
 import { buildDailyChallengeConfig } from '../data/modes';
 import { getTodayKey } from '../utils/questionGenerator';
 import { QuizSetupPage } from './QuizSetupPage';
@@ -21,12 +22,19 @@ export function QuizPage() {
   const navState = location.state as QuizNavState | null;
   const [config, setConfig] = useState<QuizConfig | null>(navState?.presetConfig ?? null);
   const recordSession = useProfileStore((state) => state.recordSession);
+  const checkAchievements = useProfileStore((state) => state.checkAchievements);
   const completeDailyChallenge = useProfileStore((state) => state.completeDailyChallenge);
   const dailyChallenge = useProfileStore((state) => state.dailyChallenge);
+  const addRecognized = useCollectionStore((state) => state.addRecognized);
   const { t } = useTranslation();
 
   const handleFinish = (result: QuizSessionResult) => {
     recordSession(result);
+    const recognizedCodes = result.answered
+      .filter((answered) => answered.correct)
+      .map((answered) => answered.question.correct.code);
+    const collectionCount = addRecognized(recognizedCodes);
+    checkAchievements(collectionCount);
     if (result.mode === 'daily') {
       completeDailyChallenge({
         score: result.score,

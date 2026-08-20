@@ -7,6 +7,9 @@ import { getTodayKey } from '../utils/questionGenerator';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
 import { LevelProgressBar } from '../components/common/LevelProgressBar';
+import { CollectionProgress } from '../components/collection/CollectionProgress';
+import { useCollectionStore } from '../store/collectionStore';
+import { getCollectionSummary } from '../utils/collection';
 import { useTranslation } from '../i18n/useTranslation';
 
 export function HomePage() {
@@ -15,9 +18,11 @@ export function HomePage() {
   const xp = useProfileStore((state) => state.xp);
   const dailyStreak = useProfileStore((state) => state.dailyStreak);
   const dailyChallenge = useProfileStore((state) => state.dailyChallenge);
+  const recognizedCodes = useCollectionStore((state) => state.recognizedCodes);
   const { t } = useTranslation();
   const level = getLevelForXp(xp);
   const isNew = stats.gamesPlayed === 0;
+  const collection = getCollectionSummary(recognizedCodes);
   const dailyDoneToday = dailyChallenge.completed && dailyChallenge.date === getTodayKey();
 
   const statCards = [
@@ -134,9 +139,20 @@ export function HomePage() {
                 </Card>
               ))}
             </div>
-            <Card className="mx-auto mt-4 max-w-md p-5">
-              <LevelProgressBar xp={xp} />
-            </Card>
+            <div className="mx-auto mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
+              <Card className="p-5">
+                <LevelProgressBar xp={xp} />
+              </Card>
+              <motion.button
+                type="button"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => navigate('/learn')}
+                className="rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-900/5 transition-shadow hover:shadow-md dark:bg-slate-900 dark:ring-white/10"
+              >
+                <CollectionProgress recognized={collection.recognized} total={collection.total} />
+              </motion.button>
+            </div>
           </>
         )}
       </section>
