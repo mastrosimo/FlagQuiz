@@ -1,3 +1,5 @@
+import type { TranslationKey } from '../i18n/types';
+
 export const BASE_POINTS = 100;
 export const FAST_ANSWER_MS = 1500;
 export const FAST_BONUS = 80;
@@ -36,12 +38,12 @@ export function isFastAnswer(timeMs: number): boolean {
   return timeMs < FAST_ANSWER_MS;
 }
 
-export function getAccuracyJudgment(accuracyPercent: number): string {
-  if (accuracyPercent >= 95) return 'Sei un maestro delle bandiere!';
-  if (accuracyPercent >= 80) return 'Ottima conoscenza!';
-  if (accuracyPercent >= 60) return 'Conosci abbastanza bene il mondo!';
-  if (accuracyPercent >= 40) return 'Buon inizio!';
-  return 'Devi ancora allenarti!';
+export function getAccuracyJudgmentKey(accuracyPercent: number): TranslationKey {
+  if (accuracyPercent >= 95) return 'results.judgmentMaster';
+  if (accuracyPercent >= 80) return 'results.judgmentGreat';
+  if (accuracyPercent >= 60) return 'results.judgmentGood';
+  if (accuracyPercent >= 40) return 'results.judgmentOk';
+  return 'results.judgmentBad';
 }
 
 export function formatDuration(ms: number): string {

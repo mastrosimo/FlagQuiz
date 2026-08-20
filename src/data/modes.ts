@@ -1,9 +1,10 @@
 import type { Continent, Difficulty, QuizConfig, QuizMode } from '../types';
+import type { TranslationKey } from '../i18n/types';
 
 export interface ModeInfo {
   id: QuizMode;
-  label: string;
-  description: string;
+  labelKey: TranslationKey;
+  descriptionKey: TranslationKey;
   icon: string;
   showQuestionCount: boolean;
   showDifficulty: boolean;
@@ -12,48 +13,48 @@ export interface ModeInfo {
 export const MODES: ModeInfo[] = [
   {
     id: 'classic',
-    label: 'Quiz classico',
-    description: '20 domande, nessun limite di tempo',
+    labelKey: 'modes.classicLabel',
+    descriptionKey: 'modes.classicDescription',
     icon: '📝',
     showQuestionCount: true,
     showDifficulty: true,
   },
   {
     id: 'time',
-    label: 'Modalità tempo',
-    description: '60 secondi per totalizzare più punti possibile',
+    labelKey: 'modes.timeLabel',
+    descriptionKey: 'modes.timeDescription',
     icon: '⏱️',
     showQuestionCount: false,
     showDifficulty: true,
   },
   {
     id: 'fifty',
-    label: '50 bandiere',
-    description: '50 domande consecutive',
+    labelKey: 'modes.fiftyLabel',
+    descriptionKey: 'modes.fiftyDescription',
     icon: '5️⃣',
     showQuestionCount: false,
     showDifficulty: true,
   },
   {
     id: 'all',
-    label: 'Tutte le bandiere',
-    description: 'Ogni bandiera del database, senza ripetizioni',
+    labelKey: 'modes.allLabel',
+    descriptionKey: 'modes.allDescription',
     icon: '🌍',
     showQuestionCount: false,
     showDifficulty: false,
   },
   {
     id: 'hard',
-    label: 'Paesi difficili',
-    description: 'Le bandiere più difficili da riconoscere',
+    labelKey: 'modes.hardLabel',
+    descriptionKey: 'modes.hardDescription',
     icon: '🧠',
     showQuestionCount: true,
     showDifficulty: false,
   },
   {
     id: 'survival',
-    label: 'Sopravvivenza',
-    description: 'Hai 3 vite. Ogni errore ne costa una. Quanto riesci a resistere?',
+    labelKey: 'modes.survivalLabel',
+    descriptionKey: 'modes.survivalDescription',
     icon: '💀',
     showQuestionCount: false,
     showDifficulty: true,

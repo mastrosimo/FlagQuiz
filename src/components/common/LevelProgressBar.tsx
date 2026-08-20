@@ -1,4 +1,5 @@
 import { getLevelForXp, getXpProgress } from '../../data/levels';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface LevelProgressBarProps {
   xp: number;
@@ -7,6 +8,7 @@ interface LevelProgressBarProps {
 }
 
 export function LevelProgressBar({ xp, compact = false, hideLabel = false }: LevelProgressBarProps) {
+  const { t } = useTranslation();
   const level = getLevelForXp(xp);
   const progress = getXpProgress(xp);
   const isMaxLevel = progress.needed === 0;
@@ -15,8 +17,12 @@ export function LevelProgressBar({ xp, compact = false, hideLabel = false }: Lev
     <div>
       {!hideLabel && (
         <div className={`flex items-center justify-between ${compact ? 'text-xs' : 'text-sm'} font-semibold text-slate-600 dark:text-slate-300`}>
-          <span>Livello {level.level} · {level.name}</span>
-          <span className="text-slate-400">{isMaxLevel ? 'MAX' : `${progress.current} / ${progress.needed} XP`}</span>
+          <span>{t('levelProgress.levelLabel', { level: level.level, name: t(level.nameKey) })}</span>
+          <span className="text-slate-400">
+            {isMaxLevel
+              ? t('levelProgress.max')
+              : t('levelProgress.xpProgress', { current: progress.current, needed: progress.needed })}
+          </span>
         </div>
       )}
       <div className={`w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700 ${compact ? 'h-1.5' : 'h-2.5'} ${hideLabel ? '' : 'mt-1.5'}`}>

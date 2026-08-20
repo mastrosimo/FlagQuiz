@@ -1,28 +1,35 @@
 import { motion } from 'framer-motion';
 import type { QuizSessionResult } from '../../types';
-import { getAccuracyJudgment, formatDuration } from '../../utils/scoring';
+import { getAccuracyJudgmentKey, formatDuration } from '../../utils/scoring';
 import { computeSessionXp } from '../../utils/xp';
 import { Card } from '../common/Card';
 import { ShareButton } from './ShareButton';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface ResultSummaryCardProps {
   result: QuizSessionResult;
 }
 
 export function ResultSummaryCard({ result }: ResultSummaryCardProps) {
+  const { t } = useTranslation();
   const accuracy = result.totalQuestions
     ? Math.round((result.correctCount / result.totalQuestions) * 100)
     : 0;
   const xpGained = computeSessionXp(result);
 
   const stats = [
-    { label: 'Risposte corrette', value: `${result.correctCount} / ${result.totalQuestions}` },
-    { label: 'Precisione', value: `${accuracy}%` },
-    { label: 'Serie migliore', value: `🔥 ${result.bestStreak}` },
-    { label: 'Tempo', value: formatDuration(result.durationMs) },
+    { label: t('results.correctAnswers'), value: `${result.correctCount} / ${result.totalQuestions}` },
+    { label: t('results.accuracy'), value: `${accuracy}%` },
+    { label: t('results.bestStreak'), value: `🔥 ${result.bestStreak}` },
+    { label: t('results.time'), value: formatDuration(result.durationMs) },
   ];
 
-  const shareText = `🌍 FlagQuiz\n${result.correctCount}/${result.totalQuestions} corrette\n🔥 Serie ${result.bestStreak}\n🏆 ${result.score} punti\nRiesci a battermi?`;
+  const shareText = t('share.text', {
+    correct: result.correctCount,
+    total: result.totalQuestions,
+    streak: result.bestStreak,
+    score: result.score,
+  });
 
   return (
     <Card className="mx-auto w-full max-w-lg p-8 text-center">
@@ -31,7 +38,7 @@ export function ResultSummaryCard({ result }: ResultSummaryCardProps) {
         animate={{ opacity: 1, y: 0 }}
         className="font-display text-sm font-bold uppercase tracking-widest text-brand-500"
       >
-        Quiz completato
+        {t('results.completed')}
       </motion.p>
       <motion.p
         initial={{ scale: 0.8, opacity: 0 }}
@@ -39,7 +46,7 @@ export function ResultSummaryCard({ result }: ResultSummaryCardProps) {
         transition={{ type: 'spring', stiffness: 240, damping: 16, delay: 0.1 }}
         className="mt-2 font-display text-5xl font-black text-slate-900 dark:text-white"
       >
-        {result.score} <span className="text-2xl font-semibold text-slate-400">punti</span>
+        {result.score} <span className="text-2xl font-semibold text-slate-400">{t('results.points')}</span>
       </motion.p>
 
       <div className="mt-6 grid grid-cols-2 gap-4">
@@ -58,11 +65,11 @@ export function ResultSummaryCard({ result }: ResultSummaryCardProps) {
         className="mt-4 flex items-center justify-center gap-2 rounded-2xl bg-accent-500/10 p-3"
       >
         <span aria-hidden="true">⭐</span>
-        <span className="font-display font-bold text-accent-500">XP guadagnati: +{xpGained} XP</span>
+        <span className="font-display font-bold text-accent-500">{t('results.xpGained', { xp: xpGained })}</span>
       </motion.div>
 
       <p className="mt-6 font-display text-lg font-semibold text-brand-600 dark:text-brand-400">
-        {getAccuracyJudgment(accuracy)}
+        {t(getAccuracyJudgmentKey(accuracy))}
       </p>
 
       <div className="mt-6">

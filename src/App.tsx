@@ -5,6 +5,7 @@ import { Footer } from './components/layout/Footer';
 import { AchievementToast } from './components/feedback/AchievementToast';
 import { Spinner } from './components/common/Spinner';
 import { HomePage } from './pages/HomePage';
+import { useSeoSync } from './i18n/useSeoSync';
 
 const QuizPage = lazy(() => import('./pages/QuizPage').then((m) => ({ default: m.QuizPage })));
 const ResultsPage = lazy(() => import('./pages/ResultsPage').then((m) => ({ default: m.ResultsPage })));
@@ -24,6 +25,8 @@ function PageFallback() {
 }
 
 export default function App() {
+  useSeoSync();
+
   return (
     <BrowserRouter>
       <div className="flex min-h-screen flex-col">

@@ -7,6 +7,7 @@ import { getTodayKey } from '../utils/questionGenerator';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
 import { LevelProgressBar } from '../components/common/LevelProgressBar';
+import { useTranslation } from '../i18n/useTranslation';
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -14,16 +15,17 @@ export function HomePage() {
   const xp = useProfileStore((state) => state.xp);
   const dailyStreak = useProfileStore((state) => state.dailyStreak);
   const dailyChallenge = useProfileStore((state) => state.dailyChallenge);
+  const { t } = useTranslation();
   const level = getLevelForXp(xp);
   const isNew = stats.gamesPlayed === 0;
   const dailyDoneToday = dailyChallenge.completed && dailyChallenge.date === getTodayKey();
 
   const statCards = [
-    { label: 'Record personale', value: stats.bestScore, icon: '🏆' },
-    { label: 'Miglior serie', value: stats.bestStreak, icon: '🔥' },
-    { label: 'Livello', value: `${level.level} · ${level.name}`, icon: '⭐' },
-    { label: 'XP totali', value: xp, icon: '✨' },
-    { label: 'Partite giocate', value: stats.gamesPlayed, icon: '🎮' },
+    { label: t('home.statBestScore'), value: stats.bestScore, icon: '🏆' },
+    { label: t('home.statBestStreak'), value: stats.bestStreak, icon: '🔥' },
+    { label: t('home.statLevel'), value: `${level.level} · ${t(level.nameKey)}`, icon: '⭐' },
+    { label: t('home.statXp'), value: xp, icon: '✨' },
+    { label: t('home.statGames'), value: stats.gamesPlayed, icon: '🎮' },
   ];
 
   return (
@@ -42,7 +44,7 @@ export function HomePage() {
           transition={{ delay: 0.05 }}
           className="mx-auto mt-3 max-w-xl text-lg text-slate-500 dark:text-slate-400"
         >
-          Quanto conosci le bandiere del mondo?
+          {t('home.subtitle')}
         </motion.p>
 
         {dailyStreak.current > 0 && (
@@ -52,7 +54,7 @@ export function HomePage() {
             transition={{ delay: 0.08 }}
             className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full bg-accent-500/15 px-4 py-1.5 font-display text-sm font-bold text-accent-500"
           >
-            🔥 STREAK {dailyStreak.current} {dailyStreak.current === 1 ? 'GIORNO' : 'GIORNI'}
+            {t(dailyStreak.current === 1 ? 'home.streakOne' : 'home.streakOther', { count: dailyStreak.current })}
           </motion.div>
         )}
 
@@ -63,7 +65,7 @@ export function HomePage() {
           className="mt-8"
         >
           <Button size="lg" onClick={() => navigate('/quiz')} className="px-12 text-xl">
-            INIZIA A GIOCARE
+            {t('home.startButton')}
           </Button>
         </motion.div>
       </section>
@@ -78,9 +80,9 @@ export function HomePage() {
         >
           <span className="text-4xl" aria-hidden="true">🌍</span>
           <span className="flex-1">
-            <span className="block font-display text-lg font-extrabold">Sfida del giorno</span>
+            <span className="block font-display text-lg font-extrabold">{t('home.dailyChallengeTitle')}</span>
             <span className="block text-sm text-brand-50/90">
-              {dailyDoneToday ? 'Completata — torna domani per una nuova sfida' : '10 bandiere, uguali per tutti oggi. Una sola possibilità.'}
+              {dailyDoneToday ? t('home.dailyChallengeDone') : t('home.dailyChallengeDescription')}
             </span>
           </span>
           {dailyDoneToday && <span className="text-2xl" aria-hidden="true">✅</span>}
@@ -89,7 +91,7 @@ export function HomePage() {
 
       <section className="mt-14">
         <h2 className="mb-4 text-center font-display text-sm font-bold uppercase tracking-widest text-slate-400">
-          Modalità di gioco
+          {t('home.modesHeading')}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {MODES.map((mode) => (
@@ -102,8 +104,8 @@ export function HomePage() {
               className="flex flex-col items-start gap-2 rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-900/5 transition-shadow hover:shadow-md dark:bg-slate-900 dark:ring-white/10"
             >
               <span className="text-3xl" aria-hidden="true">{mode.icon}</span>
-              <span className="font-display font-bold text-slate-900 dark:text-white">{mode.label}</span>
-              <span className="text-sm text-slate-500 dark:text-slate-400">{mode.description}</span>
+              <span className="font-display font-bold text-slate-900 dark:text-white">{t(mode.labelKey)}</span>
+              <span className="text-sm text-slate-500 dark:text-slate-400">{t(mode.descriptionKey)}</span>
             </motion.button>
           ))}
         </div>
@@ -111,17 +113,15 @@ export function HomePage() {
 
       <section className="mt-14">
         <h2 className="mb-4 text-center font-display text-sm font-bold uppercase tracking-widest text-slate-400">
-          Le tue statistiche
+          {t('home.statsHeading')}
         </h2>
         {isNew ? (
           <Card className="mx-auto max-w-md p-6 text-center">
             <p className="text-3xl" aria-hidden="true">👋</p>
             <p className="mt-2 font-display text-lg font-bold text-slate-900 dark:text-white">
-              Non hai ancora giocato
+              {t('home.newUserTitle')}
             </p>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              Inizia la tua prima partita per iniziare a costruire le tue statistiche e sbloccare obiettivi.
-            </p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('home.newUserDescription')}</p>
           </Card>
         ) : (
           <>

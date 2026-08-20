@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Button } from '../common/Button';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface ShareButtonProps {
   text: string;
 }
 
 export function ShareButton({ text }: ShareButtonProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
@@ -28,7 +30,7 @@ export function ShareButton({ text }: ShareButtonProps) {
 
   return (
     <Button size="lg" variant="secondary" onClick={handleShare} className="relative">
-      {copied ? 'Copiato negli appunti ✓' : 'Condividi risultato 📤'}
+      {copied ? t('share.copied') : t('share.button')}
     </Button>
   );
 }

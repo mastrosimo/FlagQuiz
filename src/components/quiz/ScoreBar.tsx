@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { getComboMultiplier } from '../../utils/scoring';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface ScoreBarProps {
   score: number;
@@ -8,6 +9,7 @@ interface ScoreBarProps {
 }
 
 export function ScoreBar({ score, streak, bestStreak }: ScoreBarProps) {
+  const { t } = useTranslation();
   const multiplier = getComboMultiplier(streak);
 
   return (
@@ -24,7 +26,7 @@ export function ScoreBar({ score, streak, bestStreak }: ScoreBarProps) {
             {score}
           </motion.span>
         </AnimatePresence>
-        <span className="text-xs font-medium text-slate-400">punti</span>
+        <span className="text-xs font-medium text-slate-400">{t('results.points')}</span>
       </div>
 
       <div className="flex items-center gap-2 rounded-full bg-white px-3 py-2 font-semibold shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-800 dark:ring-white/10">
@@ -44,7 +46,9 @@ export function ScoreBar({ score, streak, bestStreak }: ScoreBarProps) {
             </motion.span>
           )}
         </AnimatePresence>
-        <span className="hidden text-xs font-medium text-slate-400 sm:inline">best {bestStreak}</span>
+        <span className="hidden text-xs font-medium text-slate-400 sm:inline">
+          {t('quizPlay.bestLabel', { count: bestStreak })}
+        </span>
       </div>
     </div>
   );

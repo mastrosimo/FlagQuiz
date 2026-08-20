@@ -1,3 +1,5 @@
+import type { Locale, TranslationKey } from '../i18n/types';
+
 export type Continent =
   | 'Europe'
   | 'Asia'
@@ -8,11 +10,13 @@ export type Continent =
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
+export type LocalizedText = Record<Locale, string>;
+
 export interface Country {
   code: string;
-  name: string;
+  name: LocalizedText;
   continent: Continent;
-  capital: string;
+  capital: LocalizedText;
   difficulty: Difficulty;
   similar?: string[];
 }
@@ -65,8 +69,8 @@ export interface QuizSessionResult {
 
 export interface Achievement {
   id: string;
-  title: string;
-  description: string;
+  titleKey: TranslationKey;
+  descriptionKey: TranslationKey;
   icon: string;
   check: (stats: ProfileStats) => boolean;
 }
@@ -86,7 +90,7 @@ export interface ProfileStats {
 
 export interface Level {
   level: number;
-  name: string;
+  nameKey: TranslationKey;
   minXp: number;
 }
 

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import type { QuizConfig, QuizSessionResult } from '../types';
 import { ResultSummaryCard } from '../components/feedback/ResultSummaryCard';
 import { Button } from '../components/common/Button';
+import { useTranslation } from '../i18n/useTranslation';
 
 interface ResultsNavState {
   result?: QuizSessionResult;
@@ -12,6 +13,7 @@ interface ResultsNavState {
 export function ResultsPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const { result, config } = (location.state as ResultsNavState | null) ?? {};
 
   useEffect(() => {
@@ -28,10 +30,10 @@ export function ResultsPage() {
           size="lg"
           onClick={() => navigate('/quiz', { state: { presetConfig: config } })}
         >
-          RIGIOCA
+          {t('results.replay')}
         </Button>
         <Button size="lg" variant="secondary" onClick={() => navigate('/')}>
-          TORNA ALLA HOME
+          {t('results.backHome')}
         </Button>
       </div>
     </div>

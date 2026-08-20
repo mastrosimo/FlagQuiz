@@ -11,6 +11,7 @@ import { ScorePopup } from '../components/quiz/ScorePopup';
 import { Timer } from '../components/quiz/Timer';
 import { LivesIndicator } from '../components/quiz/LivesIndicator';
 import { AnswerFeedback } from '../components/feedback/AnswerFeedback';
+import { useTranslation } from '../i18n/useTranslation';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 const NEXT_DELAY_MS = 1200;
@@ -24,6 +25,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
   const { state, currentQuestion, questionNumber, totalQuestions, answer, next, result } =
     useQuizEngine(config);
   const { playCorrect, playWrong, playComplete } = useSound();
+  const { t, locale } = useTranslation();
   const finishedRef = useRef(false);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
   if (!currentQuestion || result) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center text-slate-400">
-        Preparazione del quiz…
+        {t('quizPlay.preparing')}
       </div>
     );
   }
@@ -83,7 +85,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
       <ScoreBar score={state.score} streak={state.streak} bestStreak={state.bestStreak} />
 
       <p className="mt-6 text-center text-lg font-semibold text-slate-700 dark:text-slate-200">
-        Quale Paese rappresenta questa bandiera?
+        {t('quizPlay.question')}
       </p>
 
       <div className="relative mt-3">
@@ -96,7 +98,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
             key={currentQuestion.correct.code}
             questionKey={currentQuestion.correct.code}
             code={currentQuestion.correct.code}
-            name={currentQuestion.correct.name}
+            name={currentQuestion.correct.name[locale]}
           />
         </AnimatePresence>
       </div>
@@ -105,7 +107,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
         <AnswerFeedback
           visible={state.status === 'feedback'}
           correct={Boolean(state.lastCorrect)}
-          correctName={currentQuestion.correct.name}
+          correctName={currentQuestion.correct.name[locale]}
           pointsEarned={lastAnswer?.pointsEarned ?? 0}
         />
       </div>
@@ -115,7 +117,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
           <AnswerButton
             key={option.code}
             letter={LETTERS[index]}
-            label={option.name}
+            label={option.name[locale]}
             status={getStatus(option.code)}
             disabled={state.status !== 'answering'}
             onClick={() => answer(option.code)}

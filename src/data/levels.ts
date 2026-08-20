@@ -1,13 +1,13 @@
 import type { Level } from '../types';
 
 export const LEVELS: Level[] = [
-  { level: 1, name: 'Principiante', minXp: 0 },
-  { level: 2, name: 'Esploratore', minXp: 150 },
-  { level: 3, name: 'Viaggiatore', minXp: 400 },
-  { level: 4, name: 'Conoscitore', minXp: 800 },
-  { level: 5, name: 'Esperto', minXp: 1500 },
-  { level: 6, name: 'Maestro', minXp: 2600 },
-  { level: 7, name: 'Enciclopedico', minXp: 4200 },
+  { level: 1, nameKey: 'levels.level1', minXp: 0 },
+  { level: 2, nameKey: 'levels.level2', minXp: 150 },
+  { level: 3, nameKey: 'levels.level3', minXp: 400 },
+  { level: 4, nameKey: 'levels.level4', minXp: 800 },
+  { level: 5, nameKey: 'levels.level5', minXp: 1500 },
+  { level: 6, nameKey: 'levels.level6', minXp: 2600 },
+  { level: 7, nameKey: 'levels.level7', minXp: 4200 },
 ];
 
 export function getLevelForXp(xp: number): Level {

@@ -1,14 +1,15 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { useProfileStore } from '../store/profileStore';
-import { CONTINENT_LABELS, CONTINENTS } from '../data/countries';
+import { CONTINENTS } from '../data/countries';
 import { getLevelForXp } from '../data/levels';
 import { Card } from '../components/common/Card';
 import { LevelProgressBar } from '../components/common/LevelProgressBar';
-import type { Continent } from '../types';
+import { useTranslation } from '../i18n/useTranslation';
 
 export function StatsPage() {
   const stats = useProfileStore((state) => state.stats);
   const xp = useProfileStore((state) => state.xp);
+  const { t } = useTranslation();
   const level = getLevelForXp(xp);
 
   const accuracy = stats.questionsAnswered
@@ -26,26 +27,26 @@ export function StatsPage() {
   });
 
   const cards = [
-    { label: 'Partite giocate', value: stats.gamesPlayed },
-    { label: 'Domande risposte', value: stats.questionsAnswered },
-    { label: 'Risposte corrette', value: stats.correctAnswers },
-    { label: 'Precisione', value: `${accuracy}%` },
-    { label: 'Miglior punteggio', value: stats.bestScore },
-    { label: 'Miglior serie', value: stats.bestStreak },
-    { label: 'Bandiere riconosciute', value: stats.flagsRecognized },
-    { label: 'XP totali', value: xp },
-    { label: 'Livello', value: `${level.level} · ${level.name}` },
+    { label: t('stats.gamesPlayed'), value: stats.gamesPlayed },
+    { label: t('stats.questionsAnswered'), value: stats.questionsAnswered },
+    { label: t('stats.correctAnswers'), value: stats.correctAnswers },
+    { label: t('stats.accuracy'), value: `${accuracy}%` },
+    { label: t('stats.bestScore'), value: stats.bestScore },
+    { label: t('stats.bestStreak'), value: stats.bestStreak },
+    { label: t('stats.flagsRecognized'), value: stats.flagsRecognized },
+    { label: t('stats.totalXp'), value: xp },
+    { label: t('stats.level'), value: `${level.level} · ${t(level.nameKey)}` },
   ];
 
   const chartData = stats.recentSessions.map((session, index) => ({
     name: `#${index + 1}`,
-    Precisione: session.accuracy,
-    Punteggio: session.score,
+    [t('stats.chartAccuracy')]: session.accuracy,
+    [t('stats.chartScore')]: session.score,
   }));
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">Statistiche</h1>
+      <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">{t('stats.title')}</h1>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {cards.map((card) => (
@@ -62,15 +63,15 @@ export function StatsPage() {
 
       <Card className="mt-6 p-5">
         <h2 className="mb-4 font-display text-lg font-bold text-slate-900 dark:text-white">
-          Precisione per continente
+          {t('stats.continentAccuracyHeading')}
         </h2>
         <div className="space-y-3">
           {continentBreakdown.map((entry) => (
             <div key={entry.continent}>
               <div className="mb-1 flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300">
-                <span>{CONTINENT_LABELS[entry.continent as Continent]}</span>
+                <span>{t(`continents.${entry.continent}`)}</span>
                 <span className="text-slate-400">
-                  {entry.total > 0 ? `${entry.accuracy}% · ${entry.correct}/${entry.total}` : 'Nessun dato'}
+                  {entry.total > 0 ? `${entry.accuracy}% · ${entry.correct}/${entry.total}` : t('stats.noData')}
                 </span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
@@ -86,12 +87,10 @@ export function StatsPage() {
 
       <Card className="mt-6 p-5">
         <h2 className="mb-4 font-display text-lg font-bold text-slate-900 dark:text-white">
-          Andamento ultime partite
+          {t('stats.recentGamesHeading')}
         </h2>
         {chartData.length === 0 ? (
-          <p className="py-10 text-center text-slate-400">
-            Gioca la tua prima partita per vedere i progressi qui.
-          </p>
+          <p className="py-10 text-center text-slate-400">{t('stats.emptyChart')}</p>
         ) : (
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -100,8 +99,8 @@ export function StatsPage() {
                 <XAxis dataKey="name" stroke="currentColor" fontSize={12} />
                 <YAxis stroke="currentColor" fontSize={12} />
                 <Tooltip contentStyle={{ borderRadius: 12, border: 'none' }} />
-                <Line type="monotone" dataKey="Precisione" stroke="#4f46e5" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="Punteggio" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey={t('stats.chartAccuracy')} stroke="#4f46e5" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey={t('stats.chartScore')} stroke="#f59e0b" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>

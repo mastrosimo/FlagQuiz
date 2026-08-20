@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useProfileStore } from '../../store/profileStore';
 import { useSound } from '../../hooks/useSound';
+import { useTranslation } from '../../i18n/useTranslation';
 
 export function AchievementToast() {
   const lastUnlocked = useProfileStore((state) => state.lastUnlocked);
   const clearLastUnlocked = useProfileStore((state) => state.clearLastUnlocked);
   const { playUnlock } = useSound();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (lastUnlocked.length === 0) return;
@@ -30,8 +32,8 @@ export function AchievementToast() {
           >
             <span className="text-2xl" aria-hidden="true">{achievement.icon}</span>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide opacity-90">Obiettivo sbloccato</p>
-              <p className="font-display font-bold">{achievement.title}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide opacity-90">{t('achievements.toastLabel')}</p>
+              <p className="font-display font-bold">{t(achievement.titleKey)}</p>
             </div>
           </motion.div>
         ))}

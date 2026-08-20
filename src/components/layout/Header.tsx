@@ -5,13 +5,8 @@ import { useProfileStore } from '../../store/profileStore';
 import { getLevelForXp } from '../../data/levels';
 import { LevelProgressBar } from '../common/LevelProgressBar';
 import { ThemeToggle } from './ThemeToggle';
-
-const NAV_LINKS = [
-  { to: '/', label: 'Home' },
-  { to: '/quiz', label: 'Quiz' },
-  { to: '/learn', label: 'Impara' },
-  { to: '/stats', label: 'Statistiche' },
-];
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useTranslation } from '../../i18n/useTranslation';
 
 function navLinkClass({ isActive }: { isActive: boolean }) {
   return `rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
@@ -25,6 +20,14 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const xp = useProfileStore((state) => state.xp);
   const level = getLevelForXp(xp);
+  const { t } = useTranslation();
+
+  const navLinks = [
+    { to: '/', label: t('nav.home') },
+    { to: '/quiz', label: t('nav.quiz') },
+    { to: '/learn', label: t('nav.learn') },
+    { to: '/stats', label: t('nav.stats') },
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-950/80">
@@ -34,18 +37,18 @@ export function Header() {
           FlagQuiz
         </NavLink>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Navigazione principale">
-          {NAV_LINKS.map((link) => (
+        <nav className="hidden items-center gap-1 md:flex" aria-label={t('nav.primaryNav')}>
+          {navLinks.map((link) => (
             <NavLink key={link.to} to={link.to} className={navLinkClass} end={link.to === '/'}>
               {link.label}
             </NavLink>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <NavLink
             to="/achievements"
-            title="Vedi i tuoi obiettivi"
+            title={t('nav.achievementsTooltip')}
             className="hidden w-40 flex-col gap-1 rounded-2xl bg-slate-100 px-3 py-1.5 transition-colors hover:bg-slate-200 sm:flex dark:bg-slate-800 dark:hover:bg-slate-700"
           >
             <span className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200">
@@ -54,11 +57,12 @@ export function Header() {
             </span>
             <LevelProgressBar xp={xp} compact hideLabel />
           </NavLink>
+          <LanguageSwitcher />
           <ThemeToggle />
           <button
             type="button"
             className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-xl md:hidden dark:bg-slate-800"
-            aria-label="Apri menu"
+            aria-label={menuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
           >
@@ -74,10 +78,10 @@ export function Header() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden border-t border-slate-200 md:hidden dark:border-slate-800"
-            aria-label="Navigazione mobile"
+            aria-label={t('nav.mobileNav')}
           >
             <div className="flex flex-col gap-1 px-4 py-3">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
                   to={link.to}
@@ -91,7 +95,7 @@ export function Header() {
               <div className="mt-2 flex flex-col gap-1 rounded-2xl bg-slate-100 px-3 py-2 dark:bg-slate-800">
                 <span className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200">
                   <span className="text-accent-500">⭐ {xp} XP</span>
-                  <span>Lv.{level.level} {level.name}</span>
+                  <span>Lv.{level.level} {t(level.nameKey)}</span>
                 </span>
                 <LevelProgressBar xp={xp} compact hideLabel />
               </div>

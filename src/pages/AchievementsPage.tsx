@@ -2,16 +2,18 @@ import { motion } from 'framer-motion';
 import { ACHIEVEMENTS } from '../data/achievements';
 import { useProfileStore } from '../store/profileStore';
 import { Card } from '../components/common/Card';
+import { useTranslation } from '../i18n/useTranslation';
 
 export function AchievementsPage() {
   const unlockedAchievements = useProfileStore((state) => state.unlockedAchievements);
   const unlockedSet = new Set(unlockedAchievements);
+  const { t } = useTranslation();
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">Obiettivi</h1>
+      <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">{t('achievements.title')}</h1>
       <p className="mt-1 text-slate-500 dark:text-slate-400">
-        {unlockedAchievements.length} / {ACHIEVEMENTS.length} sbloccati
+        {t('achievements.unlockedCount', { unlocked: unlockedAchievements.length, total: ACHIEVEMENTS.length })}
       </p>
       <div className="mt-3 h-2 w-full max-w-xs overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
         <div
@@ -45,11 +47,11 @@ export function AchievementsPage() {
                 </span>
                 <div className="relative flex-1">
                   <p className={`font-display font-bold ${unlocked ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}>
-                    {achievement.title}
+                    {t(achievement.titleKey)}
                   </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{achievement.description}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{t(achievement.descriptionKey)}</p>
                   <p className={`mt-1 text-xs font-semibold ${unlocked ? 'text-success-600 dark:text-success-500' : 'text-slate-400'}`}>
-                    {unlocked ? '✓ Sbloccato' : '🔒 Bloccato'}
+                    {unlocked ? `✓ ${t('achievements.unlocked')}` : `🔒 ${t('achievements.locked')}`}
                   </p>
                 </div>
               </Card>

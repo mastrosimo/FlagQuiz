@@ -4,6 +4,7 @@ import { useTheme } from '../hooks/useTheme';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { Modal } from '../components/common/Modal';
+import { useTranslation } from '../i18n/useTranslation';
 
 export function SettingsPage() {
   const { theme, toggleTheme } = useTheme();
@@ -11,16 +12,17 @@ export function SettingsPage() {
   const setSoundEnabled = useProfileStore((state) => state.setSoundEnabled);
   const resetProgress = useProfileStore((state) => state.resetProgress);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-      <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">Impostazioni</h1>
+      <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">{t('settings.title')}</h1>
 
       <Card className="mt-6 divide-y divide-slate-100 dark:divide-slate-800">
         <div className="flex items-center justify-between p-5">
           <div>
-            <p className="font-semibold text-slate-800 dark:text-slate-100">Tema scuro</p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Passa tra tema chiaro e scuro</p>
+            <p className="font-semibold text-slate-800 dark:text-slate-100">{t('settings.darkModeLabel')}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('settings.darkModeDescription')}</p>
           </div>
           <button
             type="button"
@@ -37,8 +39,8 @@ export function SettingsPage() {
 
         <div className="flex items-center justify-between p-5">
           <div>
-            <p className="font-semibold text-slate-800 dark:text-slate-100">Effetti sonori</p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Attiva o disattiva i suoni di gioco</p>
+            <p className="font-semibold text-slate-800 dark:text-slate-100">{t('settings.soundLabel')}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('settings.soundDescription')}</p>
           </div>
           <button
             type="button"
@@ -55,22 +57,20 @@ export function SettingsPage() {
       </Card>
 
       <Card className="mt-6 p-5">
-        <p className="font-semibold text-slate-800 dark:text-slate-100">Reset progressi</p>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Cancella statistiche, XP, livello e obiettivi sbloccati. Questa azione non può essere annullata.
-        </p>
+        <p className="font-semibold text-slate-800 dark:text-slate-100">{t('settings.resetTitle')}</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t('settings.resetDescription')}</p>
         <Button variant="danger" className="mt-4" onClick={() => setConfirmOpen(true)}>
-          Reimposta tutto
+          {t('settings.resetButton')}
         </Button>
       </Card>
 
       <Modal open={confirmOpen} onClose={() => setConfirmOpen(false)}>
-        <p className="font-display text-lg font-bold text-slate-900 dark:text-white">Confermi il reset?</p>
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          Tutti i tuoi progressi verranno eliminati definitivamente.
-        </p>
+        <p className="font-display text-lg font-bold text-slate-900 dark:text-white">{t('settings.confirmTitle')}</p>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{t('settings.confirmDescription')}</p>
         <div className="mt-6 flex justify-end gap-3">
-          <Button variant="secondary" onClick={() => setConfirmOpen(false)}>Annulla</Button>
+          <Button variant="secondary" onClick={() => setConfirmOpen(false)}>
+            {t('settings.cancel')}
+          </Button>
           <Button
             variant="danger"
             onClick={() => {
@@ -78,7 +78,7 @@ export function SettingsPage() {
               setConfirmOpen(false);
             }}
           >
-            Sì, reimposta
+            {t('settings.confirmButton')}
           </Button>
         </div>
       </Modal>

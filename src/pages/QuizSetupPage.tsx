@@ -2,23 +2,26 @@ import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { Continent, Difficulty, QuizConfig, QuizMode } from '../types';
 import { MODES, QUESTION_COUNT_OPTIONS, buildQuizConfig } from '../data/modes';
-import { CONTINENTS, CONTINENT_LABELS } from '../data/countries';
+import { CONTINENTS } from '../data/countries';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
+import { useTranslation } from '../i18n/useTranslation';
+import type { TranslationKey } from '../i18n/types';
 
 interface QuizSetupPageProps {
   presetMode?: QuizMode;
   onStart: (config: QuizConfig) => void;
 }
 
-const DIFFICULTY_OPTIONS: { id: Difficulty | 'mixed'; label: string }[] = [
-  { id: 'mixed', label: 'Mista' },
-  { id: 'easy', label: 'Facile' },
-  { id: 'medium', label: 'Media' },
-  { id: 'hard', label: 'Difficile' },
+const DIFFICULTY_KEYS: { id: Difficulty | 'mixed'; key: TranslationKey }[] = [
+  { id: 'mixed', key: 'difficulty.mixed' },
+  { id: 'easy', key: 'difficulty.easy' },
+  { id: 'medium', key: 'difficulty.medium' },
+  { id: 'hard', key: 'difficulty.hard' },
 ];
 
 export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<QuizMode>(presetMode ?? 'classic');
   const [difficulty, setDifficulty] = useState<Difficulty | 'mixed'>('mixed');
   const [continent, setContinent] = useState<Continent | undefined>(undefined);
@@ -34,15 +37,13 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">
-        Configura la tua partita
+        {t('quizSetup.title')}
       </h1>
-      <p className="mt-1 text-slate-500 dark:text-slate-400">
-        Scegli modalità, difficoltà e numero di domande, poi premi Inizia.
-      </p>
+      <p className="mt-1 text-slate-500 dark:text-slate-400">{t('quizSetup.subtitle')}</p>
 
       <section className="mt-8">
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          1. Modalità
+          {t('quizSetup.stepMode')}
         </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {MODES.map((modeInfo) => (
@@ -60,8 +61,12 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
             >
               <span className="text-2xl" aria-hidden="true">{modeInfo.icon}</span>
               <span>
-                <span className="block font-display font-bold text-slate-900 dark:text-white">{modeInfo.label}</span>
-                <span className="block text-sm text-slate-500 dark:text-slate-400">{modeInfo.description}</span>
+                <span className="block font-display font-bold text-slate-900 dark:text-white">
+                  {t(modeInfo.labelKey)}
+                </span>
+                <span className="block text-sm text-slate-500 dark:text-slate-400">
+                  {t(modeInfo.descriptionKey)}
+                </span>
               </span>
             </motion.button>
           ))}
@@ -71,10 +76,10 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
       {activeMode.showDifficulty && (
         <section className="mt-8">
           <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            2. Difficoltà
+            {t('quizSetup.stepDifficulty')}
           </h2>
           <div className="flex flex-wrap gap-2">
-            {DIFFICULTY_OPTIONS.map((option) => (
+            {DIFFICULTY_KEYS.map((option) => (
               <button
                 key={option.id}
                 type="button"
@@ -86,7 +91,7 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                 }`}
               >
-                {option.label}
+                {t(option.key)}
               </button>
             ))}
           </div>
@@ -95,7 +100,7 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
 
       <section className="mt-8">
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          Continente (opzionale)
+          {t('quizSetup.stepContinent')}
         </h2>
         <div className="flex flex-wrap gap-2">
           <button
@@ -108,7 +113,7 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
             }`}
           >
-            Tutti i continenti
+            {t('quizSetup.allContinents')}
           </button>
           {CONTINENTS.map((c) => (
             <button
@@ -122,7 +127,7 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
               }`}
             >
-              {CONTINENT_LABELS[c]}
+              {t(`continents.${c}`)}
             </button>
           ))}
         </div>
@@ -131,7 +136,7 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
       {activeMode.showQuestionCount && (
         <section className="mt-8">
           <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            3. Numero di domande
+            {t('quizSetup.stepQuestionCount')}
           </h2>
           <div className="flex flex-wrap gap-2">
             {QUESTION_COUNT_OPTIONS.map((count) => (
@@ -154,11 +159,9 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
       )}
 
       <Card className="mt-10 flex flex-col items-center gap-4 p-6 text-center">
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Pronto? Premi il pulsante per iniziare subito.
-        </p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t('quizSetup.readyText')}</p>
         <Button size="lg" onClick={handleStart} className="w-full sm:w-auto">
-          INIZIA
+          {t('quizSetup.startButton')}
         </Button>
       </Card>
     </div>

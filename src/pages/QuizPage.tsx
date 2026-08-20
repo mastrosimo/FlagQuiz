@@ -8,6 +8,7 @@ import { QuizSetupPage } from './QuizSetupPage';
 import { QuizPlayPage } from './QuizPlayPage';
 import { DailyChallengeDonePage } from './DailyChallengeDonePage';
 import { Button } from '../components/common/Button';
+import { useTranslation } from '../i18n/useTranslation';
 
 interface QuizNavState {
   presetMode?: QuizMode;
@@ -22,6 +23,7 @@ export function QuizPage() {
   const recordSession = useProfileStore((state) => state.recordSession);
   const completeDailyChallenge = useProfileStore((state) => state.completeDailyChallenge);
   const dailyChallenge = useProfileStore((state) => state.dailyChallenge);
+  const { t } = useTranslation();
 
   const handleFinish = (result: QuizSessionResult) => {
     recordSession(result);
@@ -50,13 +52,11 @@ export function QuizPage() {
         <div className="mx-auto flex max-w-lg flex-col items-center gap-6 px-4 py-16 text-center">
           <span className="text-5xl" aria-hidden="true">🌍</span>
           <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">
-            Sfida del giorno
+            {t('dailyChallenge.title')}
           </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            10 bandiere, uguali per tutti oggi. Una sola possibilità: gioca con attenzione!
-          </p>
+          <p className="text-slate-500 dark:text-slate-400">{t('dailyChallenge.intro')}</p>
           <Button size="lg" onClick={() => setConfig(buildDailyChallengeConfig())}>
-            INIZIA LA SFIDA
+            {t('dailyChallenge.startButton')}
           </Button>
         </div>
       );

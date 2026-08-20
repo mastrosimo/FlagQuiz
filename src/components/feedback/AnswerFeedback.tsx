@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface AnswerFeedbackProps {
   visible: boolean;
@@ -8,6 +9,8 @@ interface AnswerFeedbackProps {
 }
 
 export function AnswerFeedback({ visible, correct, correctName, pointsEarned }: AnswerFeedbackProps) {
+  const { t } = useTranslation();
+
   return (
     <AnimatePresence>
       {visible && (
@@ -22,7 +25,7 @@ export function AnswerFeedback({ visible, correct, correctName, pointsEarned }: 
           }`}
           role="status"
         >
-          <span>{correct ? 'Corretto! 🎉' : `Sbagliato — era ${correctName}`}</span>
+          <span>{correct ? t('quizPlay.correct') : t('quizPlay.wrong', { name: correctName })}</span>
           {correct && pointsEarned > 0 && <span>+{pointsEarned}</span>}
         </motion.div>
       )}
