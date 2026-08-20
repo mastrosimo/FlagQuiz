@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import type { QuizSessionResult } from '../../types';
 import { getAccuracyJudgment, formatDuration } from '../../utils/scoring';
+import { computeSessionXp } from '../../utils/xp';
 import { Card } from '../common/Card';
+import { ShareButton } from './ShareButton';
 
 interface ResultSummaryCardProps {
   result: QuizSessionResult;
@@ -11,13 +13,16 @@ export function ResultSummaryCard({ result }: ResultSummaryCardProps) {
   const accuracy = result.totalQuestions
     ? Math.round((result.correctCount / result.totalQuestions) * 100)
     : 0;
+  const xpGained = computeSessionXp(result);
 
   const stats = [
     { label: 'Risposte corrette', value: `${result.correctCount} / ${result.totalQuestions}` },
     { label: 'Precisione', value: `${accuracy}%` },
-    { label: 'Serie migliore', value: `${result.bestStreak}` },
+    { label: 'Serie migliore', value: `🔥 ${result.bestStreak}` },
     { label: 'Tempo', value: formatDuration(result.durationMs) },
   ];
+
+  const shareText = `🌍 FlagQuiz\n${result.correctCount}/${result.totalQuestions} corrette\n🔥 Serie ${result.bestStreak}\n🏆 ${result.score} punti\nRiesci a battermi?`;
 
   return (
     <Card className="mx-auto w-full max-w-lg p-8 text-center">
@@ -46,9 +51,23 @@ export function ResultSummaryCard({ result }: ResultSummaryCardProps) {
         ))}
       </div>
 
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+        className="mt-4 flex items-center justify-center gap-2 rounded-2xl bg-accent-500/10 p-3"
+      >
+        <span aria-hidden="true">⭐</span>
+        <span className="font-display font-bold text-accent-500">XP guadagnati: +{xpGained} XP</span>
+      </motion.div>
+
       <p className="mt-6 font-display text-lg font-semibold text-brand-600 dark:text-brand-400">
         {getAccuracyJudgment(accuracy)}
       </p>
+
+      <div className="mt-6">
+        <ShareButton text={shareText} />
+      </div>
     </Card>
   );
 }

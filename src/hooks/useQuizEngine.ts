@@ -6,7 +6,12 @@ import type {
   QuizSessionResult,
   QuizStatus,
 } from '../types';
-import { buildQuestionSet, getFilteredPool } from '../utils/questionGenerator';
+import {
+  buildDailyChallenge,
+  buildQuestionSet,
+  getFilteredPool,
+  getTodayKey,
+} from '../utils/questionGenerator';
 import { computeAnswerScore } from '../utils/scoring';
 
 interface QuizState {
@@ -114,9 +119,12 @@ function buildInitialState(questions: Question[], config: QuizConfig): QuizState
 
 export function useQuizEngine(config: QuizConfig) {
   const questions = useMemo(() => {
+    if (config.mode === 'daily') {
+      return buildDailyChallenge(getTodayKey(), config.questionCount);
+    }
     const pool = getFilteredPool(config.difficulty, config.continent);
     const targetCount =
-      config.mode === 'all' || config.mode === 'time' || config.mode === 'lives'
+      config.mode === 'all' || config.mode === 'time' || config.mode === 'survival'
         ? pool.length
         : config.questionCount;
     return buildQuestionSet(pool, targetCount);

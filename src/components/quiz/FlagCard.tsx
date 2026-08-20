@@ -15,9 +15,9 @@ export function FlagCard({ code, name, questionKey }: FlagCardProps) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -12, scale: 0.97 }}
       transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-      className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10"
+      className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-900/5 sm:max-w-lg dark:bg-slate-900 dark:ring-white/10"
     >
-      <div className="flex aspect-[3/2] items-center justify-center bg-slate-100 p-6 dark:bg-slate-800">
+      <div className="flex aspect-[3/2] items-center justify-center bg-slate-100 p-4 dark:bg-slate-800">
         <FlagImage code={code} name={name} className="h-full w-full rounded-xl object-cover shadow-md" />
       </div>
     </motion.div>

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import type { Continent, Country } from '../types';
+import type { Continent, Country, Difficulty } from '../types';
 import { COUNTRIES, CONTINENTS, CONTINENT_LABELS } from '../data/countries';
 import { FlagImage } from '../components/quiz/FlagImage';
 import { Modal } from '../components/common/Modal';
@@ -11,18 +11,22 @@ const DIFFICULTY_LABELS: Record<Country['difficulty'], string> = {
   hard: 'Difficile',
 };
 
+const DIFFICULTY_OPTIONS: Difficulty[] = ['easy', 'medium', 'hard'];
+
 export function LearnPage() {
   const [query, setQuery] = useState('');
   const [continent, setContinent] = useState<Continent | undefined>(undefined);
+  const [difficulty, setDifficulty] = useState<Difficulty | undefined>(undefined);
   const [selected, setSelected] = useState<Country | null>(null);
 
   const filtered = useMemo(() => {
     return COUNTRIES.filter((country) => {
       const matchesQuery = country.name.toLowerCase().includes(query.trim().toLowerCase());
       const matchesContinent = !continent || country.continent === continent;
-      return matchesQuery && matchesContinent;
+      const matchesDifficulty = !difficulty || country.difficulty === difficulty;
+      return matchesQuery && matchesContinent && matchesDifficulty;
     }).sort((a, b) => a.name.localeCompare(b.name));
-  }, [query, continent]);
+  }, [query, continent, difficulty]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -69,6 +73,36 @@ export function LearnPage() {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => setDifficulty(undefined)}
+          aria-pressed={difficulty === undefined}
+          className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+            difficulty === undefined
+              ? 'bg-slate-800 text-white dark:bg-white dark:text-slate-900'
+              : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+          }`}
+        >
+          Tutte le difficoltà
+        </button>
+        {DIFFICULTY_OPTIONS.map((d) => (
+          <button
+            key={d}
+            type="button"
+            onClick={() => setDifficulty(d)}
+            aria-pressed={difficulty === d}
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+              difficulty === d
+                ? 'bg-slate-800 text-white dark:bg-white dark:text-slate-900'
+                : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+            }`}
+          >
+            {DIFFICULTY_LABELS[d]}
+          </button>
+        ))}
       </div>
 
       <p className="mt-3 text-xs font-medium text-slate-400">{filtered.length} bandiere</p>

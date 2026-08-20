@@ -1,0 +1,17 @@
+{
+  "name": "FlagQuiz — Quiz sulle Bandiere del Mondo",
+  "short_name": "FlagQuiz",
+  "description": "Metti alla prova la tua conoscenza delle bandiere del mondo.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,41 +1,40 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { useProfileStore } from '../store/profileStore';
-import { CONTINENT_LABELS } from '../data/countries';
+import { CONTINENT_LABELS, CONTINENTS } from '../data/countries';
+import { getLevelForXp } from '../data/levels';
 import { Card } from '../components/common/Card';
+import { LevelProgressBar } from '../components/common/LevelProgressBar';
 import type { Continent } from '../types';
 
 export function StatsPage() {
   const stats = useProfileStore((state) => state.stats);
+  const xp = useProfileStore((state) => state.xp);
+  const level = getLevelForXp(xp);
 
   const accuracy = stats.questionsAnswered
     ? Math.round((stats.correctAnswers / stats.questionsAnswered) * 100)
     : 0;
 
-  const continentEntries = (Object.entries(stats.continentStats) as [Continent, { correct: number; total: number }][])
-    .filter(([, value]) => value.total > 0)
-    .map(([continent, value]) => ({
+  const continentBreakdown = CONTINENTS.map((continent) => {
+    const entry = stats.continentStats[continent];
+    return {
       continent,
-      accuracy: Math.round((value.correct / value.total) * 100),
-    }));
-
-  const best = continentEntries.length
-    ? continentEntries.reduce((a, b) => (b.accuracy > a.accuracy ? b : a))
-    : null;
-  const worst = continentEntries.length
-    ? continentEntries.reduce((a, b) => (b.accuracy < a.accuracy ? b : a))
-    : null;
+      correct: entry.correct,
+      total: entry.total,
+      accuracy: entry.total > 0 ? Math.round((entry.correct / entry.total) * 100) : 0,
+    };
+  });
 
   const cards = [
     { label: 'Partite giocate', value: stats.gamesPlayed },
     { label: 'Domande risposte', value: stats.questionsAnswered },
     { label: 'Risposte corrette', value: stats.correctAnswers },
-    { label: 'Risposte sbagliate', value: stats.wrongAnswers },
     { label: 'Precisione', value: `${accuracy}%` },
-    { label: 'Miglior serie', value: stats.bestStreak },
     { label: 'Miglior punteggio', value: stats.bestScore },
+    { label: 'Miglior serie', value: stats.bestStreak },
     { label: 'Bandiere riconosciute', value: stats.flagsRecognized },
-    { label: 'Continente migliore', value: best ? CONTINENT_LABELS[best.continent] : '—' },
-    { label: 'Continente peggiore', value: worst ? CONTINENT_LABELS[worst.continent] : '—' },
+    { label: 'XP totali', value: xp },
+    { label: 'Livello', value: `${level.level} · ${level.name}` },
   ];
 
   const chartData = stats.recentSessions.map((session, index) => ({
@@ -48,7 +47,7 @@ export function StatsPage() {
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <h1 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white">Statistiche</h1>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {cards.map((card) => (
           <Card key={card.label} className="p-4 text-center">
             <p className="font-display text-2xl font-extrabold text-slate-900 dark:text-white">{card.value}</p>
@@ -57,7 +56,35 @@ export function StatsPage() {
         ))}
       </div>
 
-      <Card className="mt-8 p-5">
+      <Card className="mt-4 p-5">
+        <LevelProgressBar xp={xp} />
+      </Card>
+
+      <Card className="mt-6 p-5">
+        <h2 className="mb-4 font-display text-lg font-bold text-slate-900 dark:text-white">
+          Precisione per continente
+        </h2>
+        <div className="space-y-3">
+          {continentBreakdown.map((entry) => (
+            <div key={entry.continent}>
+              <div className="mb-1 flex justify-between text-sm font-medium text-slate-600 dark:text-slate-300">
+                <span>{CONTINENT_LABELS[entry.continent as Continent]}</span>
+                <span className="text-slate-400">
+                  {entry.total > 0 ? `${entry.accuracy}% · ${entry.correct}/${entry.total}` : 'Nessun dato'}
+                </span>
+              </div>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                <div
+                  className="h-full rounded-full bg-brand-500"
+                  style={{ width: `${entry.accuracy}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <Card className="mt-6 p-5">
         <h2 className="mb-4 font-display text-lg font-bold text-slate-900 dark:text-white">
           Andamento ultime partite
         </h2>

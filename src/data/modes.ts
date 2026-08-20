@@ -51,10 +51,10 @@ export const MODES: ModeInfo[] = [
     showDifficulty: false,
   },
   {
-    id: 'lives',
-    label: 'Modalità vite',
-    description: '3 vite: ogni errore ne costa una',
-    icon: '❤️',
+    id: 'survival',
+    label: 'Sopravvivenza',
+    description: 'Hai 3 vite. Ogni errore ne costa una. Quanto riesci a resistere?',
+    icon: '💀',
     showQuestionCount: false,
     showDifficulty: true,
   },
@@ -78,9 +78,15 @@ export function buildQuizConfig(params: {
       return { mode, difficulty: 'mixed', continent, questionCount };
     case 'hard':
       return { mode, difficulty: 'hard', continent, questionCount };
-    case 'lives':
+    case 'survival':
       return { mode, difficulty, continent, questionCount, lives: 3 };
     default:
       return { mode, difficulty, continent, questionCount };
   }
+}
+
+export const DAILY_CHALLENGE_QUESTION_COUNT = 10;
+
+export function buildDailyChallengeConfig(): QuizConfig {
+  return { mode: 'daily', difficulty: 'mixed', questionCount: DAILY_CHALLENGE_QUESTION_COUNT };
 }

@@ -23,7 +23,8 @@ export type QuizMode =
   | 'fifty'
   | 'all'
   | 'hard'
-  | 'lives';
+  | 'survival'
+  | 'daily';
 
 export interface QuizConfig {
   mode: QuizMode;
@@ -78,6 +79,7 @@ export interface ProfileStats {
   bestStreak: number;
   bestScore: number;
   flagsRecognized: number;
+  fastAnswers: number;
   continentStats: Record<Continent, { correct: number; total: number }>;
   recentSessions: { date: number; score: number; accuracy: number }[];
 }
@@ -86,4 +88,16 @@ export interface Level {
   level: number;
   name: string;
   minXp: number;
+}
+
+export interface DailyStreak {
+  current: number;
+  longest: number;
+  lastPlayedDate: string | null;
+}
+
+export interface DailyChallengeState {
+  date: string | null;
+  completed: boolean;
+  result: { score: number; correctCount: number; totalQuestions: number } | null;
 }

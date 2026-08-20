@@ -1,6 +1,6 @@
 import type { Country, Question } from '../types';
 import { COUNTRIES, COUNTRY_BY_CODE } from '../data/countries';
-import { shuffle } from './shuffle';
+import { seededShuffle, shuffle } from './shuffle';
 
 const OPTIONS_PER_QUESTION = 4;
 
@@ -63,4 +63,17 @@ export function buildQuestionSet(
   }
 
   return questions;
+}
+
+export function buildDailyChallenge(dateKey: string, count = 10): Question[] {
+  const dailyPool = seededShuffle(COUNTRIES, dateKey).slice(0, count);
+  return dailyPool.map((country) => buildQuestion(country, COUNTRIES));
+}
+
+export function getTodayKey(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }

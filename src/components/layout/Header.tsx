@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useProfileStore } from '../../store/profileStore';
 import { getLevelForXp } from '../../data/levels';
+import { LevelProgressBar } from '../common/LevelProgressBar';
 import { ThemeToggle } from './ThemeToggle';
 
 const NAV_LINKS = [
@@ -45,11 +46,13 @@ export function Header() {
           <NavLink
             to="/achievements"
             title="Vedi i tuoi obiettivi"
-            className="hidden items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-200 sm:flex dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+            className="hidden w-40 flex-col gap-1 rounded-2xl bg-slate-100 px-3 py-1.5 transition-colors hover:bg-slate-200 sm:flex dark:bg-slate-800 dark:hover:bg-slate-700"
           >
-            <span className="text-accent-500">⭐ {xp} XP</span>
-            <span className="h-3 w-px bg-slate-300 dark:bg-slate-600" />
-            <span>Lv.{level.level} {level.name}</span>
+            <span className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200">
+              <span className="text-accent-500">⭐ {xp} XP</span>
+              <span>Lv.{level.level}</span>
+            </span>
+            <LevelProgressBar xp={xp} compact hideLabel />
           </NavLink>
           <ThemeToggle />
           <button
@@ -85,10 +88,12 @@ export function Header() {
                   {link.label}
                 </NavLink>
               ))}
-              <div className="mt-2 flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                <span className="text-accent-500">⭐ {xp} XP</span>
-                <span className="h-3 w-px bg-slate-300 dark:bg-slate-600" />
-                <span>Lv.{level.level} {level.name}</span>
+              <div className="mt-2 flex flex-col gap-1 rounded-2xl bg-slate-100 px-3 py-2 dark:bg-slate-800">
+                <span className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200">
+                  <span className="text-accent-500">⭐ {xp} XP</span>
+                  <span>Lv.{level.level} {level.name}</span>
+                </span>
+                <LevelProgressBar xp={xp} compact hideLabel />
               </div>
             </div>
           </motion.nav>

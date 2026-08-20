@@ -7,12 +7,13 @@ import { FlagCard } from '../components/quiz/FlagCard';
 import { AnswerButton, type AnswerButtonStatus } from '../components/quiz/AnswerButton';
 import { ProgressBar } from '../components/quiz/ProgressBar';
 import { ScoreBar } from '../components/quiz/ScoreBar';
+import { ScorePopup } from '../components/quiz/ScorePopup';
 import { Timer } from '../components/quiz/Timer';
 import { LivesIndicator } from '../components/quiz/LivesIndicator';
 import { AnswerFeedback } from '../components/feedback/AnswerFeedback';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
-const NEXT_DELAY_MS = 1600;
+const NEXT_DELAY_MS = 1200;
 
 interface QuizPlayPageProps {
   config: QuizConfig;
@@ -63,9 +64,11 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
     return 'muted';
   };
 
+  const lastAnswer = state.answered[state.answered.length - 1];
+
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+    <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <ProgressBar current={questionNumber} total={totalQuestions} />
         <div className="flex items-center gap-2">
           {config.timeLimit != null && state.timeRemaining != null && (
@@ -79,11 +82,15 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
 
       <ScoreBar score={state.score} streak={state.streak} bestStreak={state.bestStreak} />
 
-      <p className="mt-8 text-center text-lg font-semibold text-slate-700 dark:text-slate-200">
+      <p className="mt-6 text-center text-lg font-semibold text-slate-700 dark:text-slate-200">
         Quale Paese rappresenta questa bandiera?
       </p>
 
-      <div className="mt-4">
+      <div className="relative mt-3">
+        <ScorePopup
+          popupKey={state.currentIndex}
+          points={state.status === 'feedback' && state.lastCorrect ? lastAnswer?.pointsEarned ?? null : null}
+        />
         <AnimatePresence mode="wait">
           <FlagCard
             key={currentQuestion.correct.code}
@@ -94,12 +101,12 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
         </AnimatePresence>
       </div>
 
-      <div className="mt-6 min-h-[52px]">
+      <div className="mt-5 min-h-[52px]">
         <AnswerFeedback
           visible={state.status === 'feedback'}
           correct={Boolean(state.lastCorrect)}
           correctName={currentQuestion.correct.name}
-          pointsEarned={state.answered[state.answered.length - 1]?.pointsEarned ?? 0}
+          pointsEarned={lastAnswer?.pointsEarned ?? 0}
         />
       </div>
 
