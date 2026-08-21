@@ -15,6 +15,12 @@ const AchievementsPage = lazy(() =>
   import('./pages/AchievementsPage').then((m) => ({ default: m.AchievementsPage })),
 );
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then((m) => ({ default: m.SettingsPage })));
+const LocaleHomeRoute = lazy(() =>
+  import('./pages/seo/LocaleHomePage').then((m) => ({ default: m.LocaleHomeRoute })),
+);
+const CountrySlugPage = lazy(() =>
+  import('./pages/seo/CountryPage').then((m) => ({ default: m.CountrySlugPage })),
+);
 
 function PageFallback() {
   return (
@@ -24,29 +30,38 @@ function PageFallback() {
   );
 }
 
-export default function App() {
+function AppShell() {
   useSeoSync();
 
   return (
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <AchievementToast />
+      <main className="flex-1">
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/results" element={<ResultsPage />} />
+            <Route path="/stats" element={<StatsPage />} />
+            <Route path="/learn" element={<LearnPage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/:locale" element={<LocaleHomeRoute />} />
+            <Route path="/it/bandiere/:slug" element={<CountrySlugPage locale="it" />} />
+            <Route path="/en/flags/:slug" element={<CountrySlugPage locale="en" />} />
+          </Routes>
+        </Suspense>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+export default function App() {
+  return (
     <BrowserRouter>
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <AchievementToast />
-        <main className="flex-1">
-          <Suspense fallback={<PageFallback />}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/quiz" element={<QuizPage />} />
-              <Route path="/results" element={<ResultsPage />} />
-              <Route path="/stats" element={<StatsPage />} />
-              <Route path="/learn" element={<LearnPage />} />
-              <Route path="/achievements" element={<AchievementsPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-            </Routes>
-          </Suspense>
-        </main>
-        <Footer />
-      </div>
+      <AppShell />
     </BrowserRouter>
   );
 }

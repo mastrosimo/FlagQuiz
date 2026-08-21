@@ -26,3 +26,4 @@ dist-ssr
 # Local tooling (machine-specific, not needed to run the project)
 .claude/
 scripts/dev.sh
+scripts/preview.sh

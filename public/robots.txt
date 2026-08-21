@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /results
+Disallow: /settings
+
+Sitemap: https://flagquiz.eu/sitemap.xml

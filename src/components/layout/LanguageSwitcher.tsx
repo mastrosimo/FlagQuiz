@@ -1,10 +1,36 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SUPPORTED_LOCALES, LOCALE_META } from '../../i18n';
+import type { Locale } from '../../i18n/types';
 import { useTranslation } from '../../i18n/useTranslation';
+import { COUNTRY_BY_SLUG, CONTINENT_BY_SLUG, getContinentPath, getCountryPath } from '../../seo/slugs';
+
+/** For locale-prefixed SEO pages, switching language should navigate to the
+ * equivalent page in the other language (translated slug), not just flip the
+ * in-app locale while staying on a URL that no longer matches its content. */
+function resolveAlternatePath(pathname: string, target: Locale): string | null {
+  if (pathname === '/it' || pathname === '/en') return `/${target}`;
+
+  const match = pathname.match(/^\/(it|en)\/(bandiere|flags)\/([^/]+)$/);
+  if (!match) return null;
+  const [, sourceLocale, , slug] = match;
+  const source = sourceLocale as Locale;
+  if (source === target) return null;
+
+  const continent = CONTINENT_BY_SLUG[source][slug];
+  if (continent) return getContinentPath(continent, target);
+
+  const country = COUNTRY_BY_SLUG[source][slug];
+  if (country) return getCountryPath(country, target);
+
+  return null;
+}
 
 export function LanguageSwitcher() {
   const { locale, setLocale, t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const current = LOCALE_META[locale];
@@ -26,6 +52,15 @@ export function LanguageSwitcher() {
       document.removeEventListener('keydown', handleKey);
     };
   }, [open]);
+
+  const selectLocale = (code: Locale) => {
+    const alternatePath = resolveAlternatePath(location.pathname, code);
+    setLocale(code);
+    if (alternatePath) {
+      navigate(alternatePath);
+    }
+    setOpen(false);
+  };
 
   return (
     <div className="relative" ref={containerRef}>
@@ -60,10 +95,7 @@ export function LanguageSwitcher() {
                 <li key={code} role="option" aria-selected={selected}>
                   <button
                     type="button"
-                    onClick={() => {
-                      setLocale(code);
-                      setOpen(false);
-                    }}
+                    onClick={() => selectLocale(code)}
                     className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium transition-colors ${
                       selected
                         ? 'bg-brand-600 text-white'

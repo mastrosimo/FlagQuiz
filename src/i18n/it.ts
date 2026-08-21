@@ -4,7 +4,23 @@ export const it: Translations = {
   meta: {
     title: 'FlagQuiz — Quiz sulle Bandiere del Mondo',
     description:
-      'Metti alla prova la tua conoscenza delle bandiere del mondo. Gioca, accumula punti e diventa un maestro delle bandiere.',
+      'Il quiz sulle bandiere del mondo con 195 Paesi, modalità di gioco multiple e una sfida ogni giorno. Indovina la bandiera, accumula punti e diventa un maestro di geografia.',
+  },
+  seo: {
+    countryTitle: 'Bandiera {{country}} {{flag}} — Quiz e curiosità | FlagQuiz',
+    countryDescription:
+      '{{country}}: capitale {{capital}}, continente {{continent}}. Scopri la bandiera e mettiti alla prova con il quiz di FlagQuiz.',
+    continentTitle: 'Bandiere {{continent}} — Tutti i Paesi e il quiz | FlagQuiz',
+    breadcrumbHome: 'Home',
+    breadcrumbLearn: 'Impara',
+    factsHeading: 'Informazioni',
+    otherCountriesHeading: 'Altri Paesi dello stesso continente',
+    continentCountriesHeading: 'Tutti i Paesi',
+    goToQuiz: 'Vai al quiz',
+    goToLearn: 'Esplora tutte le bandiere',
+    backToContinent: 'Torna al continente',
+    homeIntro:
+      'FlagQuiz è il quiz sulle bandiere del mondo per mettere alla prova la tua conoscenza geografica: 195 Paesi, modalità di gioco diverse e una sfida nuova ogni giorno.',
   },
   nav: {
     home: 'Home',
@@ -131,6 +147,18 @@ export const it: Translations = {
     NorthAmerica: 'America del Nord',
     SouthAmerica: 'America del Sud',
     Oceania: 'Oceania',
+  },
+  continentIntros: {
+    Europe:
+      'L\'Europa raccoglie {{count}} bandiere nel database di FlagQuiz: dai grandi tricolori ai simboli araldici dei piccoli Stati.',
+    Asia: 'L\'Asia è il continente più vasto ed eterogeneo: {{count}} bandiere che spaziano dal Medio Oriente all\'Estremo Oriente.',
+    Africa:
+      'L\'Africa conta {{count}} bandiere, tra le più colorate e simboliche al mondo, spesso ispirate ai colori panafricani.',
+    NorthAmerica: 'Il Nord America comprende {{count}} bandiere, dai grandi Stati continentali alle isole caraibiche.',
+    SouthAmerica:
+      'Il Sud America conta {{count}} bandiere, spesso caratterizzate da bande di colore e stelle che richiamano i cieli del continente.',
+    Oceania:
+      'L\'Oceania comprende {{count}} bandiere, molte delle quali riprendono la Croce del Sud o motivi legati all\'oceano.',
   },
   learn: {
     title: 'Impara le bandiere',

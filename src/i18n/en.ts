@@ -3,7 +3,24 @@ import type { Translations } from './types';
 export const en: Translations = {
   meta: {
     title: 'FlagQuiz — World Flags Quiz',
-    description: "Test your knowledge of the world's flags. Play quizzes, earn points and become a flag expert.",
+    description:
+      'The world flags quiz with 195 countries, multiple game modes and a new daily challenge. Guess the flag, earn points and master world geography.',
+  },
+  seo: {
+    countryTitle: '{{country}} Flag {{flag}} — Quiz & Facts | FlagQuiz',
+    countryDescription:
+      '{{country}}: capital {{capital}}, located in {{continent}}. Discover the flag and test yourself with the FlagQuiz.',
+    continentTitle: '{{continent}} Flags — All Countries & Quiz | FlagQuiz',
+    breadcrumbHome: 'Home',
+    breadcrumbLearn: 'Learn',
+    factsHeading: 'Facts',
+    otherCountriesHeading: 'Other countries in the same continent',
+    continentCountriesHeading: 'All Countries',
+    goToQuiz: 'Go to quiz',
+    goToLearn: 'Explore all flags',
+    backToContinent: 'Back to continent',
+    homeIntro:
+      'FlagQuiz is the world flags quiz to test your geography knowledge: 195 countries, multiple game modes, and a new daily challenge.',
   },
   nav: {
     home: 'Home',
@@ -129,6 +146,18 @@ export const en: Translations = {
     NorthAmerica: 'North America',
     SouthAmerica: 'South America',
     Oceania: 'Oceania',
+  },
+  continentIntros: {
+    Europe:
+      'Europe brings together {{count}} flags in the FlagQuiz database, from the great tricolours to the heraldic symbols of small states.',
+    Asia: 'Asia is the largest and most diverse continent: {{count}} flags spanning from the Middle East to the Far East.',
+    Africa:
+      'Africa has {{count}} flags, among the most colourful and symbolic in the world, often inspired by the Pan-African colours.',
+    NorthAmerica: 'North America includes {{count}} flags, from large continental nations to Caribbean islands.',
+    SouthAmerica:
+      "South America has {{count}} flags, many featuring colour bands and stars that echo the continent's skies.",
+    Oceania:
+      'Oceania includes {{count}} flags, many of which feature the Southern Cross or motifs tied to the ocean.',
   },
   learn: {
     title: 'Learn the Flags',

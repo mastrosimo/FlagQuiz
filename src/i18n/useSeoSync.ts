@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from './useTranslation';
 
 function setMeta(selector: string, attribute: 'content', value: string) {
@@ -6,10 +7,19 @@ function setMeta(selector: string, attribute: 'content', value: string) {
   if (el) el.setAttribute(attribute, value);
 }
 
+const SEO_ROUTE_PREFIXES = ['/it', '/en'];
+
 export function useSeoSync() {
   const { t, locale } = useTranslation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
+    // Locale-prefixed SEO pages (home/continent/country) own their full meta
+    // tag set via useSeoMeta — skip the generic sitewide sync there.
+    if (SEO_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
+      return;
+    }
+
     const title = t('meta.title');
     const description = t('meta.description');
 
@@ -22,5 +32,5 @@ export function useSeoSync() {
     setMeta('meta[property="og:locale"]', 'content', locale === 'it' ? 'it_IT' : 'en_US');
     setMeta('meta[name="twitter:title"]', 'content', title);
     setMeta('meta[name="twitter:description"]', 'content', description);
-  }, [t, locale]);
+  }, [t, locale, pathname]);
 }

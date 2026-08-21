@@ -17,6 +17,20 @@ export interface Translations {
     title: string;
     description: string;
   };
+  seo: {
+    countryTitle: string;
+    countryDescription: string;
+    continentTitle: string;
+    breadcrumbHome: string;
+    breadcrumbLearn: string;
+    factsHeading: string;
+    otherCountriesHeading: string;
+    continentCountriesHeading: string;
+    goToQuiz: string;
+    goToLearn: string;
+    backToContinent: string;
+    homeIntro: string;
+  };
   nav: {
     home: string;
     quiz: string;
@@ -135,6 +149,14 @@ export interface Translations {
     all: string;
   };
   continents: {
+    Europe: string;
+    Asia: string;
+    Africa: string;
+    NorthAmerica: string;
+    SouthAmerica: string;
+    Oceania: string;
+  };
+  continentIntros: {
     Europe: string;
     Asia: string;
     Africa: string;
