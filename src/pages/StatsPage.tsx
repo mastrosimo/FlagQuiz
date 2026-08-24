@@ -5,17 +5,22 @@ import { getLevelForXp } from '../data/levels';
 import { Card } from '../components/common/Card';
 import { LevelProgressBar } from '../components/common/LevelProgressBar';
 import { CollectionProgress } from '../components/collection/CollectionProgress';
+import { MasteryOverview } from '../components/mastery/MasteryOverview';
 import { useCollectionStore } from '../store/collectionStore';
+import { useMasteryStore } from '../store/masteryStore';
 import { getCollectionSummary } from '../utils/collection';
+import { getMasterySummary, MASTERY_LEVEL_META } from '../utils/mastery';
 import { useTranslation } from '../i18n/useTranslation';
 
 export function StatsPage() {
   const stats = useProfileStore((state) => state.stats);
   const xp = useProfileStore((state) => state.xp);
   const recognizedCodes = useCollectionStore((state) => state.recognizedCodes);
+  const masteryCounts = useMasteryStore((state) => state.counts);
   const { t } = useTranslation();
   const level = getLevelForXp(xp);
   const collection = getCollectionSummary(recognizedCodes);
+  const mastery = getMasterySummary(masteryCounts);
 
   const accuracy = stats.questionsAnswered
     ? Math.round((stats.correctAnswers / stats.questionsAnswered) * 100)
@@ -70,6 +75,35 @@ export function StatsPage() {
           <CollectionProgress recognized={collection.recognized} total={collection.total} compact />
         </Card>
       </div>
+
+      <Card className="mt-4 p-5">
+        <h2 className="mb-4 flex items-center gap-2 font-display text-lg font-bold text-slate-900 dark:text-white">
+          <span aria-hidden="true">🧠</span> {t('mastery.sectionTitle')}
+        </h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {(['discovered', 'known', 'expert', 'master'] as const).map((tier) => (
+            <div key={tier} className="rounded-xl bg-slate-50 p-3 text-center dark:bg-slate-800">
+              <div className="text-xl" aria-hidden="true">{MASTERY_LEVEL_META[tier].icon}</div>
+              <p className="mt-1 font-display text-lg font-extrabold text-slate-900 dark:text-white">{mastery[tier]}</p>
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{t(MASTERY_LEVEL_META[tier].labelKey)}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex flex-col gap-1 text-sm text-slate-600 dark:text-slate-300">
+          <div className="flex items-center justify-between">
+            <span>{t('mastery.totalWithAnswers')}</span>
+            <span className="font-semibold text-slate-900 dark:text-white">{mastery.withAnswers} / {mastery.total}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span>{t('mastery.masteredFlags')}</span>
+            <span className="font-semibold text-slate-900 dark:text-white">{mastery.master} / {mastery.total}</span>
+          </div>
+        </div>
+        <div className="mt-4 border-t border-slate-100 pt-4 dark:border-slate-800">
+          <p className="mb-1 text-xs font-bold uppercase tracking-wide text-slate-400">{t('mastery.globalTitle')}</p>
+          <MasteryOverview masteredCount={mastery.master} total={mastery.total} compact />
+        </div>
+      </Card>
 
       <Card className="mt-6 p-5">
         <h2 className="mb-4 font-display text-lg font-bold text-slate-900 dark:text-white">

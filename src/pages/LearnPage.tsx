@@ -8,8 +8,12 @@ import { Modal } from '../components/common/Modal';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { CollectionProgress } from '../components/collection/CollectionProgress';
+import { MasteryBadge } from '../components/mastery/MasteryBadge';
+import { MasteryLevelBar } from '../components/mastery/MasteryLevelBar';
 import { useCollectionStore } from '../store/collectionStore';
+import { useMasteryStore } from '../store/masteryStore';
 import { getCollectionSummary } from '../utils/collection';
+import { getMasteryLevel, MASTERY_LEVEL_META, type MasteryLevel } from '../utils/mastery';
 import { useTranslation } from '../i18n/useTranslation';
 import type { TranslationKey } from '../i18n/types';
 
@@ -31,6 +35,19 @@ const COLLECTION_FILTER_KEYS: Record<CollectionFilter, TranslationKey> = {
 
 const COLLECTION_FILTER_OPTIONS: CollectionFilter[] = ['all', 'recognized', 'unrecognized'];
 
+type MasteryFilter = 'all' | 'none' | MasteryLevel;
+
+const MASTERY_FILTER_KEYS: Record<MasteryFilter, TranslationKey> = {
+  all: 'mastery.filterAll',
+  none: 'mastery.filterNone',
+  discovered: 'mastery.filterDiscovered',
+  known: 'mastery.filterKnown',
+  expert: 'mastery.filterExpert',
+  master: 'mastery.filterMaster',
+};
+
+const MASTERY_FILTER_OPTIONS: MasteryFilter[] = ['all', 'none', 'discovered', 'known', 'expert', 'master'];
+
 export function LearnPage() {
   const { t, locale } = useTranslation();
   const navigate = useNavigate();
@@ -38,12 +55,14 @@ export function LearnPage() {
   const [continent, setContinent] = useState<Continent | undefined>(undefined);
   const [difficulty, setDifficulty] = useState<Difficulty | undefined>(undefined);
   const [collectionFilter, setCollectionFilter] = useState<CollectionFilter>('all');
+  const [masteryFilter, setMasteryFilter] = useState<MasteryFilter>('all');
   const [selected, setSelected] = useState<Country | null>(null);
 
   const recognizedCodes = useCollectionStore((state) => state.recognizedCodes);
   const recognizedSet = useMemo(() => new Set(recognizedCodes), [recognizedCodes]);
   const collection = useMemo(() => getCollectionSummary(recognizedCodes), [recognizedCodes]);
   const isComplete = collection.recognized >= collection.total;
+  const masteryCounts = useMasteryStore((state) => state.counts);
 
   const filtered = useMemo(() => {
     return COUNTRIES.filter((country) => {
@@ -54,9 +73,13 @@ export function LearnPage() {
       const matchesCollection =
         collectionFilter === 'all' ||
         (collectionFilter === 'recognized' ? isRecognized : !isRecognized);
-      return matchesQuery && matchesContinent && matchesDifficulty && matchesCollection;
+      const masteryLevel = getMasteryLevel(masteryCounts[country.code] ?? 0);
+      const matchesMastery =
+        masteryFilter === 'all' ||
+        (masteryFilter === 'none' ? masteryLevel === null : masteryLevel === masteryFilter);
+      return matchesQuery && matchesContinent && matchesDifficulty && matchesCollection && matchesMastery;
     }).sort((a, b) => a.name[locale].localeCompare(b.name[locale], locale));
-  }, [query, continent, difficulty, collectionFilter, recognizedSet, locale]);
+  }, [query, continent, difficulty, collectionFilter, masteryFilter, recognizedSet, masteryCounts, locale]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -192,11 +215,30 @@ export function LearnPage() {
         ))}
       </div>
 
+      <div className="mt-3 flex flex-wrap gap-2">
+        {MASTERY_FILTER_OPTIONS.map((f) => (
+          <button
+            key={f}
+            type="button"
+            onClick={() => setMasteryFilter(f)}
+            aria-pressed={masteryFilter === f}
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+              masteryFilter === f
+                ? 'bg-brand-600 text-white'
+                : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+            }`}
+          >
+            {t(MASTERY_FILTER_KEYS[f])}
+          </button>
+        ))}
+      </div>
+
       <p className="mt-3 text-xs font-medium text-slate-400">{t('learn.flagsCount', { count: filtered.length })}</p>
 
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {filtered.map((country) => {
           const isRecognized = recognizedSet.has(country.code);
+          const masteryLevel = getMasteryLevel(masteryCounts[country.code] ?? 0);
           return (
             <motion.button
               key={country.code}
@@ -214,6 +256,15 @@ export function LearnPage() {
                   className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-success-500 text-[10px] font-bold text-white shadow"
                 >
                   ✓
+                </span>
+              )}
+              {masteryLevel && (
+                <span
+                  aria-hidden="true"
+                  title={t(MASTERY_LEVEL_META[masteryLevel].labelKey)}
+                  className="absolute -left-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs shadow ring-1 ring-slate-900/5 dark:bg-slate-800 dark:ring-white/10"
+                >
+                  {MASTERY_LEVEL_META[masteryLevel].icon}
                 </span>
               )}
               <FlagImage code={country.code} name={country.name[locale]} className="aspect-[3/2] w-full rounded-lg object-cover" />
@@ -236,9 +287,20 @@ export function LearnPage() {
             </h2>
 
             {recognizedSet.has(selected.code) ? (
-              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-500/10 px-3 py-1 text-sm font-semibold text-success-600 dark:text-success-500">
-                <span aria-hidden="true">✓</span> {t('learn.recognizedBadge')}
-              </p>
+              <>
+                <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-500/10 px-3 py-1 text-sm font-semibold text-success-600 dark:text-success-500">
+                  <span aria-hidden="true">✓</span> {t('learn.recognizedBadge')}
+                </p>
+                <div className="mt-3 flex flex-col items-center">
+                  {(() => {
+                    const level = getMasteryLevel(masteryCounts[selected.code] ?? 0);
+                    return level ? <MasteryBadge level={level} /> : null;
+                  })()}
+                  <div className="mt-2 w-full max-w-xs">
+                    <MasteryLevelBar count={masteryCounts[selected.code] ?? 0} />
+                  </div>
+                </div>
+              </>
             ) : (
               <div className="mt-2">
                 <p className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400">

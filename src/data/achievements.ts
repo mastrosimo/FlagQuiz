@@ -91,4 +91,32 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: '🏆',
     check: ({ collectionCount }: AchievementContext) => collectionCount >= COUNTRIES.length,
   },
+  {
+    id: 'mastery-first',
+    titleKey: 'achievements.masteryFirstTitle',
+    descriptionKey: 'achievements.masteryFirstDescription',
+    icon: '🧠',
+    check: ({ masteredCount }: AchievementContext) => masteredCount >= 1,
+  },
+  {
+    id: 'mastery-10',
+    titleKey: 'achievements.mastery10Title',
+    descriptionKey: 'achievements.mastery10Description',
+    icon: '🧠',
+    check: ({ masteredCount }: AchievementContext) => masteredCount >= 10,
+  },
+  {
+    id: 'mastery-50',
+    titleKey: 'achievements.mastery50Title',
+    descriptionKey: 'achievements.mastery50Description',
+    icon: '🧠',
+    check: ({ masteredCount }: AchievementContext) => masteredCount >= 50,
+  },
+  {
+    id: 'mastery-complete',
+    titleKey: 'achievements.masteryCompleteTitle',
+    descriptionKey: 'achievements.masteryCompleteDescription',
+    icon: '💎',
+    check: ({ masteredCount }: AchievementContext) => masteredCount >= COUNTRIES.length,
+  },
 ];

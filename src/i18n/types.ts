@@ -190,6 +190,29 @@ export interface Translations {
     completeSubtitle: string;
     continentProgressHeading: string;
   };
+  mastery: {
+    levelDiscovered: string;
+    levelKnown: string;
+    levelExpert: string;
+    levelMaster: string;
+    sectionTitle: string;
+    globalTitle: string;
+    percentComplete: string;
+    totalWithAnswers: string;
+    masteredFlags: string;
+    remainingToNext: string;
+    completedLabel: string;
+    filterAll: string;
+    filterNone: string;
+    filterDiscovered: string;
+    filterKnown: string;
+    filterExpert: string;
+    filterMaster: string;
+    levelUpTitle: string;
+    levelUpMasterTitle: string;
+    levelUpAnswersCount: string;
+    homeSubtitle: string;
+  };
   stats: {
     title: string;
     gamesPlayed: string;
@@ -238,6 +261,14 @@ export interface Translations {
     continentAfricaDescription: string;
     continentAsiaTitle: string;
     continentAsiaDescription: string;
+    masteryFirstTitle: string;
+    masteryFirstDescription: string;
+    mastery10Title: string;
+    mastery10Description: string;
+    mastery50Title: string;
+    mastery50Description: string;
+    masteryCompleteTitle: string;
+    masteryCompleteDescription: string;
   };
   levels: {
     level1: string;

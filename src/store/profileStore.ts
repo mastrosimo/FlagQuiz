@@ -68,7 +68,7 @@ interface ProfileState {
   dailyStreak: DailyStreak;
   dailyChallenge: DailyChallengeState;
   recordSession: (result: QuizSessionResult) => void;
-  checkAchievements: (collectionCount: number) => void;
+  checkAchievements: (collectionCount: number, masteredCount: number) => void;
   completeDailyChallenge: (result: { score: number; correctCount: number; totalQuestions: number }) => void;
   clearLastUnlocked: () => void;
   setSoundEnabled: (enabled: boolean) => void;
@@ -136,9 +136,9 @@ export const useProfileStore = create<ProfileState>()(
         });
       },
 
-      checkAchievements: (collectionCount: number) => {
+      checkAchievements: (collectionCount: number, masteredCount: number) => {
         const newlyUnlocked = getNewlyUnlocked(
-          { stats: get().stats, collectionCount },
+          { stats: get().stats, collectionCount, masteredCount },
           get().unlockedAchievements,
         );
         if (newlyUnlocked.length === 0) return;

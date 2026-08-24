@@ -8,8 +8,11 @@ import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
 import { LevelProgressBar } from '../components/common/LevelProgressBar';
 import { CollectionProgress } from '../components/collection/CollectionProgress';
+import { MasteryOverview } from '../components/mastery/MasteryOverview';
 import { useCollectionStore } from '../store/collectionStore';
+import { useMasteryStore } from '../store/masteryStore';
 import { getCollectionSummary } from '../utils/collection';
+import { getMasteredCount } from '../utils/mastery';
 import { useTranslation } from '../i18n/useTranslation';
 
 export function HomePage() {
@@ -19,10 +22,12 @@ export function HomePage() {
   const dailyStreak = useProfileStore((state) => state.dailyStreak);
   const dailyChallenge = useProfileStore((state) => state.dailyChallenge);
   const recognizedCodes = useCollectionStore((state) => state.recognizedCodes);
+  const masteryCounts = useMasteryStore((state) => state.counts);
   const { t } = useTranslation();
   const level = getLevelForXp(xp);
   const isNew = stats.gamesPlayed === 0;
   const collection = getCollectionSummary(recognizedCodes);
+  const masteredCount = getMasteredCount(masteryCounts);
   const dailyDoneToday = dailyChallenge.completed && dailyChallenge.date === getTodayKey();
 
   const statCards = [
@@ -139,7 +144,7 @@ export function HomePage() {
                 </Card>
               ))}
             </div>
-            <div className="mx-auto mt-4 grid max-w-2xl gap-3 sm:grid-cols-2">
+            <div className="mx-auto mt-4 grid max-w-4xl gap-3 sm:grid-cols-3">
               <Card className="p-5">
                 <LevelProgressBar xp={xp} />
               </Card>
@@ -151,6 +156,15 @@ export function HomePage() {
                 className="rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-900/5 transition-shadow hover:shadow-md dark:bg-slate-900 dark:ring-white/10"
               >
                 <CollectionProgress recognized={collection.recognized} total={collection.total} />
+              </motion.button>
+              <motion.button
+                type="button"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => navigate('/learn')}
+                className="rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-900/5 transition-shadow hover:shadow-md dark:bg-slate-900 dark:ring-white/10"
+              >
+                <MasteryOverview masteredCount={masteredCount} total={collection.total} />
               </motion.button>
             </div>
           </>

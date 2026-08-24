@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { AchievementToast } from './components/feedback/AchievementToast';
+import { MasteryLevelUpToast } from './components/mastery/MasteryLevelUpToast';
 import { Spinner } from './components/common/Spinner';
 import { HomePage } from './pages/HomePage';
 import { useSeoSync } from './i18n/useSeoSync';
@@ -37,6 +38,7 @@ function AppShell() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <AchievementToast />
+      <MasteryLevelUpToast />
       <main className="flex-1">
         <Suspense fallback={<PageFallback />}>
           <Routes>

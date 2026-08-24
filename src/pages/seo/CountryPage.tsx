@@ -9,7 +9,11 @@ import { buildCountryPageMeta, getOtherCountries } from '../../seo/content';
 import { buildCountryJsonLd } from '../../seo/jsonLd';
 import { useSeoMeta } from '../../seo/useSeoMeta';
 import { useCollectionStore } from '../../store/collectionStore';
+import { useMasteryStore } from '../../store/masteryStore';
+import { getMasteryLevel } from '../../utils/mastery';
 import { FlagImage } from '../../components/quiz/FlagImage';
+import { MasteryBadge } from '../../components/mastery/MasteryBadge';
+import { MasteryLevelBar } from '../../components/mastery/MasteryLevelBar';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
 import { ContinentPage } from './ContinentPage';
@@ -40,6 +44,7 @@ function CountryPageContent({ locale, country }: { locale: Locale; country: Coun
   const navigate = useNavigate();
   const setLocale = useLanguageStore((state) => state.setLocale);
   const recognizedCodes = useCollectionStore((state) => state.recognizedCodes);
+  const masteryCounts = useMasteryStore((state) => state.counts);
 
   useEffect(() => {
     setLocale(locale);
@@ -88,9 +93,20 @@ function CountryPageContent({ locale, country }: { locale: Locale; country: Coun
         </h1>
 
         {isRecognized ? (
-          <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-500/10 px-3 py-1 text-sm font-semibold text-success-600 dark:text-success-500">
-            <span aria-hidden="true">✓</span> {translate(locale, 'learn.recognizedBadge')}
-          </p>
+          <>
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-success-500/10 px-3 py-1 text-sm font-semibold text-success-600 dark:text-success-500">
+              <span aria-hidden="true">✓</span> {translate(locale, 'learn.recognizedBadge')}
+            </p>
+            <div className="mt-3 flex flex-col items-center">
+              {(() => {
+                const level = getMasteryLevel(masteryCounts[country.code] ?? 0);
+                return level ? <MasteryBadge level={level} /> : null;
+              })()}
+              <div className="mt-2 w-full max-w-xs">
+                <MasteryLevelBar count={masteryCounts[country.code] ?? 0} />
+              </div>
+            </div>
+          </>
         ) : (
           <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
             <span aria-hidden="true">○</span> {translate(locale, 'learn.notRecognizedYet')}

@@ -70,6 +70,7 @@ export interface QuizSessionResult {
 export interface AchievementContext {
   stats: ProfileStats;
   collectionCount: number;
+  masteredCount: number;
 }
 
 export interface Achievement {

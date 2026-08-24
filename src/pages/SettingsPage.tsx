@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useProfileStore } from '../store/profileStore';
 import { useCollectionStore } from '../store/collectionStore';
+import { useMasteryStore } from '../store/masteryStore';
 import { useTheme } from '../hooks/useTheme';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
@@ -13,6 +14,7 @@ export function SettingsPage() {
   const setSoundEnabled = useProfileStore((state) => state.setSoundEnabled);
   const resetProgress = useProfileStore((state) => state.resetProgress);
   const resetCollection = useCollectionStore((state) => state.resetCollection);
+  const resetMastery = useMasteryStore((state) => state.resetMastery);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -34,7 +36,7 @@ export function SettingsPage() {
             className={`relative h-7 w-12 rounded-full transition-colors ${theme === 'dark' ? 'bg-brand-600' : 'bg-slate-300'}`}
           >
             <span
-              className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}`}
+              className={`absolute left-0 top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}`}
             />
           </button>
         </div>
@@ -52,7 +54,7 @@ export function SettingsPage() {
             className={`relative h-7 w-12 rounded-full transition-colors ${soundEnabled ? 'bg-brand-600' : 'bg-slate-300'}`}
           >
             <span
-              className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${soundEnabled ? 'translate-x-6' : 'translate-x-1'}`}
+              className={`absolute left-0 top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${soundEnabled ? 'translate-x-6' : 'translate-x-1'}`}
             />
           </button>
         </div>
@@ -78,6 +80,7 @@ export function SettingsPage() {
             onClick={() => {
               resetProgress();
               resetCollection();
+              resetMastery();
               setConfirmOpen(false);
             }}
           >
