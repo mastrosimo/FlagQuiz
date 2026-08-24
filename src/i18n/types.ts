@@ -34,6 +34,7 @@ export interface Translations {
   nav: {
     home: string;
     quiz: string;
+    missions: string;
     learn: string;
     stats: string;
     achievementsTooltip: string;
@@ -45,6 +46,7 @@ export interface Translations {
   footer: {
     tagline: string;
     quiz: string;
+    missions: string;
     learn: string;
     stats: string;
     achievements: string;
@@ -213,6 +215,54 @@ export interface Translations {
     levelUpAnswersCount: string;
     homeSubtitle: string;
   };
+  missions: {
+    pageTitle: string;
+    pageSubtitle: string;
+    todayHeading: string;
+    completedCount: string;
+    allCompleteBanner: string;
+    bonusLabel: string;
+    bonusEarned: string;
+    resetIn: string;
+    xpValue: string;
+    completedBadge: string;
+    viewAll: string;
+    toastTitle: string;
+    def: {
+      collectionNewFlagsTitle: string;
+      collectionNewFlagsDescription: string;
+      collectionContinentTitle: string;
+      collectionContinentDescription: string;
+      masteryAdvanceTitle: string;
+      masteryAdvanceDescription: string;
+      gameplayCompleteTitle: string;
+      gameplayCompleteDescription: string;
+      gameplayAccuracyTitle: string;
+      gameplayAccuracyDescription: string;
+      gameplayComboTitle: string;
+      gameplayComboDescription: string;
+      gameplayScoreTitle: string;
+      gameplayScoreDescription: string;
+      gameplayCorrectTitle: string;
+      gameplayCorrectDescription: string;
+      dailyChallengeTitle: string;
+      dailyChallengeDescription: string;
+      studyFlagsTitle: string;
+      studyFlagsDescription: string;
+      modeClassicTitle: string;
+      modeClassicDescription: string;
+      modeTimeTitle: string;
+      modeTimeDescription: string;
+      modeFiftyTitle: string;
+      modeFiftyDescription: string;
+      modeAllTitle: string;
+      modeAllDescription: string;
+      modeHardTitle: string;
+      modeHardDescription: string;
+      modeSurvivalTitle: string;
+      modeSurvivalDescription: string;
+    };
+  };
   stats: {
     title: string;
     gamesPlayed: string;
@@ -269,6 +319,10 @@ export interface Translations {
     mastery50Description: string;
     masteryCompleteTitle: string;
     masteryCompleteDescription: string;
+    missions10Title: string;
+    missions10Description: string;
+    missions50Title: string;
+    missions50Description: string;
   };
   levels: {
     level1: string;

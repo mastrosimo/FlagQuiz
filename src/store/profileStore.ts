@@ -68,10 +68,11 @@ interface ProfileState {
   dailyStreak: DailyStreak;
   dailyChallenge: DailyChallengeState;
   recordSession: (result: QuizSessionResult) => void;
-  checkAchievements: (collectionCount: number, masteredCount: number) => void;
+  checkAchievements: (collectionCount: number, masteredCount: number, missionsCompletedCount: number) => void;
   completeDailyChallenge: (result: { score: number; correctCount: number; totalQuestions: number }) => void;
   clearLastUnlocked: () => void;
   setSoundEnabled: (enabled: boolean) => void;
+  addXp: (amount: number) => void;
   resetProgress: () => void;
 }
 
@@ -136,9 +137,9 @@ export const useProfileStore = create<ProfileState>()(
         });
       },
 
-      checkAchievements: (collectionCount: number, masteredCount: number) => {
+      checkAchievements: (collectionCount: number, masteredCount: number, missionsCompletedCount: number) => {
         const newlyUnlocked = getNewlyUnlocked(
-          { stats: get().stats, collectionCount, masteredCount },
+          { stats: get().stats, collectionCount, masteredCount, missionsCompletedCount },
           get().unlockedAchievements,
         );
         if (newlyUnlocked.length === 0) return;
@@ -159,6 +160,9 @@ export const useProfileStore = create<ProfileState>()(
 
       clearLastUnlocked: () => set({ lastUnlocked: [] }),
       setSoundEnabled: (enabled: boolean) => set({ soundEnabled: enabled }),
+      // Canale unico per XP guadagnati fuori da una sessione di gioco (es. le
+      // Missioni): evita che ogni sistema scriva xp a modo suo.
+      addXp: (amount: number) => set({ xp: get().xp + amount }),
       resetProgress: () =>
         set({
           stats: emptyStats(),

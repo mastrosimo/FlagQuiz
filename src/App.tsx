@@ -4,6 +4,7 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { AchievementToast } from './components/feedback/AchievementToast';
 import { MasteryLevelUpToast } from './components/mastery/MasteryLevelUpToast';
+import { MissionCompleteToast } from './components/missions/MissionCompleteToast';
 import { Spinner } from './components/common/Spinner';
 import { HomePage } from './pages/HomePage';
 import { useSeoSync } from './i18n/useSeoSync';
@@ -12,6 +13,7 @@ const QuizPage = lazy(() => import('./pages/QuizPage').then((m) => ({ default: m
 const ResultsPage = lazy(() => import('./pages/ResultsPage').then((m) => ({ default: m.ResultsPage })));
 const StatsPage = lazy(() => import('./pages/StatsPage').then((m) => ({ default: m.StatsPage })));
 const LearnPage = lazy(() => import('./pages/LearnPage').then((m) => ({ default: m.LearnPage })));
+const MissionsPage = lazy(() => import('./pages/MissionsPage').then((m) => ({ default: m.MissionsPage })));
 const AchievementsPage = lazy(() =>
   import('./pages/AchievementsPage').then((m) => ({ default: m.AchievementsPage })),
 );
@@ -39,11 +41,13 @@ function AppShell() {
       <Header />
       <AchievementToast />
       <MasteryLevelUpToast />
+      <MissionCompleteToast />
       <main className="flex-1">
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/missions" element={<MissionsPage />} />
             <Route path="/results" element={<ResultsPage />} />
             <Route path="/stats" element={<StatsPage />} />
             <Route path="/learn" element={<LearnPage />} />

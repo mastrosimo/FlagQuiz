@@ -4,6 +4,7 @@ import type { QuizConfig, QuizMode, QuizSessionResult } from '../types';
 import { useProfileStore } from '../store/profileStore';
 import { useCollectionStore } from '../store/collectionStore';
 import { useMasteryStore } from '../store/masteryStore';
+import { useMissionStore } from '../store/missionStore';
 import { getMasteredCount } from '../utils/mastery';
 import { buildDailyChallengeConfig } from '../data/modes';
 import { getTodayKey } from '../utils/questionGenerator';
@@ -35,10 +36,19 @@ export function QuizPage() {
     const recognizedCodes = result.answered
       .filter((answered) => answered.correct)
       .map((answered) => answered.question.correct.code);
+    const alreadyRecognized = new Set(useCollectionStore.getState().recognizedCodes);
+    const newlyRecognizedCodes = recognizedCodes.filter((code) => !alreadyRecognized.has(code));
     const collectionCount = addRecognized(recognizedCodes);
     useMasteryStore.getState().recordCorrectAnswers(recognizedCodes);
+    const masteryLevelUpCount = useMasteryStore.getState().lastLevelUps.length;
     const masteredCount = getMasteredCount(useMasteryStore.getState().counts);
-    checkAchievements(collectionCount, masteredCount);
+    useMissionStore.getState().applyGameResult({
+      result,
+      newlyRecognizedCodes,
+      masteryLevelUpCount,
+    });
+    const missionsCompletedCount = useMissionStore.getState().totalCompleted;
+    checkAchievements(collectionCount, masteredCount, missionsCompletedCount);
     if (result.mode === 'daily') {
       completeDailyChallenge({
         score: result.score,

@@ -12,6 +12,7 @@ import { MasteryBadge } from '../components/mastery/MasteryBadge';
 import { MasteryLevelBar } from '../components/mastery/MasteryLevelBar';
 import { useCollectionStore } from '../store/collectionStore';
 import { useMasteryStore } from '../store/masteryStore';
+import { useMissionStore } from '../store/missionStore';
 import { getCollectionSummary } from '../utils/collection';
 import { getMasteryLevel, MASTERY_LEVEL_META, type MasteryLevel } from '../utils/mastery';
 import { useTranslation } from '../i18n/useTranslation';
@@ -57,6 +58,11 @@ export function LearnPage() {
   const [collectionFilter, setCollectionFilter] = useState<CollectionFilter>('all');
   const [masteryFilter, setMasteryFilter] = useState<MasteryFilter>('all');
   const [selected, setSelected] = useState<Country | null>(null);
+
+  const handleOpenCountry = (country: Country) => {
+    setSelected(country);
+    useMissionStore.getState().applyStudyEvent(country.code);
+  };
 
   const recognizedCodes = useCollectionStore((state) => state.recognizedCodes);
   const recognizedSet = useMemo(() => new Set(recognizedCodes), [recognizedCodes]);
@@ -245,7 +251,7 @@ export function LearnPage() {
               type="button"
               layout
               whileHover={{ y: -3 }}
-              onClick={() => setSelected(country)}
+              onClick={() => handleOpenCountry(country)}
               className={`relative flex flex-col items-center gap-2 rounded-2xl bg-white p-3 text-center shadow-sm ring-1 transition-shadow hover:shadow-md dark:bg-slate-900 ${
                 isRecognized ? 'ring-2 ring-success-500/50' : 'ring-slate-900/5 dark:ring-white/10'
               }`}

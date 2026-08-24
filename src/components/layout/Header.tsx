@@ -25,6 +25,7 @@ export function Header() {
   const navLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/quiz', label: t('nav.quiz') },
+    { to: '/missions', label: t('nav.missions') },
     { to: '/learn', label: t('nav.learn') },
     { to: '/stats', label: t('nav.stats') },
   ];

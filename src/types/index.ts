@@ -71,6 +71,7 @@ export interface AchievementContext {
   stats: ProfileStats;
   collectionCount: number;
   masteredCount: number;
+  missionsCompletedCount: number;
 }
 
 export interface Achievement {
@@ -110,4 +111,66 @@ export interface DailyChallengeState {
   date: string | null;
   completed: boolean;
   result: { score: number; correctCount: number; totalQuestions: number } | null;
+}
+
+export type MissionCategory =
+  | 'collection'
+  | 'continent'
+  | 'mastery'
+  | 'gameplay-complete'
+  | 'gameplay-accuracy'
+  | 'gameplay-combo'
+  | 'gameplay-score'
+  | 'gameplay-correct'
+  | 'mode'
+  | 'daily-challenge'
+  | 'study';
+
+export type MissionGroup = 'progression' | 'gameplay' | 'mode';
+
+export type MissionDifficulty = 'easy' | 'medium' | 'hard';
+
+export interface MissionParams {
+  continent?: Continent;
+  mode?: QuizMode;
+}
+
+// Istanza concreta di una missione assegnata per una giornata: la sola forma
+// persistita/mostrata dalla UI. Progettata per mappare 1:1 una futura riga
+// della tabella `user_missions` (stesso pattern di user_progress/user_collection).
+export interface MissionInstance {
+  id: string;
+  definitionId: string;
+  category: MissionCategory;
+  group: MissionGroup;
+  difficulty: MissionDifficulty;
+  icon: string;
+  titleKey: TranslationKey;
+  descriptionKey: TranslationKey;
+  xpReward: number;
+  target: number;
+  progress: number;
+  completed: boolean;
+  completedAt: number | null;
+  xpAwarded: boolean;
+  params?: MissionParams;
+}
+
+export interface DailyMissionsState {
+  dateKey: string;
+  missions: MissionInstance[];
+  bonusAwarded: boolean;
+  studiedCodes: string[];
+}
+
+export interface PlayerSnapshot {
+  xp: number;
+  recognizedCodes: string[];
+  collectionCount: number;
+  collectionTotal: number;
+  masteryCounts: Record<string, number>;
+  masteredCount: number;
+  averageAccuracy: number;
+  dailyChallengeAvailable: boolean;
+  recentModes: QuizMode[];
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useProfileStore } from '../store/profileStore';
 import { useCollectionStore } from '../store/collectionStore';
 import { useMasteryStore } from '../store/masteryStore';
+import { useMissionStore } from '../store/missionStore';
 import { useTheme } from '../hooks/useTheme';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
@@ -15,6 +16,7 @@ export function SettingsPage() {
   const resetProgress = useProfileStore((state) => state.resetProgress);
   const resetCollection = useCollectionStore((state) => state.resetCollection);
   const resetMastery = useMasteryStore((state) => state.resetMastery);
+  const resetMissions = useMissionStore((state) => state.resetMissions);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -81,6 +83,7 @@ export function SettingsPage() {
               resetProgress();
               resetCollection();
               resetMastery();
+              resetMissions();
               setConfirmOpen(false);
             }}
           >

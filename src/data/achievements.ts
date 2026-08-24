@@ -119,4 +119,18 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: '💎',
     check: ({ masteredCount }: AchievementContext) => masteredCount >= COUNTRIES.length,
   },
+  {
+    id: 'missions-10',
+    titleKey: 'achievements.missions10Title',
+    descriptionKey: 'achievements.missions10Description',
+    icon: '📋',
+    check: ({ missionsCompletedCount }: AchievementContext) => missionsCompletedCount >= 10,
+  },
+  {
+    id: 'missions-50',
+    titleKey: 'achievements.missions50Title',
+    descriptionKey: 'achievements.missions50Description',
+    icon: '🗺️',
+    check: ({ missionsCompletedCount }: AchievementContext) => missionsCompletedCount >= 50,
+  },
 ];

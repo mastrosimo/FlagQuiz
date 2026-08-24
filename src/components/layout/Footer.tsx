@@ -6,6 +6,7 @@ export function Footer() {
 
   const links = [
     { to: '/quiz', label: t('footer.quiz') },
+    { to: '/missions', label: t('footer.missions') },
     { to: '/learn', label: t('footer.learn') },
     { to: '/stats', label: t('footer.stats') },
     { to: '/achievements', label: t('footer.achievements') },
