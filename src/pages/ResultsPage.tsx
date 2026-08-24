@@ -26,12 +26,14 @@ export function ResultsPage() {
     <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
       <ResultSummaryCard result={result} />
       <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Button
-          size="lg"
-          onClick={() => navigate('/quiz', { state: { presetConfig: config } })}
-        >
-          {t('results.replay')}
-        </Button>
+        {result.mode !== 'daily' && (
+          <Button
+            size="lg"
+            onClick={() => navigate('/quiz', { state: { presetConfig: config } })}
+          >
+            {t('results.replay')}
+          </Button>
+        )}
         <Button size="lg" variant="secondary" onClick={() => navigate('/')}>
           {t('results.backHome')}
         </Button>

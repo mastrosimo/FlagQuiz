@@ -45,7 +45,14 @@ export function QuizPage() {
     navigate('/results', { state: { result, config } });
   };
 
-  if (navState?.presetMode === 'daily') {
+  const isDaily = navState?.presetMode === 'daily' || config?.mode === 'daily';
+
+  if (isDaily) {
+    // Il gate deve valere per qualunque percorso porti a una config 'daily'
+    // (non solo arrivando dalla card Home con presetMode), incluso "Rigioca"
+    // sulla pagina risultati che passa un presetConfig già risolto: altrimenti
+    // si potrebbe ripetere la sfida più volte lo stesso giorno sovrascrivendo
+    // il risultato salvato.
     const alreadyDone = dailyChallenge.completed && dailyChallenge.date === getTodayKey();
     if (alreadyDone) {
       return (
