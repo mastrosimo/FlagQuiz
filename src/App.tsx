@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { AchievementToast } from './components/feedback/AchievementToast';
@@ -28,9 +28,7 @@ const LocaleHomeRoute = lazy(() =>
 const CountrySlugPage = lazy(() =>
   import('./pages/seo/CountryPage').then((m) => ({ default: m.CountrySlugPage })),
 );
-const DuelHomePage = lazy(() =>
-  import('./pages/duel/DuelHomePage').then((m) => ({ default: m.DuelHomePage })),
-);
+const OnlinePage = lazy(() => import('./pages/OnlinePage').then((m) => ({ default: m.OnlinePage })));
 const DuelMatchPage = lazy(() =>
   import('./pages/duel/DuelMatchPage').then((m) => ({ default: m.DuelMatchPage })),
 );
@@ -64,7 +62,8 @@ function AppShell() {
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizPage />} />
             <Route path="/capitals" element={<CapitalQuizPage />} />
-            <Route path="/1vs1" element={<DuelHomePage />} />
+            <Route path="/online" element={<OnlinePage />} />
+            <Route path="/1vs1" element={<Navigate to="/online" replace />} />
             <Route path="/1vs1/computer" element={<DuelBotSetupPage />} />
             <Route path="/1vs1/computer/:difficulty" element={<DuelBotMatchPage />} />
             <Route path="/1vs1/:code" element={<DuelMatchPage />} />

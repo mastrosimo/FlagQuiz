@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { MODES } from '../data/modes';
 import { useProfileStore } from '../store/profileStore';
 import { getLevelForXp } from '../data/levels';
 import { getTodayKey } from '../utils/questionGenerator';
@@ -104,37 +103,20 @@ export function HomePage() {
         <MissionsPreview />
       </section>
 
-      <section className="mt-14">
-        <h2 className="mb-4 text-center font-display text-sm font-bold uppercase tracking-widest text-slate-400">
-          {t('home.modesHeading')}
-        </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {MODES.map((mode) => (
-            <motion.button
-              key={mode.id}
-              type="button"
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => navigate('/quiz', { state: { presetMode: mode.id } })}
-              className="flex flex-col items-start gap-2 rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-900/5 transition-shadow hover:shadow-md dark:bg-slate-900 dark:ring-white/10"
-            >
-              <span className="text-3xl" aria-hidden="true">{mode.icon}</span>
-              <span className="font-display font-bold text-slate-900 dark:text-white">{t(mode.labelKey)}</span>
-              <span className="text-sm text-slate-500 dark:text-slate-400">{t(mode.descriptionKey)}</span>
-            </motion.button>
-          ))}
-          <motion.button
-            type="button"
-            whileHover={{ y: -4 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => navigate('/capitals')}
-            className="flex flex-col items-start gap-2 rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-900/5 transition-shadow hover:shadow-md dark:bg-slate-900 dark:ring-white/10"
-          >
-            <span className="text-3xl" aria-hidden="true">🏛️</span>
-            <span className="font-display font-bold text-slate-900 dark:text-white">{t('capitals.home.title')}</span>
-            <span className="text-sm text-slate-500 dark:text-slate-400">{t('capitals.home.description')}</span>
-          </motion.button>
-        </div>
+      <section className="mt-4">
+        <motion.button
+          type="button"
+          whileHover={{ y: -3 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => navigate('/capitals')}
+          className="mx-auto flex w-full max-w-2xl items-center gap-4 rounded-3xl bg-gradient-to-r from-accent-500 to-accent-400 p-5 text-left text-white shadow-lg shadow-accent-500/25"
+        >
+          <span className="text-4xl" aria-hidden="true">🏛️</span>
+          <span className="flex-1">
+            <span className="block font-display text-lg font-extrabold">{t('capitals.home.title')}</span>
+            <span className="block text-sm text-white/90">{t('capitals.home.description')}</span>
+          </span>
+        </motion.button>
       </section>
 
       <section className="mt-14">

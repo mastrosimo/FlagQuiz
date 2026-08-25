@@ -34,6 +34,7 @@ export interface Translations {
   nav: {
     home: string;
     quiz: string;
+    online: string;
     missions: string;
     world: string;
     learn: string;
@@ -87,6 +88,7 @@ export interface Translations {
     stepContinent: string;
     stepQuestionCount: string;
     allContinents: string;
+    allOption: string;
     readyText: string;
     startButton: string;
   };
@@ -166,6 +168,7 @@ export interface Translations {
     };
     setup: {
       stepDirection: string;
+      stepCount: string;
     };
     play: {
       questionCountryToCapital: string;
@@ -434,6 +437,15 @@ export interface Translations {
   };
   a11y: {
     loading: string;
+  };
+  online: {
+    title: string;
+    subtitle: string;
+    vsComputerTitle: string;
+    vsComputerDescription: string;
+    vsFriendTitle: string;
+    vsFriendDescription: string;
+    comingSoonBadge: string;
   };
   duel: {
     navLabel: string;

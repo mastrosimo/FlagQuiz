@@ -169,22 +169,22 @@ export function QuizSetupPage({ quizType = 'flag', presetMode, onStart }: QuizSe
       {activeMode.showQuestionCount && (
         <section className="mt-8">
           <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            {t('quizSetup.stepQuestionCount')}
+            {t(quizType === 'capital' ? 'capitals.setup.stepCount' : 'quizSetup.stepQuestionCount')}
           </h2>
           <div className="flex flex-wrap gap-2">
-            {QUESTION_COUNT_OPTIONS.map((count) => (
+            {QUESTION_COUNT_OPTIONS.map((option) => (
               <button
-                key={count}
+                key={option.value}
                 type="button"
-                onClick={() => setQuestionCount(count)}
-                aria-pressed={questionCount === count}
+                onClick={() => setQuestionCount(option.value)}
+                aria-pressed={questionCount === option.value}
                 className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                  questionCount === count
+                  questionCount === option.value
                     ? 'bg-brand-600 text-white'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                 }`}
               >
-                {count}
+                {option.isAll ? t('quizSetup.allOption') : option.value}
               </button>
             ))}
           </div>

@@ -25,6 +25,7 @@ export const it: Translations = {
   nav: {
     home: 'Home',
     quiz: 'Quiz',
+    online: 'Online',
     missions: 'Missioni',
     world: 'Il mio mondo',
     learn: 'Impara',
@@ -77,8 +78,9 @@ export const it: Translations = {
     stepMode: '1. Modalità',
     stepDifficulty: '2. Difficoltà',
     stepContinent: 'Continente (opzionale)',
-    stepQuestionCount: '3. Numero di domande',
+    stepQuestionCount: 'Quante bandiere vuoi affrontare?',
     allContinents: 'Tutti i continenti',
+    allOption: 'Tutto 🌍',
     readyText: 'Pronto? Premi il pulsante per iniziare subito.',
     startButton: 'INIZIA',
   },
@@ -125,7 +127,7 @@ export const it: Translations = {
   },
   modes: {
     classicLabel: 'Quiz classico',
-    classicDescription: '20 domande, nessun limite di tempo',
+    classicDescription: 'Scegli quante bandiere e la difficoltà, nessun limite di tempo',
     timeLabel: 'Modalità tempo',
     timeDescription: '60 secondi per totalizzare più punti possibile',
     fiftyLabel: '50 bandiere',
@@ -143,7 +145,7 @@ export const it: Translations = {
       description: 'Metti alla prova la tua conoscenza delle capitali del mondo.',
     },
     modes: {
-      classicDescription: '10 domande, nessun limite di tempo',
+      classicDescription: 'Scegli quante domande e la difficoltà, nessun limite di tempo',
       timeDescription: '60 secondi per totalizzare più punti possibile',
       fiftyLabel: '50 Capitali',
       fiftyDescription: '50 domande di fila',
@@ -158,6 +160,7 @@ export const it: Translations = {
     },
     setup: {
       stepDirection: 'Direzione',
+      stepCount: 'Quante domande vuoi affrontare?',
     },
     play: {
       questionCountryToCapital: 'Qual è la capitale di questo Paese?',
@@ -432,6 +435,15 @@ export const it: Translations = {
   },
   a11y: {
     loading: 'Caricamento',
+  },
+  online: {
+    title: '🆚 Online',
+    subtitle: 'Metti alla prova le tue conoscenze contro un avversario.',
+    vsComputerTitle: '🤖 Gioca contro il computer',
+    vsComputerDescription: 'Scegli la difficoltà e parti subito.',
+    vsFriendTitle: '👥 Gioca con un amico',
+    vsFriendDescription: 'Le sfide in tempo reale con gli amici sono in arrivo.',
+    comingSoonBadge: 'Prossimamente',
   },
   duel: {
     navLabel: '1vs1',

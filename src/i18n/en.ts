@@ -25,6 +25,7 @@ export const en: Translations = {
   nav: {
     home: 'Home',
     quiz: 'Quiz',
+    online: 'Online',
     missions: 'Missions',
     world: 'My World',
     learn: 'Learn',
@@ -76,8 +77,9 @@ export const en: Translations = {
     stepMode: '1. Mode',
     stepDifficulty: '2. Difficulty',
     stepContinent: 'Continent (optional)',
-    stepQuestionCount: '3. Number of questions',
+    stepQuestionCount: 'How many flags do you want to face?',
     allContinents: 'All continents',
+    allOption: 'All 🌍',
     readyText: 'Ready? Press the button to jump right in.',
     startButton: 'START',
   },
@@ -124,7 +126,7 @@ export const en: Translations = {
   },
   modes: {
     classicLabel: 'Classic',
-    classicDescription: '20 questions, no time limit',
+    classicDescription: 'Choose how many flags and the difficulty, no time limit',
     timeLabel: 'Time Mode',
     timeDescription: '60 seconds to score as many points as possible',
     fiftyLabel: '50 Flags',
@@ -142,7 +144,7 @@ export const en: Translations = {
       description: "Test your knowledge of the world's capitals.",
     },
     modes: {
-      classicDescription: '10 questions, no time limit',
+      classicDescription: 'Choose how many questions and the difficulty, no time limit',
       timeDescription: '60 seconds to score as many points as possible',
       fiftyLabel: '50 Capitals',
       fiftyDescription: '50 questions in a row',
@@ -157,6 +159,7 @@ export const en: Translations = {
     },
     setup: {
       stepDirection: 'Direction',
+      stepCount: 'How many questions do you want to face?',
     },
     play: {
       questionCountryToCapital: 'What is the capital of this country?',
@@ -430,6 +433,15 @@ export const en: Translations = {
   },
   a11y: {
     loading: 'Loading',
+  },
+  online: {
+    title: '🆚 Online',
+    subtitle: 'Test your knowledge against an opponent.',
+    vsComputerTitle: '🤖 Play against the computer',
+    vsComputerDescription: 'Choose a difficulty and start right away.',
+    vsFriendTitle: '👥 Play with a friend',
+    vsFriendDescription: 'Real-time challenges with friends are on their way.',
+    comingSoonBadge: 'Coming soon',
   },
   duel: {
     navLabel: '1vs1',

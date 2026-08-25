@@ -3,10 +3,13 @@ import type { TranslationKey } from '../i18n/types';
 import type { ModeInfo } from './modes';
 
 /**
- * Sottoinsieme delle modalità bandiere che ha senso per le capitali (vedi
- * piano): Sopravvivenza e Sfida del Giorno restano fuori per questa prima
- * versione — la prima perché non richiesta, la seconda perché legata a una
- * gate/persistenza dedicata in `profileStore` che non va toccata ora.
+ * Come per le bandiere (`data/modes.ts`), "50"/"Tutte"/"Difficili" non sono
+ * più modalità separate ma combinazioni di numero-domande e difficoltà nello
+ * stesso flusso "classica". A differenza delle bandiere non serve preservare
+ * un tag `mode` legacy: i risultati del Quiz Capitali non alimentano
+ * `missionsEngine`/`profileStore` (v1 volutamente isolata dalla
+ * progressione), quindi qui `mode` resta sempre 'classic' o 'time' senza
+ * alcun downstream da mantenere compatibile.
  */
 export const CAPITAL_MODES: ModeInfo[] = [
   {
@@ -25,30 +28,6 @@ export const CAPITAL_MODES: ModeInfo[] = [
     showQuestionCount: false,
     showDifficulty: true,
   },
-  {
-    id: 'fifty',
-    labelKey: 'capitals.modes.fiftyLabel',
-    descriptionKey: 'capitals.modes.fiftyDescription',
-    icon: '5️⃣',
-    showQuestionCount: false,
-    showDifficulty: true,
-  },
-  {
-    id: 'all',
-    labelKey: 'capitals.modes.allLabel',
-    descriptionKey: 'capitals.modes.allDescription',
-    icon: '🌍',
-    showQuestionCount: false,
-    showDifficulty: false,
-  },
-  {
-    id: 'hard',
-    labelKey: 'modes.hardLabel',
-    descriptionKey: 'capitals.modes.hardDescription',
-    icon: '🧠',
-    showQuestionCount: true,
-    showDifficulty: false,
-  },
 ];
 
 export const CAPITAL_DIRECTION_OPTIONS: { id: CapitalDirection | 'mixed'; labelKey: TranslationKey }[] = [
@@ -66,16 +45,8 @@ export function buildCapitalQuizConfig(params: {
 }): QuizConfig {
   const { mode, difficulty, continent, questionCount, direction } = params;
   const quizType = 'capital' as const;
-  switch (mode) {
-    case 'time':
-      return { mode, quizType, direction, difficulty, continent, questionCount, timeLimit: 60 };
-    case 'fifty':
-      return { mode, quizType, direction, difficulty, continent, questionCount: 50 };
-    case 'all':
-      return { mode, quizType, direction, difficulty: 'mixed', continent, questionCount };
-    case 'hard':
-      return { mode, quizType, direction, difficulty: 'hard', continent, questionCount };
-    default:
-      return { mode, quizType, direction, difficulty, continent, questionCount };
+  if (mode === 'time') {
+    return { mode, quizType, direction, difficulty, continent, questionCount, timeLimit: 60 };
   }
+  return { mode: 'classic', quizType, direction, difficulty, continent, questionCount };
 }
