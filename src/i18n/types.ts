@@ -270,7 +270,12 @@ export interface Translations {
     pageSubtitle: string;
     knownLabel: string;
     visitedLabel: string;
-    toVisitLabel: string;
+    wishlistLabel: string;
+    filterAll: string;
+    wishlistEmptyTitle: string;
+    wishlistEmptyDescription: string;
+    filterEmptyTitle: string;
+    filterEmptyDescription: string;
     mapHeading: string;
     legendVisited: string;
     legendWishlist: string;

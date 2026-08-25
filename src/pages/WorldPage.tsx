@@ -4,7 +4,7 @@ import { COUNTRIES } from '../data/countries';
 import { useCollectionStore } from '../store/collectionStore';
 import { useWorldStore } from '../store/worldStore';
 import { getVisitedSummary, buildTravelTimeline } from '../utils/world';
-import { WorldOverview } from '../components/world/WorldOverview';
+import { WorldOverview, type WorldFilter } from '../components/world/WorldOverview';
 import { WorldGrid } from '../components/world/WorldGrid';
 import { ContinentProgress } from '../components/world/ContinentProgress';
 import { TravelTimeline } from '../components/world/TravelTimeline';
@@ -17,6 +17,7 @@ export function WorldPage() {
   const visited = useWorldStore((state) => state.visited);
   const wishlist = useWorldStore((state) => state.wishlist);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const [statusFilter, setStatusFilter] = useState<WorldFilter>('all');
 
   const knownCodes = useMemo(() => new Set(recognizedCodes), [recognizedCodes]);
   const visitedCodes = useMemo(() => Object.keys(visited), [visited]);
@@ -27,7 +28,6 @@ export function WorldPage() {
   const timeline = useMemo(() => buildTravelTimeline(visited), [visited]);
 
   const total = COUNTRIES.length;
-  const toVisitCount = total - worldSummary.visited;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
@@ -40,8 +40,10 @@ export function WorldPage() {
         <WorldOverview
           knownCount={knownCodes.size}
           visitedCount={worldSummary.visited}
-          toVisitCount={toVisitCount}
+          wishlistCount={wishlistCodes.size}
           total={total}
+          activeFilter={statusFilter}
+          onFilterChange={setStatusFilter}
         />
       </div>
 
@@ -53,6 +55,7 @@ export function WorldPage() {
           knownCodes={knownCodes}
           visitedCodes={visitedCodesSet}
           wishlistCodes={wishlistCodes}
+          statusFilter={statusFilter}
           onSelect={setSelectedCountry}
         />
       </section>

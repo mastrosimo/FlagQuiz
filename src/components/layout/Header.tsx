@@ -25,7 +25,6 @@ export function Header() {
   const navLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/quiz', label: t('nav.quiz') },
-    { to: '/missions', label: t('nav.missions') },
     { to: '/world', label: t('nav.world') },
     { to: '/learn', label: t('nav.learn') },
     { to: '/stats', label: t('nav.stats') },
@@ -58,6 +57,20 @@ export function Header() {
               <span>Lv.{level.level}</span>
             </span>
             <LevelProgressBar xp={xp} compact hideLabel />
+          </NavLink>
+          <NavLink
+            to="/missions"
+            title={t('nav.missions')}
+            aria-label={t('nav.missions')}
+            className={({ isActive }) =>
+              `flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xl transition-colors ${
+                isActive
+                  ? 'bg-brand-600 text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
+              }`
+            }
+          >
+            <span aria-hidden="true">🎯</span>
           </NavLink>
           <LanguageSwitcher />
           <ThemeToggle />
