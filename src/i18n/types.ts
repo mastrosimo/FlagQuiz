@@ -408,6 +408,82 @@ export interface Translations {
   a11y: {
     loading: string;
   };
+  duel: {
+    navLabel: string;
+    mockBanner: string;
+    home: {
+      title: string;
+      subtitle: string;
+      createButton: string;
+      joinTitle: string;
+      codePlaceholder: string;
+      joinButton: string;
+      invalidCode: string;
+    };
+    lobby: {
+      codeLabel: string;
+      copyButton: string;
+      copied: string;
+      shareHint: string;
+      waitingOpponent: string;
+      simulateJoinButton: string;
+      youLabel: string;
+      opponentLabel: string;
+      readyButton: string;
+      readyDone: string;
+      opponentReady: string;
+      opponentNotReady: string;
+      notReadyYet: string;
+      opponentNotConnected: string;
+      startingIn: string;
+    };
+    countdown: {
+      title: string;
+      go: string;
+    };
+    play: {
+      questionProgress: string;
+      youScoreLabel: string;
+      opponentScoreLabel: string;
+      waitingOpponentAnswer: string;
+      opponentAnswered: string;
+      youAnswered: string;
+    };
+    disconnected: {
+      title: string;
+      description: string;
+      reconnectButton: string;
+    };
+    result: {
+      victory: string;
+      defeat: string;
+      draw: string;
+      comparisonTitle: string;
+      youColumn: string;
+      opponentColumn: string;
+      scoreLabel: string;
+      correctLabel: string;
+      wrongLabel: string;
+      avgTimeLabel: string;
+      bestComboLabel: string;
+      fastAnswersLabel: string;
+      rematchButton: string;
+      rematchWaiting: string;
+      rematchProposedByOpponent: string;
+      acceptRematch: string;
+      declineRematch: string;
+      backToHome: string;
+    };
+    mock: {
+      panelTitle: string;
+      opponentJoin: string;
+      opponentReadyButton: string;
+      opponentDisconnectButton: string;
+      opponentReconnectButton: string;
+      opponentProposeRematchButton: string;
+      opponentAcceptRematchButton: string;
+    };
+  };
 }
 
 export type DotPaths<T> = {

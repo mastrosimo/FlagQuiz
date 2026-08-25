@@ -25,6 +25,12 @@ const LocaleHomeRoute = lazy(() =>
 const CountrySlugPage = lazy(() =>
   import('./pages/seo/CountryPage').then((m) => ({ default: m.CountrySlugPage })),
 );
+const DuelHomePage = lazy(() =>
+  import('./pages/duel/DuelHomePage').then((m) => ({ default: m.DuelHomePage })),
+);
+const DuelMatchPage = lazy(() =>
+  import('./pages/duel/DuelMatchPage').then((m) => ({ default: m.DuelMatchPage })),
+);
 
 function PageFallback() {
   return (
@@ -48,6 +54,8 @@ function AppShell() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/1vs1" element={<DuelHomePage />} />
+            <Route path="/1vs1/:code" element={<DuelMatchPage />} />
             <Route path="/missions" element={<MissionsPage />} />
             <Route path="/world" element={<WorldPage />} />
             <Route path="/results" element={<ResultsPage />} />
