@@ -38,7 +38,7 @@ export const it: Translations = {
   },
   footer: {
     tagline: 'Metti alla prova la tua conoscenza delle bandiere del mondo.',
-    quiz: 'Quiz',
+    online: 'Online',
     missions: 'Missioni',
     world: 'Il mio mondo',
     learn: 'Impara',

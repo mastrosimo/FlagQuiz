@@ -47,7 +47,7 @@ export interface Translations {
   };
   footer: {
     tagline: string;
-    quiz: string;
+    online: string;
     missions: string;
     world: string;
     learn: string;

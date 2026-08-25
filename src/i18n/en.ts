@@ -38,7 +38,7 @@ export const en: Translations = {
   },
   footer: {
     tagline: "Test your knowledge of the world's flags.",
-    quiz: 'Quiz',
+    online: 'Online',
     missions: 'Missions',
     world: 'My World',
     learn: 'Learn',

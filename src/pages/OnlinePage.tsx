@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { DuelMockBanner } from '../components/duel/DuelMockBanner';
 import { useTranslation } from '../i18n/useTranslation';
 
 /**
@@ -18,7 +17,6 @@ export function OnlinePage() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-10 sm:px-6">
-      <DuelMockBanner />
       <div className="text-center">
         <h1 className="font-display text-3xl font-black text-slate-900 dark:text-white">{t('online.title')}</h1>
         <p className="mt-2 text-slate-500 dark:text-slate-400">{t('online.subtitle')}</p>

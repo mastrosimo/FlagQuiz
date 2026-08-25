@@ -8,7 +8,6 @@ import { Card } from '../components/common/Card';
 import { LevelProgressBar } from '../components/common/LevelProgressBar';
 import { CollectionProgress } from '../components/collection/CollectionProgress';
 import { MasteryOverview } from '../components/mastery/MasteryOverview';
-import { MissionsPreview } from '../components/missions/MissionsPreview';
 import { useCollectionStore } from '../store/collectionStore';
 import { useMasteryStore } from '../store/masteryStore';
 import { getCollectionSummary } from '../utils/collection';
@@ -97,10 +96,6 @@ export function HomePage() {
           </span>
           {dailyDoneToday && <span className="text-2xl" aria-hidden="true">✅</span>}
         </motion.button>
-      </section>
-
-      <section className="mt-4">
-        <MissionsPreview />
       </section>
 
       <section className="mt-4">

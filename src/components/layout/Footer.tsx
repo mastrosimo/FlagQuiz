@@ -5,7 +5,7 @@ export function Footer() {
   const { t } = useTranslation();
 
   const links = [
-    { to: '/quiz', label: t('footer.quiz') },
+    { to: '/online', label: t('footer.online') },
     { to: '/missions', label: t('footer.missions') },
     { to: '/world', label: t('footer.world') },
     { to: '/learn', label: t('footer.learn') },
