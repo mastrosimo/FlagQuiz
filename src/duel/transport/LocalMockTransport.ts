@@ -13,16 +13,24 @@ import {
   DUEL_TIME_LIMIT_MS,
   DUEL_COUNTDOWN_MS,
   DUEL_ROUND_TRANSITION_MS,
-  MOCK_OPPONENT_ACCURACY,
-  MOCK_OPPONENT_MIN_DELAY_MS,
-  MOCK_OPPONENT_MAX_DELAY_MS,
   MOCK_OPPONENT_JOIN_DELAY_MS,
   MOCK_OPPONENT_AUTO_READY_DELAY_MS,
+  BOT_AUTO_START_DELAY_MS,
 } from '../constants';
+import { BOT_DIFFICULTY_CONFIG, BOT_NAME, type BotDifficulty } from '../botDifficulty';
 
 // Nomi in stile "username": volutamente non tradotti, come lo sarebbe il nome
-// scelto da un vero avversario una volta collegato Supabase Realtime.
+// scelto da un vero avversario una volta collegato Supabase Realtime. Usati
+// solo dal flusso "sfida un amico" (simulazione manuale); il flusso "contro
+// il computer" usa invece BOT_NAME.
 const OPPONENT_NAMES = ['FlagBot', 'QuizRival', 'CPU_42'];
+
+export interface LocalMockTransportOptions {
+  /** Presente solo per il flusso "1vs1 contro il computer". */
+  bot?: {
+    difficulty: BotDifficulty;
+  };
+}
 
 /**
  * Simulazione locale, esplicita, del "secondo giocatore" e del layer di
@@ -73,14 +81,22 @@ export class LocalMockTransport implements DuelTransport {
     opponentAcceptRematch: () => this.requestRematchFor('opponent'),
   };
 
+  private readonly options: LocalMockTransportOptions;
+
+  constructor(options: LocalMockTransportOptions = {}) {
+    this.options = options;
+  }
+
   async createMatch(code?: string): Promise<DuelMatchInfo> {
     this.match = {
       code: code ?? generateMatchCode(),
       questionCount: DUEL_QUESTION_COUNT,
       timeLimitMs: DUEL_TIME_LIMIT_MS,
       createdAt: Date.now(),
+      botDifficulty: this.options.bot?.difficulty,
     };
     this.questions = buildDuelQuestions(this.match.code, this.match.questionCount);
+    if (this.options.bot) this.autoStartBotMatch();
     return this.match;
   }
 
@@ -110,6 +126,12 @@ export class LocalMockTransport implements DuelTransport {
   }
 
   proposeRematch(): void {
+    // Contro il computer non serve un consenso reciproco: il bot "accetta"
+    // sempre, la rivincita parte subito con la stessa difficoltà.
+    if (this.options.bot) {
+      this.startRematch();
+      return;
+    }
     this.requestRematchFor('local');
   }
 
@@ -131,6 +153,25 @@ export class LocalMockTransport implements DuelTransport {
   }
 
   // --- comandi di simulazione -------------------------------------------------
+
+  private autoStartBotMatch(): void {
+    // Stesso percorso di eventi del flusso "sfida un amico" (OPPONENT_JOINED
+    // poi PLAYER_READY per entrambi, che fa scattare startCountdown()): qui è
+    // solo automatico invece che guidato da click dell'utente/pannello dev —
+    // nessuna lobby visibile, nessuna attesa reale.
+    this.opponentConnected = true;
+    this.track(
+      setTimeout(() => {
+        this.emit({ type: 'OPPONENT_JOINED', name: BOT_NAME });
+        this.setReadyFor('opponent');
+        this.setReadyFor('local');
+      }, BOT_AUTO_START_DELAY_MS),
+    );
+  }
+
+  private getBotConfig() {
+    return BOT_DIFFICULTY_CONFIG[this.options.bot?.difficulty ?? 'medium'];
+  }
 
   private opponentJoin(): void {
     if (this.opponentConnected) return;
@@ -190,8 +231,9 @@ export class LocalMockTransport implements DuelTransport {
   private scheduleOpponentAnswer(): void {
     this.clearOpponentAnswerTimer();
     if (!this.match) return;
-    const maxDelay = Math.min(MOCK_OPPONENT_MAX_DELAY_MS, this.match.timeLimitMs - 300);
-    const delay = MOCK_OPPONENT_MIN_DELAY_MS + Math.random() * Math.max(200, maxDelay - MOCK_OPPONENT_MIN_DELAY_MS);
+    const { minDelayMs, maxDelayMs } = this.getBotConfig();
+    const maxDelay = Math.min(maxDelayMs, this.match.timeLimitMs - 300);
+    const delay = minDelayMs + Math.random() * Math.max(200, maxDelay - minDelayMs);
     this.opponentAnswerTimer = setTimeout(() => this.answerAsOpponent(), delay);
     this.track(this.opponentAnswerTimer);
   }
@@ -200,7 +242,7 @@ export class LocalMockTransport implements DuelTransport {
     if (this.answeredThisRound.has('opponent')) return;
     const question = this.questions[this.currentIndex];
     if (!question) return;
-    const willBeCorrect = Math.random() < MOCK_OPPONENT_ACCURACY;
+    const willBeCorrect = Math.random() < this.getBotConfig().accuracy;
     const wrongOptions = question.options.filter((option) => option.code !== question.correct.code);
     const code = willBeCorrect
       ? question.correct.code
@@ -284,6 +326,7 @@ export class LocalMockTransport implements DuelTransport {
       questionCount: this.match.questionCount,
       timeLimitMs: this.match.timeLimitMs,
       createdAt: Date.now(),
+      botDifficulty: this.match.botDifficulty,
     };
     this.match = match;
     this.questions = buildDuelQuestions(match.code, match.questionCount);

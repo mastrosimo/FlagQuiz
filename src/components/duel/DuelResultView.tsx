@@ -5,6 +5,7 @@ import { Button } from '../common/Button';
 import { DuelMockControls } from './DuelMockControls';
 import { useDuelSession } from '../../duel/useDuelSession';
 import type { DuelAnswerRecord, DuelPlayerState } from '../../duel/types';
+import { BOT_DIFFICULTY_LABEL_KEY } from '../../duel/botDifficulty';
 import { useTranslation } from '../../i18n/useTranslation';
 
 function averageTimeMs(player: DuelPlayerState): number {
@@ -21,6 +22,8 @@ export function DuelResultView() {
 
   const outcomeKey =
     state.winnerId === 'local' ? 'duel.result.victory' : state.winnerId === 'opponent' ? 'duel.result.defeat' : 'duel.result.draw';
+  const botDifficulty = state.match.botDifficulty;
+  const opponentDisplayName = botDifficulty ? t('duel.bot.opponentName') : opponent.name || t('duel.result.opponentColumn');
 
   const rows: { label: string; you: string; opponent: string }[] = [
     { label: t('duel.result.scoreLabel'), you: String(local.score), opponent: String(opponent.score) },
@@ -47,6 +50,12 @@ export function DuelResultView() {
           {t(outcomeKey)}
         </motion.p>
 
+        {botDifficulty && (
+          <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
+            {t('duel.bot.resultDifficultyLabel', { difficulty: t(BOT_DIFFICULTY_LABEL_KEY[botDifficulty]) })}
+          </p>
+        )}
+
         <p className="mt-6 mb-2 text-xs font-bold uppercase tracking-widest text-slate-400">
           {t('duel.result.comparisonTitle')}
         </p>
@@ -54,7 +63,7 @@ export function DuelResultView() {
           <div className="grid grid-cols-3 gap-1 bg-slate-200 px-4 py-2 text-xs font-bold uppercase tracking-wide text-slate-500 dark:bg-slate-700 dark:text-slate-300">
             <span></span>
             <span>{t('duel.result.youColumn')}</span>
-            <span>{opponent.name || t('duel.result.opponentColumn')}</span>
+            <span>{opponentDisplayName}</span>
           </div>
           {rows.map((row) => (
             <div key={row.label} className="grid grid-cols-3 gap-1 border-t border-slate-200 px-4 py-2 text-sm dark:border-slate-700">
@@ -82,6 +91,12 @@ export function DuelResultView() {
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">{t('duel.result.rematchWaiting')}</p>
           ) : (
             <Button onClick={proposeRematch}>{t('duel.result.rematchButton')}</Button>
+          )}
+
+          {botDifficulty && (
+            <Button variant="ghost" onClick={() => navigate('/1vs1/computer')}>
+              {t('duel.bot.changeDifficultyButton')}
+            </Button>
           )}
 
           <Button variant="ghost" onClick={() => navigate('/1vs1')}>

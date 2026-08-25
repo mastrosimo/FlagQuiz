@@ -8,12 +8,17 @@ interface DuelMockControlsProps {
 }
 
 /**
- * Pannello di test, deliberatamente marcato come "simulazione": scompare da
- * solo quando `mockControls` è null, cioè quando il transport non è più
- * `LocalMockTransport` (nessuna modifica da fare altrove).
+ * Pannello di test. Doppiamente nascosto dall'esperienza utente normale:
+ * scompare da solo quando `mockControls` è null (transport non più
+ * `LocalMockTransport`, nessuna modifica da fare altrove) e qui, sempre,
+ * fuori da una build di sviluppo — `import.meta.env.DEV` è `false` in
+ * qualunque build di produzione (`npm run build` / `vite preview`), quindi
+ * questi controlli non possono mai comparire nell'esperienza pubblica.
  */
 export function DuelMockControls({ controls, showJoin, showRematch }: DuelMockControlsProps) {
   const { t } = useTranslation();
+
+  if (!import.meta.env.DEV) return null;
 
   return (
     <div className="mx-auto mt-4 max-w-md rounded-2xl border-2 border-dashed border-slate-300 p-3 dark:border-slate-600">

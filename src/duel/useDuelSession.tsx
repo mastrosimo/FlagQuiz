@@ -11,6 +11,7 @@ import {
 import type { ReactNode } from 'react';
 import type { Question } from '../types';
 import type { DuelMatchInfo, DuelMockControls, DuelState, DuelTransport } from './types';
+import type { BotDifficulty } from './botDifficulty';
 import { LocalMockTransport } from './transport/LocalMockTransport';
 import { buildDuelQuestions, createInitialDuelState, duelReducer } from './duelEngine';
 
@@ -32,6 +33,8 @@ interface DuelSessionProviderProps {
   intent: DuelJoinIntent;
   code: string;
   localPlayerName: string;
+  /** Presente solo per il flusso "1vs1 contro il computer". */
+  botDifficulty?: BotDifficulty;
   children: ReactNode;
 }
 
@@ -41,11 +44,17 @@ interface DuelSessionProviderProps {
  * cambiare (es. `new SupabaseRealtimeTransport(...)`) — motore e componenti
  * UI non dipendono da `LocalMockTransport`, solo dall'interfaccia `DuelTransport`.
  */
-function createTransport(): DuelTransport {
-  return new LocalMockTransport();
+function createTransport(botDifficulty?: BotDifficulty): DuelTransport {
+  return new LocalMockTransport(botDifficulty ? { bot: { difficulty: botDifficulty } } : undefined);
 }
 
-export function DuelSessionProvider({ intent, code, localPlayerName, children }: DuelSessionProviderProps) {
+export function DuelSessionProvider({
+  intent,
+  code,
+  localPlayerName,
+  botDifficulty,
+  children,
+}: DuelSessionProviderProps) {
   // Creazione e distruzione del transport vivono nello stesso effect (pattern
   // React standard per una "connessione a un sistema esterno"): con lo
   // StrictMode di sviluppo, che monta/smonta/rimonta ogni componente per far
@@ -57,9 +66,10 @@ export function DuelSessionProvider({ intent, code, localPlayerName, children }:
   const [setup, setSetup] = useState<{ match: DuelMatchInfo; questions: Question[] } | null>(null);
 
   useEffect(() => {
-    const instance = createTransport();
+    const instance = createTransport(botDifficulty);
     setTransport(instance);
     return () => instance.destroy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Deps intenzionalmente limitate a `transport` (stesso principio di

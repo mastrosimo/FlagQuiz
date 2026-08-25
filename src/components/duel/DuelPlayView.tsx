@@ -30,6 +30,9 @@ export function DuelPlayView() {
   }
 
   const { local, opponent } = state.players;
+  const opponentDisplayName = state.match.botDifficulty
+    ? t('duel.bot.opponentName')
+    : opponent.name || t('duel.play.opponentScoreLabel');
   const localAnswer = local.answers[state.currentQuestionIndex];
   const opponentAnswer = opponent.answers[state.currentQuestionIndex];
   const showFeedback = state.phase === 'question-transition';
@@ -60,7 +63,7 @@ export function DuelPlayView() {
         </div>
         <div>
           <p className="mb-1 text-center text-xs font-bold uppercase tracking-widest text-slate-400">
-            {opponent.name || t('duel.play.opponentScoreLabel')}
+            {opponentDisplayName}
           </p>
           <ScoreBar score={opponent.score} streak={opponent.currentStreak} bestStreak={opponent.bestStreak} />
         </div>

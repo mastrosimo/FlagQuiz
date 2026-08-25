@@ -414,6 +414,8 @@ export interface Translations {
     home: {
       title: string;
       subtitle: string;
+      vsComputerSection: string;
+      vsFriendSection: string;
       createButton: string;
       joinTitle: string;
       codePlaceholder: string;
@@ -482,6 +484,25 @@ export interface Translations {
       opponentReconnectButton: string;
       opponentProposeRematchButton: string;
       opponentAcceptRematchButton: string;
+    };
+    bot: {
+      homeCardTitle: string;
+      homeCardDescription: string;
+      chooseDifficultyTitle: string;
+      chooseDifficultySubtitle: string;
+      difficultyEasyLabel: string;
+      difficultyEasyDescription: string;
+      difficultyMediumLabel: string;
+      difficultyMediumDescription: string;
+      difficultyHardLabel: string;
+      difficultyHardDescription: string;
+      difficultyExpertLabel: string;
+      difficultyExpertDescription: string;
+      preparingMatch: string;
+      vsComputerLabel: string;
+      opponentName: string;
+      resultDifficultyLabel: string;
+      changeDifficultyButton: string;
     };
   };
 }

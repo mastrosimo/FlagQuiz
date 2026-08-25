@@ -1,4 +1,5 @@
 import type { Question } from '../types';
+import type { BotDifficulty } from './botDifficulty';
 
 export type DuelPhase =
   | 'lobby'
@@ -41,6 +42,8 @@ export interface DuelMatchInfo {
   questionCount: number;
   timeLimitMs: number;
   createdAt: number;
+  /** Presente solo per le partite "contro il computer"; assente tra due persone. */
+  botDifficulty?: BotDifficulty;
 }
 
 export interface DuelState {

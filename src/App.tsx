@@ -31,6 +31,12 @@ const DuelHomePage = lazy(() =>
 const DuelMatchPage = lazy(() =>
   import('./pages/duel/DuelMatchPage').then((m) => ({ default: m.DuelMatchPage })),
 );
+const DuelBotSetupPage = lazy(() =>
+  import('./pages/duel/DuelBotSetupPage').then((m) => ({ default: m.DuelBotSetupPage })),
+);
+const DuelBotMatchPage = lazy(() =>
+  import('./pages/duel/DuelBotMatchPage').then((m) => ({ default: m.DuelBotMatchPage })),
+);
 
 function PageFallback() {
   return (
@@ -55,6 +61,8 @@ function AppShell() {
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizPage />} />
             <Route path="/1vs1" element={<DuelHomePage />} />
+            <Route path="/1vs1/computer" element={<DuelBotSetupPage />} />
+            <Route path="/1vs1/computer/:difficulty" element={<DuelBotMatchPage />} />
             <Route path="/1vs1/:code" element={<DuelMatchPage />} />
             <Route path="/missions" element={<MissionsPage />} />
             <Route path="/world" element={<WorldPage />} />

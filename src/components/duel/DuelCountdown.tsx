@@ -9,7 +9,12 @@ export function DuelCountdown() {
   const secondsRemaining = useRemainingSeconds(state.countdownEndsAt);
 
   return (
-    <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
+    <div className="flex min-h-[50vh] flex-col items-center justify-center gap-2">
+      {state.match.botDifficulty && (
+        <p className="font-display text-lg font-bold text-slate-700 dark:text-slate-200">
+          {t('duel.bot.vsComputerLabel')}
+        </p>
+      )}
       <p className="font-display text-sm font-bold uppercase tracking-widest text-slate-400">
         {t('duel.countdown.title')}
       </p>
