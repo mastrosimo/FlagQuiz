@@ -29,7 +29,9 @@ export function ResultsPage() {
         {result.mode !== 'daily' && (
           <Button
             size="lg"
-            onClick={() => navigate('/quiz', { state: { presetConfig: config } })}
+            onClick={() =>
+              navigate(result.quizType === 'capital' ? '/capitals' : '/quiz', { state: { presetConfig: config } })
+            }
           >
             {t('results.replay')}
           </Button>

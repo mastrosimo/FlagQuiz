@@ -145,6 +145,33 @@ export interface Translations {
     survivalLabel: string;
     survivalDescription: string;
   };
+  capitals: {
+    home: {
+      title: string;
+      description: string;
+    };
+    modes: {
+      classicDescription: string;
+      timeDescription: string;
+      fiftyLabel: string;
+      fiftyDescription: string;
+      allLabel: string;
+      allDescription: string;
+      hardDescription: string;
+    };
+    direction: {
+      mixed: string;
+      countryToCapital: string;
+      capitalToCountry: string;
+    };
+    setup: {
+      stepDirection: string;
+    };
+    play: {
+      questionCountryToCapital: string;
+      questionCapitalToCountry: string;
+    };
+  };
   difficulty: {
     easy: string;
     medium: string;

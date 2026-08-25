@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import type { Continent, Difficulty, QuizConfig, QuizMode } from '../types';
+import type { CapitalDirection, Continent, Difficulty, QuizConfig, QuizMode, QuizType } from '../types';
 import { MODES, QUESTION_COUNT_OPTIONS, buildQuizConfig } from '../data/modes';
+import { CAPITAL_MODES, CAPITAL_DIRECTION_OPTIONS, buildCapitalQuizConfig } from '../data/capitalModes';
 import { CONTINENTS } from '../data/countries';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
@@ -9,6 +10,8 @@ import { useTranslation } from '../i18n/useTranslation';
 import type { TranslationKey } from '../i18n/types';
 
 interface QuizSetupPageProps {
+  /** 'flag' (default) = quiz bandiere esistente; 'capital' = Quiz Capitali. */
+  quizType?: QuizType;
   presetMode?: QuizMode;
   onStart: (config: QuizConfig) => void;
 }
@@ -20,17 +23,22 @@ const DIFFICULTY_KEYS: { id: Difficulty | 'mixed'; key: TranslationKey }[] = [
   { id: 'hard', key: 'difficulty.hard' },
 ];
 
-export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
+export function QuizSetupPage({ quizType = 'flag', presetMode, onStart }: QuizSetupPageProps) {
   const { t } = useTranslation();
-  const [mode, setMode] = useState<QuizMode>(presetMode ?? 'classic');
+  const modes = quizType === 'capital' ? CAPITAL_MODES : MODES;
+  const [mode, setMode] = useState<QuizMode>(presetMode ?? modes[0].id);
   const [difficulty, setDifficulty] = useState<Difficulty | 'mixed'>('mixed');
   const [continent, setContinent] = useState<Continent | undefined>(undefined);
   const [questionCount, setQuestionCount] = useState(20);
+  const [direction, setDirection] = useState<CapitalDirection | 'mixed'>('mixed');
 
-  const activeMode = useMemo(() => MODES.find((m) => m.id === mode)!, [mode]);
+  const activeMode = useMemo(() => modes.find((m) => m.id === mode) ?? modes[0], [mode, modes]);
 
   const handleStart = () => {
-    const config = buildQuizConfig({ mode, difficulty, continent, questionCount });
+    const config =
+      quizType === 'capital'
+        ? buildCapitalQuizConfig({ mode, difficulty, continent, questionCount, direction })
+        : buildQuizConfig({ mode, difficulty, continent, questionCount });
     onStart(config);
   };
 
@@ -46,7 +54,7 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
           {t('quizSetup.stepMode')}
         </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {MODES.map((modeInfo) => (
+          {modes.map((modeInfo) => (
             <motion.button
               key={modeInfo.id}
               type="button"
@@ -72,6 +80,31 @@ export function QuizSetupPage({ presetMode, onStart }: QuizSetupPageProps) {
           ))}
         </div>
       </section>
+
+      {quizType === 'capital' && (
+        <section className="mt-8">
+          <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            {t('capitals.setup.stepDirection')}
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {CAPITAL_DIRECTION_OPTIONS.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => setDirection(option.id)}
+                aria-pressed={direction === option.id}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  direction === option.id
+                    ? 'bg-brand-600 text-white'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                }`}
+              >
+                {t(option.labelKey)}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
 
       {activeMode.showDifficulty && (
         <section className="mt-8">

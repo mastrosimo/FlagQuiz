@@ -137,6 +137,33 @@ export const it: Translations = {
     survivalLabel: 'Sopravvivenza',
     survivalDescription: 'Hai 3 vite. Ogni errore ne costa una. Quanto riesci a resistere?',
   },
+  capitals: {
+    home: {
+      title: '🏛️ Capitali',
+      description: 'Metti alla prova la tua conoscenza delle capitali del mondo.',
+    },
+    modes: {
+      classicDescription: '10 domande, nessun limite di tempo',
+      timeDescription: '60 secondi per totalizzare più punti possibile',
+      fiftyLabel: '50 Capitali',
+      fiftyDescription: '50 domande di fila',
+      allLabel: 'Tutte le Capitali',
+      allDescription: 'Ogni Paese del database, senza ripetizioni',
+      hardDescription: 'Le capitali più difficili da indovinare',
+    },
+    direction: {
+      mixed: 'Casuale (mista)',
+      countryToCapital: 'Paese → Capitale',
+      capitalToCountry: 'Capitale → Paese',
+    },
+    setup: {
+      stepDirection: 'Direzione',
+    },
+    play: {
+      questionCountryToCapital: 'Qual è la capitale di questo Paese?',
+      questionCapitalToCountry: 'Quale Paese ha questa capitale?',
+    },
+  },
   difficulty: {
     easy: 'Facile',
     medium: 'Media',

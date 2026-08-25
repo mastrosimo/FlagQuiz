@@ -30,18 +30,35 @@ export type QuizMode =
   | 'survival'
   | 'daily';
 
+/**
+ * Cosa viene chiesto in una domanda: 'flag' = riconoscere una bandiera
+ * (comportamento esistente), 'capital' = associare Paese e capitale. Stesso
+ * motore (`useQuizEngine`, reducer, scoring, timer) per entrambi — il
+ * discriminante serve solo a scegliere come vengono generate le domande e
+ * come viene renderizzata la UI, non introduce una seconda pipeline di gioco.
+ */
+export type QuizType = 'flag' | 'capital';
+
+/** Solo per `quizType: 'capital'`. */
+export type CapitalDirection = 'country-to-capital' | 'capital-to-country';
+
 export interface QuizConfig {
   mode: QuizMode;
+  quizType: QuizType;
   difficulty: Difficulty | 'mixed';
   continent?: Continent;
   questionCount: number;
   timeLimit?: number;
   lives?: number;
+  /** Solo per `quizType: 'capital'`: 'mixed' varia la direzione domanda per domanda. */
+  direction?: CapitalDirection | 'mixed';
 }
 
 export interface Question {
   correct: Country;
   options: Country[];
+  /** Presente solo per le domande del Quiz Capitali (`quizType: 'capital'`). */
+  direction?: CapitalDirection;
 }
 
 export interface AnsweredQuestion {
@@ -56,6 +73,7 @@ export type QuizStatus = 'idle' | 'answering' | 'feedback' | 'finished';
 
 export interface QuizSessionResult {
   mode: QuizMode;
+  quizType: QuizType;
   difficulty: Difficulty | 'mixed';
   continent?: Continent;
   score: number;

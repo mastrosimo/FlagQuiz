@@ -4,6 +4,7 @@ import type { QuizConfig, QuizSessionResult } from '../types';
 import { useQuizEngine } from '../hooks/useQuizEngine';
 import { useSound } from '../hooks/useSound';
 import { FlagCard } from '../components/quiz/FlagCard';
+import { CapitalPromptCard } from '../components/quiz/CapitalPromptCard';
 import { AnswerButton, type AnswerButtonStatus } from '../components/quiz/AnswerButton';
 import { ProgressBar } from '../components/quiz/ProgressBar';
 import { ScoreBar } from '../components/quiz/ScoreBar';
@@ -68,6 +69,21 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
 
   const lastAnswer = state.answered[state.answered.length - 1];
 
+  // Quiz Capitali: la direzione decide cosa mostrare come prompt e come
+  // etichetta delle opzioni. `direction` è assente per il Flag Quiz, quindi
+  // questo blocco non altera in alcun modo il comportamento esistente.
+  const isCountryToCapital = currentQuestion.direction === 'country-to-capital';
+  const isCapitalToCountry = currentQuestion.direction === 'capital-to-country';
+  const optionLabel = (name: string, capital: string) => (isCountryToCapital ? capital : name);
+  const correctAnswerLabel = isCountryToCapital
+    ? currentQuestion.correct.capital[locale]
+    : currentQuestion.correct.name[locale];
+  const questionPromptKey = isCountryToCapital
+    ? 'capitals.play.questionCountryToCapital'
+    : isCapitalToCountry
+      ? 'capitals.play.questionCapitalToCountry'
+      : 'quizPlay.question';
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 sm:py-8">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
@@ -85,7 +101,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
       <ScoreBar score={state.score} streak={state.streak} bestStreak={state.bestStreak} />
 
       <p className="mt-6 text-center text-lg font-semibold text-slate-700 dark:text-slate-200">
-        {t('quizPlay.question')}
+        {t(questionPromptKey)}
       </p>
 
       <div className="relative mt-3">
@@ -94,12 +110,20 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
           points={state.status === 'feedback' && state.lastCorrect ? lastAnswer?.pointsEarned ?? null : null}
         />
         <AnimatePresence mode="wait">
-          <FlagCard
-            key={currentQuestion.correct.code}
-            questionKey={currentQuestion.correct.code}
-            code={currentQuestion.correct.code}
-            name={currentQuestion.correct.name[locale]}
-          />
+          {isCapitalToCountry ? (
+            <CapitalPromptCard
+              key={currentQuestion.correct.code}
+              questionKey={currentQuestion.correct.code}
+              capital={currentQuestion.correct.capital[locale]}
+            />
+          ) : (
+            <FlagCard
+              key={currentQuestion.correct.code}
+              questionKey={currentQuestion.correct.code}
+              code={currentQuestion.correct.code}
+              name={currentQuestion.correct.name[locale]}
+            />
+          )}
         </AnimatePresence>
       </div>
 
@@ -107,7 +131,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
         <AnswerFeedback
           visible={state.status === 'feedback'}
           correct={Boolean(state.lastCorrect)}
-          correctName={currentQuestion.correct.name[locale]}
+          correctName={correctAnswerLabel}
           pointsEarned={lastAnswer?.pointsEarned ?? 0}
         />
       </div>
@@ -117,7 +141,7 @@ export function QuizPlayPage({ config, onFinish }: QuizPlayPageProps) {
           <AnswerButton
             key={option.code}
             letter={LETTERS[index]}
-            label={option.name[locale]}
+            label={optionLabel(option.name[locale], option.capital[locale])}
             status={getStatus(option.code)}
             disabled={state.status !== 'answering'}
             onClick={() => answer(option.code)}

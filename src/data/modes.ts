@@ -70,24 +70,25 @@ export function buildQuizConfig(params: {
   questionCount: number;
 }): QuizConfig {
   const { mode, difficulty, continent, questionCount } = params;
+  const quizType = 'flag' as const;
   switch (mode) {
     case 'time':
-      return { mode, difficulty, continent, questionCount, timeLimit: 60 };
+      return { mode, quizType, difficulty, continent, questionCount, timeLimit: 60 };
     case 'fifty':
-      return { mode, difficulty, continent, questionCount: 50 };
+      return { mode, quizType, difficulty, continent, questionCount: 50 };
     case 'all':
-      return { mode, difficulty: 'mixed', continent, questionCount };
+      return { mode, quizType, difficulty: 'mixed', continent, questionCount };
     case 'hard':
-      return { mode, difficulty: 'hard', continent, questionCount };
+      return { mode, quizType, difficulty: 'hard', continent, questionCount };
     case 'survival':
-      return { mode, difficulty, continent, questionCount, lives: 3 };
+      return { mode, quizType, difficulty, continent, questionCount, lives: 3 };
     default:
-      return { mode, difficulty, continent, questionCount };
+      return { mode, quizType, difficulty, continent, questionCount };
   }
 }
 
 export const DAILY_CHALLENGE_QUESTION_COUNT = 10;
 
 export function buildDailyChallengeConfig(): QuizConfig {
-  return { mode: 'daily', difficulty: 'mixed', questionCount: DAILY_CHALLENGE_QUESTION_COUNT };
+  return { mode: 'daily', quizType: 'flag', difficulty: 'mixed', questionCount: DAILY_CHALLENGE_QUESTION_COUNT };
 }

@@ -12,6 +12,7 @@ import {
   getFilteredPool,
   getTodayKey,
 } from '../utils/questionGenerator';
+import { buildCapitalQuestionSet } from '../utils/capitalQuestionGenerator';
 import { computeAnswerScore } from '../utils/scoring';
 
 interface QuizState {
@@ -119,6 +120,11 @@ function buildInitialState(questions: Question[], config: QuizConfig): QuizState
 
 export function useQuizEngine(config: QuizConfig) {
   const questions = useMemo(() => {
+    if (config.quizType === 'capital') {
+      const pool = getFilteredPool(config.difficulty, config.continent);
+      const targetCount = config.mode === 'all' || config.mode === 'time' ? pool.length : config.questionCount;
+      return buildCapitalQuestionSet(pool, targetCount, config.direction ?? 'mixed');
+    }
     if (config.mode === 'daily') {
       return buildDailyChallenge(getTodayKey(), config.questionCount);
     }
@@ -128,6 +134,7 @@ export function useQuizEngine(config: QuizConfig) {
         ? pool.length
         : config.questionCount;
     return buildQuestionSet(pool, targetCount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [state, dispatch] = useReducer(reducer, undefined, () =>
@@ -164,6 +171,7 @@ export function useQuizEngine(config: QuizConfig) {
     state.status === 'finished'
       ? {
           mode: config.mode,
+          quizType: config.quizType,
           difficulty: config.difficulty,
           continent: config.continent,
           score: state.score,

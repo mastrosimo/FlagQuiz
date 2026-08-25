@@ -123,6 +123,17 @@ export function HomePage() {
               <span className="text-sm text-slate-500 dark:text-slate-400">{t(mode.descriptionKey)}</span>
             </motion.button>
           ))}
+          <motion.button
+            type="button"
+            whileHover={{ y: -4 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => navigate('/capitals')}
+            className="flex flex-col items-start gap-2 rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-900/5 transition-shadow hover:shadow-md dark:bg-slate-900 dark:ring-white/10"
+          >
+            <span className="text-3xl" aria-hidden="true">🏛️</span>
+            <span className="font-display font-bold text-slate-900 dark:text-white">{t('capitals.home.title')}</span>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{t('capitals.home.description')}</span>
+          </motion.button>
         </div>
       </section>
 

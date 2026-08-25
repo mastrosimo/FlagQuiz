@@ -136,6 +136,33 @@ export const en: Translations = {
     survivalLabel: 'Survival',
     survivalDescription: 'You have 3 lives. Every mistake costs one. How long can you last?',
   },
+  capitals: {
+    home: {
+      title: '🏛️ Capitals',
+      description: "Test your knowledge of the world's capitals.",
+    },
+    modes: {
+      classicDescription: '10 questions, no time limit',
+      timeDescription: '60 seconds to score as many points as possible',
+      fiftyLabel: '50 Capitals',
+      fiftyDescription: '50 questions in a row',
+      allLabel: 'All Capitals',
+      allDescription: 'Every country in the database, no repeats',
+      hardDescription: 'The capitals that are hardest to guess',
+    },
+    direction: {
+      mixed: 'Mixed (random)',
+      countryToCapital: 'Country → Capital',
+      capitalToCountry: 'Capital → Country',
+    },
+    setup: {
+      stepDirection: 'Direction',
+    },
+    play: {
+      questionCountryToCapital: 'What is the capital of this country?',
+      questionCapitalToCountry: 'Which country has this capital?',
+    },
+  },
   difficulty: {
     easy: 'Easy',
     medium: 'Medium',

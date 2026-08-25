@@ -10,6 +10,9 @@ import { HomePage } from './pages/HomePage';
 import { useSeoSync } from './i18n/useSeoSync';
 
 const QuizPage = lazy(() => import('./pages/QuizPage').then((m) => ({ default: m.QuizPage })));
+const CapitalQuizPage = lazy(() =>
+  import('./pages/CapitalQuizPage').then((m) => ({ default: m.CapitalQuizPage })),
+);
 const ResultsPage = lazy(() => import('./pages/ResultsPage').then((m) => ({ default: m.ResultsPage })));
 const StatsPage = lazy(() => import('./pages/StatsPage').then((m) => ({ default: m.StatsPage })));
 const LearnPage = lazy(() => import('./pages/LearnPage').then((m) => ({ default: m.LearnPage })));
@@ -60,6 +63,7 @@ function AppShell() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/capitals" element={<CapitalQuizPage />} />
             <Route path="/1vs1" element={<DuelHomePage />} />
             <Route path="/1vs1/computer" element={<DuelBotSetupPage />} />
             <Route path="/1vs1/computer/:difficulty" element={<DuelBotMatchPage />} />
