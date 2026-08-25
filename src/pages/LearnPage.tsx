@@ -273,7 +273,7 @@ export function LearnPage() {
                   {MASTERY_LEVEL_META[masteryLevel].icon}
                 </span>
               )}
-              <FlagImage code={country.code} name={country.name[locale]} className="aspect-[3/2] w-full rounded-lg object-cover" />
+              <FlagImage code={country.code} name={country.name[locale]} className="aspect-[3/2] w-full rounded-lg" />
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{country.name[locale]}</span>
             </motion.button>
           );
@@ -286,7 +286,7 @@ export function LearnPage() {
             <FlagImage
               code={selected.code}
               name={selected.name[locale]}
-              className="mx-auto aspect-[3/2] w-48 rounded-xl object-cover shadow-md"
+              className="mx-auto aspect-[3/2] w-48 rounded-xl shadow-md"
             />
             <h2 className="mt-4 font-display text-2xl font-bold text-slate-900 dark:text-white">
               {selected.name[locale]}

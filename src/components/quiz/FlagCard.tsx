@@ -18,7 +18,7 @@ export function FlagCard({ code, name, questionKey }: FlagCardProps) {
       className="mx-auto w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-900/5 sm:max-w-lg dark:bg-slate-900 dark:ring-white/10"
     >
       <div className="flex aspect-[3/2] items-center justify-center bg-slate-100 p-4 dark:bg-slate-800">
-        <FlagImage code={code} name={name} className="h-full w-full rounded-xl object-cover shadow-md" />
+        <FlagImage code={code} name={name} className="h-full w-full rounded-xl shadow-md" />
       </div>
     </motion.div>
   );

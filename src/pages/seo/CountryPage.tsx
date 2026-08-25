@@ -84,7 +84,7 @@ function CountryPageContent({ locale, country }: { locale: Locale; country: Coun
       <div className="text-center">
         <div className="mx-auto w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10">
           <div className="flex aspect-[3/2] items-center justify-center bg-slate-100 p-4 dark:bg-slate-800">
-            <FlagImage code={country.code} name={country.name[locale]} className="h-full w-full rounded-xl object-cover shadow-md" />
+            <FlagImage code={country.code} name={country.name[locale]} className="h-full w-full rounded-xl shadow-md" />
           </div>
         </div>
 

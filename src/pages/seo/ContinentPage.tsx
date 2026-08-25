@@ -87,7 +87,7 @@ export function ContinentPage({ locale, continent }: ContinentPageProps) {
                   ✓
                 </span>
               )}
-              <FlagImage code={country.code} name={country.name[locale]} className="aspect-[3/2] w-full rounded-lg object-cover" />
+              <FlagImage code={country.code} name={country.name[locale]} className="aspect-[3/2] w-full rounded-lg" />
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{country.name[locale]}</span>
             </Link>
           );
