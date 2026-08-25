@@ -5,6 +5,7 @@ import { useProfileStore } from '../store/profileStore';
 import { useCollectionStore } from '../store/collectionStore';
 import { useMasteryStore } from '../store/masteryStore';
 import { useMissionStore } from '../store/missionStore';
+import { useWorldStore } from '../store/worldStore';
 import { getMasteredCount } from '../utils/mastery';
 import { buildDailyChallengeConfig } from '../data/modes';
 import { getTodayKey } from '../utils/questionGenerator';
@@ -48,7 +49,8 @@ export function QuizPage() {
       masteryLevelUpCount,
     });
     const missionsCompletedCount = useMissionStore.getState().totalCompleted;
-    checkAchievements(collectionCount, masteredCount, missionsCompletedCount);
+    const visitedCount = Object.keys(useWorldStore.getState().visited).length;
+    checkAchievements({ collectionCount, masteredCount, missionsCompletedCount, visitedCount });
     if (result.mode === 'daily') {
       completeDailyChallenge({
         score: result.score,

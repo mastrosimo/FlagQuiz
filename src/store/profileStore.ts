@@ -68,7 +68,12 @@ interface ProfileState {
   dailyStreak: DailyStreak;
   dailyChallenge: DailyChallengeState;
   recordSession: (result: QuizSessionResult) => void;
-  checkAchievements: (collectionCount: number, masteredCount: number, missionsCompletedCount: number) => void;
+  checkAchievements: (snapshot: {
+    collectionCount: number;
+    masteredCount: number;
+    missionsCompletedCount: number;
+    visitedCount: number;
+  }) => void;
   completeDailyChallenge: (result: { score: number; correctCount: number; totalQuestions: number }) => void;
   clearLastUnlocked: () => void;
   setSoundEnabled: (enabled: boolean) => void;
@@ -137,9 +142,9 @@ export const useProfileStore = create<ProfileState>()(
         });
       },
 
-      checkAchievements: (collectionCount: number, masteredCount: number, missionsCompletedCount: number) => {
+      checkAchievements: ({ collectionCount, masteredCount, missionsCompletedCount, visitedCount }) => {
         const newlyUnlocked = getNewlyUnlocked(
-          { stats: get().stats, collectionCount, masteredCount, missionsCompletedCount },
+          { stats: get().stats, collectionCount, masteredCount, missionsCompletedCount, visitedCount },
           get().unlockedAchievements,
         );
         if (newlyUnlocked.length === 0) return;

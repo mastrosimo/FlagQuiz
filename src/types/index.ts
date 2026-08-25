@@ -72,6 +72,7 @@ export interface AchievementContext {
   collectionCount: number;
   masteredCount: number;
   missionsCompletedCount: number;
+  visitedCount: number;
 }
 
 export interface Achievement {
@@ -173,4 +174,14 @@ export interface PlayerSnapshot {
   averageAccuracy: number;
   dailyChallengeAvailable: boolean;
   recentModes: QuizMode[];
+}
+
+// Voce di "Il mio mondo": la presenza del codice Paese come chiave in
+// WorldState.visited è ciò che significa "visitato". Anno, data e nota sono
+// tutti opzionali per costruzione.
+export interface VisitedEntry {
+  year: number | null;
+  date: string | null;
+  note: string | null;
+  visitedAt: number;
 }

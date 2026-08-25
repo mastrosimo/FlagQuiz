@@ -26,6 +26,7 @@ export function Header() {
     { to: '/', label: t('nav.home') },
     { to: '/quiz', label: t('nav.quiz') },
     { to: '/missions', label: t('nav.missions') },
+    { to: '/world', label: t('nav.world') },
     { to: '/learn', label: t('nav.learn') },
     { to: '/stats', label: t('nav.stats') },
   ];

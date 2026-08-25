@@ -14,6 +14,7 @@ const ResultsPage = lazy(() => import('./pages/ResultsPage').then((m) => ({ defa
 const StatsPage = lazy(() => import('./pages/StatsPage').then((m) => ({ default: m.StatsPage })));
 const LearnPage = lazy(() => import('./pages/LearnPage').then((m) => ({ default: m.LearnPage })));
 const MissionsPage = lazy(() => import('./pages/MissionsPage').then((m) => ({ default: m.MissionsPage })));
+const WorldPage = lazy(() => import('./pages/WorldPage').then((m) => ({ default: m.WorldPage })));
 const AchievementsPage = lazy(() =>
   import('./pages/AchievementsPage').then((m) => ({ default: m.AchievementsPage })),
 );
@@ -48,6 +49,7 @@ function AppShell() {
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizPage />} />
             <Route path="/missions" element={<MissionsPage />} />
+            <Route path="/world" element={<WorldPage />} />
             <Route path="/results" element={<ResultsPage />} />
             <Route path="/stats" element={<StatsPage />} />
             <Route path="/learn" element={<LearnPage />} />

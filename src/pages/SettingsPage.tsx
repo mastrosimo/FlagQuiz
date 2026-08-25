@@ -3,6 +3,7 @@ import { useProfileStore } from '../store/profileStore';
 import { useCollectionStore } from '../store/collectionStore';
 import { useMasteryStore } from '../store/masteryStore';
 import { useMissionStore } from '../store/missionStore';
+import { useWorldStore } from '../store/worldStore';
 import { useTheme } from '../hooks/useTheme';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
@@ -17,6 +18,7 @@ export function SettingsPage() {
   const resetCollection = useCollectionStore((state) => state.resetCollection);
   const resetMastery = useMasteryStore((state) => state.resetMastery);
   const resetMissions = useMissionStore((state) => state.resetMissions);
+  const resetWorld = useWorldStore((state) => state.resetWorld);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -84,6 +86,7 @@ export function SettingsPage() {
               resetCollection();
               resetMastery();
               resetMissions();
+              resetWorld();
               setConfirmOpen(false);
             }}
           >

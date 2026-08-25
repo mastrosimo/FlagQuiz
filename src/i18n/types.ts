@@ -35,6 +35,7 @@ export interface Translations {
     home: string;
     quiz: string;
     missions: string;
+    world: string;
     learn: string;
     stats: string;
     achievementsTooltip: string;
@@ -47,6 +48,7 @@ export interface Translations {
     tagline: string;
     quiz: string;
     missions: string;
+    world: string;
     learn: string;
     stats: string;
     achievements: string;
@@ -263,6 +265,35 @@ export interface Translations {
       modeSurvivalDescription: string;
     };
   };
+  world: {
+    pageTitle: string;
+    pageSubtitle: string;
+    knownLabel: string;
+    visitedLabel: string;
+    toVisitLabel: string;
+    mapHeading: string;
+    legendVisited: string;
+    legendWishlist: string;
+    legendKnown: string;
+    legendUndiscovered: string;
+    continentsHeading: string;
+    timelineSectionHeading: string;
+    timelineHeading: string;
+    timelineUndatedHeading: string;
+    timelineEmptyTitle: string;
+    timelineEmptyDescription: string;
+    visitedToggleLabel: string;
+    visitedToggleDescription: string;
+    yearLabel: string;
+    yearPlaceholder: string;
+    dateLabel: string;
+    noteLabel: string;
+    notePlaceholder: string;
+    saveDetailsButton: string;
+    savedConfirmation: string;
+    addToWishlist: string;
+    removeFromWishlist: string;
+  };
   stats: {
     title: string;
     gamesPlayed: string;
@@ -323,6 +354,20 @@ export interface Translations {
     missions10Description: string;
     missions50Title: string;
     missions50Description: string;
+    travelFirstTitle: string;
+    travelFirstDescription: string;
+    travel5Title: string;
+    travel5Description: string;
+    travel10Title: string;
+    travel10Description: string;
+    travel25Title: string;
+    travel25Description: string;
+    travel50Title: string;
+    travel50Description: string;
+    travel100Title: string;
+    travel100Description: string;
+    travelCompleteTitle: string;
+    travelCompleteDescription: string;
   };
   levels: {
     level1: string;
