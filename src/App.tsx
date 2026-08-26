@@ -16,6 +16,9 @@ const CapitalQuizPage = lazy(() =>
 const ResultsPage = lazy(() => import('./pages/ResultsPage').then((m) => ({ default: m.ResultsPage })));
 const StatsPage = lazy(() => import('./pages/StatsPage').then((m) => ({ default: m.StatsPage })));
 const LearnPage = lazy(() => import('./pages/LearnPage').then((m) => ({ default: m.LearnPage })));
+const LearnCountryPage = lazy(() =>
+  import('./pages/LearnCountryPage').then((m) => ({ default: m.LearnCountryPage })),
+);
 const MissionsPage = lazy(() => import('./pages/MissionsPage').then((m) => ({ default: m.MissionsPage })));
 const WorldPage = lazy(() => import('./pages/WorldPage').then((m) => ({ default: m.WorldPage })));
 const AchievementsPage = lazy(() =>
@@ -72,6 +75,7 @@ function AppShell() {
             <Route path="/results" element={<ResultsPage />} />
             <Route path="/stats" element={<StatsPage />} />
             <Route path="/learn" element={<LearnPage />} />
+            <Route path="/learn/:code" element={<LearnCountryPage />} />
             <Route path="/achievements" element={<AchievementsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/:locale" element={<LocaleHomeRoute />} />

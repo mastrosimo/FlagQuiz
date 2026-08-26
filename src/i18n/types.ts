@@ -201,21 +201,41 @@ export interface Translations {
   learn: {
     title: string;
     subtitle: string;
+    studiedHeading: string;
+    discoverButton: string;
+    searchHeading: string;
     searchPlaceholder: string;
     searchLabel: string;
-    allContinents: string;
-    flagsCount: string;
+    searchNoResults: string;
+    exploreByContinentHeading: string;
+    sectionFlagHeading: string;
+    sectionInfoHeading: string;
+    sectionFactsHeading: string;
+    sectionQuizHeading: string;
+    discoverAnotherButton: string;
+    backToHub: string;
     continent: string;
     capital: string;
     isoCode: string;
     difficulty: string;
-    filterAll: string;
-    filterRecognized: string;
-    filterUnrecognized: string;
     recognizedBadge: string;
     notRecognizedYet: string;
-    playToAddDescription: string;
-    playNow: string;
+    factCategory: {
+      geography: string;
+      history: string;
+      culture: string;
+      nature: string;
+      record: string;
+    };
+  };
+  learnQuiz: {
+    questionCapital: string;
+    questionContinent: string;
+    questionFlag: string;
+    questionDescription: string;
+    nextButton: string;
+    seeResultButton: string;
+    resultLabel: string;
   };
   collection: {
     title: string;

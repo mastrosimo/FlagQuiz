@@ -4,6 +4,7 @@ import { useCollectionStore } from '../store/collectionStore';
 import { useMasteryStore } from '../store/masteryStore';
 import { useMissionStore } from '../store/missionStore';
 import { useWorldStore } from '../store/worldStore';
+import { useLearnStore } from '../store/learnStore';
 import { useTheme } from '../hooks/useTheme';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
@@ -19,6 +20,7 @@ export function SettingsPage() {
   const resetMastery = useMasteryStore((state) => state.resetMastery);
   const resetMissions = useMissionStore((state) => state.resetMissions);
   const resetWorld = useWorldStore((state) => state.resetWorld);
+  const resetLearn = useLearnStore((state) => state.resetLearn);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -87,6 +89,7 @@ export function SettingsPage() {
               resetMastery();
               resetMissions();
               resetWorld();
+              resetLearn();
               setConfirmOpen(false);
             }}
           >
