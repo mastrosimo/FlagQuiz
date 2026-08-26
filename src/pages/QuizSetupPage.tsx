@@ -4,6 +4,7 @@ import type { CapitalDirection, Continent, Difficulty, QuizConfig, QuizMode, Qui
 import { MODES, QUESTION_COUNT_OPTIONS, buildQuizConfig } from '../data/modes';
 import { CAPITAL_MODES, CAPITAL_DIRECTION_OPTIONS, buildCapitalQuizConfig } from '../data/capitalModes';
 import { CONTINENTS } from '../data/countries';
+import { getFilteredPool } from '../utils/questionGenerator';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
 import { useTranslation } from '../i18n/useTranslation';
@@ -33,6 +34,17 @@ export function QuizSetupPage({ quizType = 'flag', presetMode, onStart }: QuizSe
   const [direction, setDirection] = useState<CapitalDirection | 'mixed'>('mixed');
 
   const activeMode = useMemo(() => modes.find((m) => m.id === mode) ?? modes[0], [mode, modes]);
+
+  // Solo per il Quiz Bandiere: il pool reale può essere più piccolo del
+  // numero di domande scelto (es. Difficile + un continente piccolo). Non
+  // tocca la generazione delle domande (invariata in useQuizEngine), avvisa
+  // solo l'utente prima di iniziare.
+  const flagPoolSize = useMemo(
+    () => (quizType === 'flag' ? getFilteredPool(difficulty, continent).length : null),
+    [quizType, difficulty, continent],
+  );
+  const showPoolWarning =
+    activeMode.showQuestionCount && flagPoolSize !== null && flagPoolSize < questionCount;
 
   const handleStart = () => {
     const config =
@@ -189,6 +201,13 @@ export function QuizSetupPage({ quizType = 'flag', presetMode, onStart }: QuizSe
             ))}
           </div>
         </section>
+      )}
+
+      {showPoolWarning && (
+        <div className="mt-6 rounded-2xl border-2 border-dashed border-amber-400/60 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-300">
+          <p>{t('quizSetup.poolWarningAvailable', { count: flagPoolSize ?? 0 })}</p>
+          <p>{t('quizSetup.poolWarningWillPlay', { count: flagPoolSize ?? 0 })}</p>
+        </div>
       )}
 
       <Card className="mt-10 flex flex-col items-center gap-4 p-6 text-center">

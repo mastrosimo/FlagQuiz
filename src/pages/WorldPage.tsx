@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import type { Country } from '../types';
-import { COUNTRIES } from '../data/countries';
+import type { Continent, Country } from '../types';
+import { COUNTRIES, CONTINENTS } from '../data/countries';
 import { useCollectionStore } from '../store/collectionStore';
 import { useWorldStore } from '../store/worldStore';
 import { getVisitedSummary, buildTravelTimeline } from '../utils/world';
@@ -18,6 +18,7 @@ export function WorldPage() {
   const wishlist = useWorldStore((state) => state.wishlist);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [statusFilter, setStatusFilter] = useState<WorldFilter>('all');
+  const [continentFilter, setContinentFilter] = useState<Continent | undefined>(undefined);
 
   const knownCodes = useMemo(() => new Set(recognizedCodes), [recognizedCodes]);
   const visitedCodes = useMemo(() => Object.keys(visited), [visited]);
@@ -51,11 +52,41 @@ export function WorldPage() {
         <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-widest text-slate-400">
           {t('world.mapHeading')}
         </h2>
+        <div className="mb-5 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setContinentFilter(undefined)}
+            aria-pressed={continentFilter === undefined}
+            className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              continentFilter === undefined
+                ? 'bg-brand-600 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+            }`}
+          >
+            {t('world.allContinents')}
+          </button>
+          {CONTINENTS.map((continent) => (
+            <button
+              key={continent}
+              type="button"
+              onClick={() => setContinentFilter(continent)}
+              aria-pressed={continentFilter === continent}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                continentFilter === continent
+                  ? 'bg-brand-600 text-white'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+              }`}
+            >
+              {t(`continents.${continent}`)}
+            </button>
+          ))}
+        </div>
         <WorldGrid
           knownCodes={knownCodes}
           visitedCodes={visitedCodesSet}
           wishlistCodes={wishlistCodes}
           statusFilter={statusFilter}
+          continentFilter={continentFilter}
           onSelect={setSelectedCountry}
         />
       </section>

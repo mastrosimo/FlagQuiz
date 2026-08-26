@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import type { Country } from '../../types';
+import type { Continent, Country } from '../../types';
 import { COUNTRIES, CONTINENTS } from '../../data/countries';
 import { FlagImage } from '../quiz/FlagImage';
 import { Card } from '../common/Card';
@@ -11,6 +11,7 @@ interface WorldGridProps {
   visitedCodes: Set<string>;
   wishlistCodes: Set<string>;
   statusFilter: WorldFilter;
+  continentFilter?: Continent;
   onSelect: (country: Country) => void;
 }
 
@@ -54,17 +55,26 @@ const TILE_BADGE: Partial<Record<TileState, string>> = {
   wishlist: '⭐',
 };
 
-export function WorldGrid({ knownCodes, visitedCodes, wishlistCodes, statusFilter, onSelect }: WorldGridProps) {
+export function WorldGrid({
+  knownCodes,
+  visitedCodes,
+  wishlistCodes,
+  statusFilter,
+  continentFilter,
+  onSelect,
+}: WorldGridProps) {
   const { t, locale } = useTranslation();
 
-  const continentSections = CONTINENTS.map((continent) => ({
-    continent,
-    countries: COUNTRIES.filter(
-      (country) =>
-        country.continent === continent &&
-        matchesFilter(country.code, statusFilter, knownCodes, visitedCodes, wishlistCodes),
-    ),
-  })).filter((section) => section.countries.length > 0);
+  const continentSections = CONTINENTS.filter((continent) => !continentFilter || continent === continentFilter)
+    .map((continent) => ({
+      continent,
+      countries: COUNTRIES.filter(
+        (country) =>
+          country.continent === continent &&
+          matchesFilter(country.code, statusFilter, knownCodes, visitedCodes, wishlistCodes),
+      ),
+    }))
+    .filter((section) => section.countries.length > 0);
 
   const isEmpty = continentSections.length === 0;
   const emptyTitleKey = statusFilter === 'wishlist' ? 'world.wishlistEmptyTitle' : 'world.filterEmptyTitle';

@@ -80,6 +80,8 @@ export const en: Translations = {
     stepQuestionCount: 'How many flags do you want to face?',
     allContinents: 'All continents',
     allOption: 'All 🌍',
+    poolWarningAvailable: 'With these filters only {{count}} flags are available.',
+    poolWarningWillPlay: 'The quiz will be played with {{count}} questions.',
     readyText: 'Ready? Press the button to jump right in.',
     startButton: 'START',
   },
@@ -321,6 +323,7 @@ export const en: Translations = {
     visitedLabel: 'Visited',
     wishlistLabel: 'Wishlist',
     filterAll: 'All',
+    allContinents: 'All continents',
     wishlistEmptyTitle: 'Your wishlist is empty',
     wishlistEmptyDescription:
       'Open a country from the map and add it to your wishlist to start dreaming up your next destination.',

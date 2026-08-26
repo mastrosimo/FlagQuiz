@@ -89,6 +89,8 @@ export interface Translations {
     stepQuestionCount: string;
     allContinents: string;
     allOption: string;
+    poolWarningAvailable: string;
+    poolWarningWillPlay: string;
     readyText: string;
     startButton: string;
   };
@@ -326,6 +328,7 @@ export interface Translations {
     visitedLabel: string;
     wishlistLabel: string;
     filterAll: string;
+    allContinents: string;
     wishlistEmptyTitle: string;
     wishlistEmptyDescription: string;
     filterEmptyTitle: string;

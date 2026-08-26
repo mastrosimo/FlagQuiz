@@ -81,6 +81,8 @@ export const it: Translations = {
     stepQuestionCount: 'Quante bandiere vuoi affrontare?',
     allContinents: 'Tutti i continenti',
     allOption: 'Tutto 🌍',
+    poolWarningAvailable: 'Con questi filtri sono disponibili solo {{count}} bandiere.',
+    poolWarningWillPlay: 'Il quiz verrà quindi giocato con {{count}} domande.',
     readyText: 'Pronto? Premi il pulsante per iniziare subito.',
     startButton: 'INIZIA',
   },
@@ -322,6 +324,7 @@ export const it: Translations = {
     visitedLabel: 'Visitati',
     wishlistLabel: 'Wishlist',
     filterAll: 'Tutti',
+    allContinents: 'Tutti i continenti',
     wishlistEmptyTitle: 'La tua wishlist è vuota',
     wishlistEmptyDescription:
       'Apri un Paese dalla mappa e aggiungilo alla wishlist per iniziare a sognare la tua prossima meta.',
