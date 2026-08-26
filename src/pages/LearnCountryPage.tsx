@@ -9,7 +9,6 @@ import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
 import { CuriosityCard } from '../components/learn/CuriosityCard';
 import { CountryMiniQuiz } from '../components/learn/CountryMiniQuiz';
-import { useLearnStore } from '../store/learnStore';
 import { useMissionStore } from '../store/missionStore';
 import { shuffle } from '../utils/shuffle';
 import { useTranslation } from '../i18n/useTranslation';
@@ -29,7 +28,6 @@ export function LearnCountryPage() {
 
   useEffect(() => {
     if (!country) return;
-    useLearnStore.getState().markStudied(country.code);
     useMissionStore.getState().applyStudyEvent(country.code);
   }, [country]);
 

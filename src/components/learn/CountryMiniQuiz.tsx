@@ -7,6 +7,7 @@ import { FlagImage } from '../quiz/FlagImage';
 import { AnswerButton, type AnswerButtonStatus } from '../quiz/AnswerButton';
 import { Button } from '../common/Button';
 import { buildCountryLearnQuiz, type LearnQuestion, type LearnQuestionType } from '../../utils/learnQuestions';
+import { useLearnStore } from '../../store/learnStore';
 import { useTranslation } from '../../i18n/useTranslation';
 import type { TranslationKey } from '../../i18n/types';
 
@@ -35,6 +36,10 @@ export function CountryMiniQuiz({ country }: CountryMiniQuizProps) {
   const [index, setIndex] = useState(0);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
+  // Calcolato una sola volta all'ingresso: se il quiz viene completato in
+  // questa sessione, vogliamo mostrare la schermata di risultato "fresca",
+  // non rimpiazzarla subito con lo stato "già fatto oggi".
+  const [lockedAtEntry] = useState(() => useLearnStore.getState().hasCompletedQuizToday(country.code));
 
   const question = questions[index];
   const isLast = index === questions.length - 1;
@@ -56,6 +61,9 @@ export function CountryMiniQuiz({ country }: CountryMiniQuizProps) {
   };
 
   const handleNext = () => {
+    if (isLast) {
+      useLearnStore.getState().completeQuiz(country.code, correctCount, questions.length);
+    }
     setSelectedKey(null);
     setIndex((current) => current + 1);
   };
@@ -67,12 +75,30 @@ export function CountryMiniQuiz({ country }: CountryMiniQuizProps) {
     return 'muted';
   };
 
-  if (finished) {
+  if (lockedAtEntry) {
     return (
       <div className="rounded-2xl bg-slate-50 p-5 text-center dark:bg-slate-800">
-        <p className="text-3xl" aria-hidden="true">{correctCount === questions.length ? '🎉' : '👍'}</p>
+        <p className="text-2xl" aria-hidden="true">✓</p>
+        <p className="mt-2 font-display text-base font-bold text-slate-900 dark:text-white">
+          {t('learnQuiz.alreadyCompletedTitle')}
+        </p>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('learnQuiz.alreadyCompletedSubtitle')}</p>
+      </div>
+    );
+  }
+
+  if (finished) {
+    const perfect = correctCount === questions.length;
+    return (
+      <div className="rounded-2xl bg-slate-50 p-5 text-center dark:bg-slate-800">
+        <p className="text-3xl" aria-hidden="true">{perfect ? '🎉' : '👍'}</p>
         <p className="mt-2 font-display text-lg font-bold text-slate-900 dark:text-white">
           {t('learnQuiz.resultLabel', { correct: correctCount, total: questions.length })}
+        </p>
+        <p
+          className={`mt-2 text-sm font-semibold ${perfect ? 'text-success-600 dark:text-success-500' : 'text-slate-500 dark:text-slate-400'}`}
+        >
+          {perfect ? t('learnQuiz.studiedBadge') : t('learnQuiz.retryTomorrow')}
         </p>
       </div>
     );

@@ -232,6 +232,10 @@ export const it: Translations = {
     nextButton: 'Avanti',
     seeResultButton: 'Vedi il risultato',
     resultLabel: '{{correct}}/{{total}} corrette',
+    studiedBadge: 'Paese studiato ✓',
+    retryTomorrow: 'Non ancora perfetto: torna domani per riprovare.',
+    alreadyCompletedTitle: '✓ Quiz completato oggi',
+    alreadyCompletedSubtitle: 'Torna domani per riprovare.',
   },
   collection: {
     title: 'Collezione',

@@ -236,6 +236,10 @@ export interface Translations {
     nextButton: string;
     seeResultButton: string;
     resultLabel: string;
+    studiedBadge: string;
+    retryTomorrow: string;
+    alreadyCompletedTitle: string;
+    alreadyCompletedSubtitle: string;
   };
   collection: {
     title: string;

@@ -68,7 +68,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'La sauna finlandese è iscritta nella Lista del Patrimonio Culturale Immateriale dell\'UNESCO.', en: 'The Finnish sauna is inscribed on the UNESCO Representative List of the Intangible Cultural Heritage of Humanity.' }, category: 'culture', source: 'UNESCO' },
   ],
   FR: [
-    { text: { it: 'La Francia è, da oltre trent\'anni, il Paese più visitato al mondo dai turisti internazionali.', en: 'France has been the world\'s most visited country by international tourists for more than thirty years.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'La Francia è, da oltre trent\'anni, il Paese più visitato al mondo dai turisti internazionali.', en: 'France has been the world\'s most visited country by international tourists for more than thirty years.' }, category: 'record', source: 'UNWTO (Organizzazione Mondiale del Turismo)' },
     { text: { it: 'Con i suoi territori d\'oltremare, la Francia è il Paese dell\'Unione Europea con la superficie più estesa.', en: 'Including its overseas territories, France is the largest country in the European Union by area.' }, category: 'geography', source: 'Britannica' },
   ],
   DE: [
@@ -81,7 +81,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
   ],
   HU: [
     { text: { it: 'Il Danubio attraversa Budapest dividendo la città in due parti, Buda e Pest.', en: 'The Danube runs through Budapest, dividing the city into two parts, Buda and Pest.' }, category: 'geography', source: 'Britannica' },
-    { text: { it: 'Budapest conta oltre 120 sorgenti termali, più di qualsiasi altra capitale al mondo.', en: 'Budapest has more than 120 thermal springs, more than any other capital city in the world.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'Budapest conta oltre 120 sorgenti termali, più di qualsiasi altra capitale al mondo.', en: 'Budapest has more than 120 thermal springs, more than any other capital city in the world.' }, category: 'record', source: 'Ente del turismo di Budapest (budapestinfo.hu)' },
   ],
   IS: [
     { text: { it: 'L\'Islanda conta circa 200 vulcani di vario tipo e ospita Vatnajökull, il ghiacciaio più esteso d\'Europa.', en: 'Iceland has about 200 volcanoes of various types and is home to Vatnajökull, the largest glacier in Europe.' }, category: 'nature', source: 'Britannica' },
@@ -101,12 +101,12 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Sulla costa baltica della Lettonia si trova ambra, resina fossile di antichi alberi.', en: 'Along Latvia\'s Baltic coast, amber, the fossilized resin of ancient trees, can be found.' }, category: 'nature', source: 'Britannica' },
   ],
   LI: [
-    { text: { it: 'Il Liechtenstein è, insieme all\'Uzbekistan, uno dei soli due Paesi al mondo "doppiamente senza sbocco sul mare".', en: 'Liechtenstein is, along with Uzbekistan, one of only two countries in the world that are "doubly landlocked".' }, category: 'record', source: 'Britannica-adjacent' },
-    { text: { it: 'È il più piccolo Paese di lingua tedesca al mondo.', en: 'It is the smallest German-speaking country in the world.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Liechtenstein è, insieme all\'Uzbekistan, uno dei soli due Paesi al mondo "doppiamente senza sbocco sul mare".', en: 'Liechtenstein is, along with Uzbekistan, one of only two countries in the world that are "doubly landlocked".' }, category: 'record', source: 'World Atlas' },
+    { text: { it: 'È il più piccolo Paese di lingua tedesca al mondo.', en: 'It is the smallest German-speaking country in the world.' }, category: 'record', source: 'New World Encyclopedia' },
   ],
   LT: [
     { text: { it: 'Nel XV secolo, al culmine della sua potenza, il Granducato di Lituania fu uno dei più grandi Stati d\'Europa, esteso dal Mar Baltico al Mar Nero.', en: 'In the 15th century, at the height of its power, the Grand Duchy of Lithuania was one of the largest states in Europe, stretching from the Baltic Sea to the Black Sea.' }, category: 'history', source: 'Britannica' },
-    { text: { it: 'Sulle spiagge lituane del Baltico si trova ambra, alcuni pezzi vecchi di oltre 30 milioni di anni.', en: 'Amber washes up on Lithuania\'s Baltic beaches, some pieces more than 30 million years old.' }, category: 'nature', source: 'Britannica-adjacent' },
+    { text: { it: 'Sulle spiagge lituane del Baltico si trova ambra, alcuni pezzi vecchi di oltre 30 milioni di anni.', en: 'Amber washes up on Lithuania\'s Baltic beaches, some pieces more than 30 million years old.' }, category: 'nature', source: 'Skyjems.ca' },
   ],
   LU: [
     { text: { it: 'Il Lussemburgo nacque nel 963 attorno a una fortezza romana chiamata "Lucilinburhuc", che significa "piccola fortezza".', en: 'Luxembourg was founded in 963 around a Roman fortress called "Lucilinburhuc", meaning "little fortress".' }, category: 'history', source: 'Britannica' },
@@ -114,10 +114,10 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
   ],
   MT: [
     { text: { it: 'I Templi Megalitici di Malta, Patrimonio UNESCO, sono tra le più antiche costruzioni in pietra a sé stanti al mondo, precedenti sia Stonehenge sia le piramidi egizie.', en: 'The Megalithic Temples of Malta, a UNESCO World Heritage Site, are among the oldest freestanding stone structures in the world, predating both Stonehenge and the Egyptian pyramids.' }, category: 'history', source: 'UNESCO / Britannica' },
-    { text: { it: 'Malta è abitata ininterrottamente da circa 7.000 anni.', en: 'Malta has been continuously inhabited for about 7,000 years.' }, category: 'history', source: 'Britannica-adjacent' },
+    { text: { it: 'Malta è abitata ininterrottamente da circa 7.000 anni.', en: 'Malta has been continuously inhabited for about 7,000 years.' }, category: 'history', source: 'World History Encyclopedia' },
   ],
   MD: [
-    { text: { it: 'La Moldavia ospita Milestii Mici, la cantina vinicola più estesa al mondo per lunghezza dei tunnel, secondo il Guinness dei primati.', en: 'Moldova is home to Milestii Mici, the largest wine cellar in the world by tunnel length, according to Guinness World Records.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'La Moldavia ospita Milestii Mici, la cantina vinicola più estesa al mondo per lunghezza dei tunnel, secondo il Guinness dei primati.', en: 'Moldova is home to Milestii Mici, the largest wine cellar in the world by tunnel length, according to Guinness World Records.' }, category: 'record', source: 'Guinness World Records' },
     { text: { it: 'La Moldavia, senza sbocco sul mare, si trova quasi interamente tra i fiumi Prut e Dnestr.', en: 'Landlocked Moldova lies almost entirely between the Prut and Dniester rivers.' }, category: 'geography', source: 'Britannica' },
   ],
   MC: [
@@ -145,11 +145,11 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'A metà del \'500, la Polonia unita fu il più esteso Stato d\'Europa.', en: 'By the mid-1500s, a united Poland was the largest state in Europe.' }, category: 'history', source: 'Britannica' },
   ],
   PT: [
-    { text: { it: 'Il confine tra Portogallo e Spagna, fissato dal Trattato di Alcañices nel 1297, è rimasto pressoché invariato per oltre 700 anni.', en: 'The border between Portugal and Spain, set by the Treaty of Alcañices in 1297, has remained largely unchanged for more than 700 years.' }, category: 'history', source: 'Britannica-adjacent' },
+    { text: { it: 'Il confine tra Portogallo e Spagna, fissato dal Trattato di Alcañices nel 1297, è rimasto pressoché invariato per oltre 700 anni.', en: 'The border between Portugal and Spain, set by the Treaty of Alcañices in 1297, has remained largely unchanged for more than 700 years.' }, category: 'history', source: 'Britannica' },
     { text: { it: 'Nel XV secolo il Portogallo fu pioniere delle grandi esplorazioni oceaniche, aprendo le rotte marittime verso l\'Africa e l\'Asia.', en: 'In the 15th century, Portugal pioneered the great age of ocean exploration, opening sea routes to Africa and Asia.' }, category: 'history', source: 'Britannica' },
   ],
   RO: [
-    { text: { it: 'I Carpazi rumeni ospitano fino al 60% della popolazione di orsi bruni d\'Europa.', en: 'The Romanian Carpathians are home to up to 60% of Europe\'s brown bear population.' }, category: 'nature', source: 'Britannica-adjacent' },
+    { text: { it: 'I Carpazi rumeni ospitano fino al 60% della popolazione di orsi bruni d\'Europa.', en: 'The Romanian Carpathians are home to up to 60% of Europe\'s brown bear population.' }, category: 'nature', source: 'Commissione Europea - Programma LIFE' },
     { text: { it: 'Il Delta del Danubio, in Romania, è il delta più esteso d\'Europa ed è Patrimonio UNESCO.', en: 'The Danube Delta, in Romania, is the largest delta in Europe and a UNESCO World Heritage Site.' }, category: 'nature', source: 'UNESCO / Britannica' },
   ],
   RU: [
@@ -178,7 +178,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
   ],
   SE: [
     { text: { it: 'La Svezia conta circa 100.000 laghi, tra cui il Vänern, il più grande dell\'Unione Europea.', en: 'Sweden has about 100,000 lakes, including Vänern, the largest in the European Union.' }, category: 'nature', source: 'Britannica' },
-    { text: { it: 'Grazie all\'"Allemansrätten", il diritto di accesso pubblico, chiunque può camminare, accamparsi e raccogliere bacche liberamente in natura, indipendentemente dal proprietario del terreno.', en: 'Thanks to "Allemansrätten," the right of public access, anyone may walk, camp, and pick berries freely in nature, regardless of who owns the land.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Grazie all\'"Allemansrätten", il diritto di accesso pubblico, chiunque può camminare, accamparsi e raccogliere bacche liberamente in natura, indipendentemente dal proprietario del terreno.', en: 'Thanks to "Allemansrätten," the right of public access, anyone may walk, camp, and pick berries freely in nature, regardless of who owns the land.' }, category: 'culture', source: 'Visit Sweden (ente turistico ufficiale)' },
   ],
   CH: [
     { text: { it: 'Le montagne coprono circa il 60% del territorio svizzero, tra la catena del Giura e le Alpi.', en: 'Mountains cover about 60% of Switzerland\'s territory, between the Jura range and the Alps.' }, category: 'geography', source: 'Britannica' },
@@ -203,11 +203,11 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'La catena dell\'Hindu Kush, lunga circa 800 km, fa parte della catena himalayana e raggiunge oltre i 6.400 metri.', en: 'The Hindu Kush range, about 800 km long, is part of the Himalayan chain and rises above 6,400 metres.' }, category: 'geography', source: 'Britannica' },
   ],
   AM: [
-    { text: { it: 'Verso il 301 d.C. l\'Armenia divenne il primo regno a proclamare ufficialmente il cristianesimo come religione di Stato, prima di Roma.', en: 'Around 301 CE, Armenia became the first kingdom to officially adopt Christianity as its state religion, predating Rome.' }, category: 'history', source: 'Britannica-adjacent' },
-    { text: { it: 'Il Monte Ararat, tradizionalmente indicato come luogo d\'approdo dell\'Arca di Noè, domina il paesaggio armeno pur trovandosi oggi oltre il confine con la Turchia.', en: 'Mount Ararat, traditionally cited as the resting place of Noah\'s Ark, dominates the Armenian landscape even though it now lies just across the border in Turkey.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Verso il 301 d.C. l\'Armenia divenne il primo regno a proclamare ufficialmente il cristianesimo come religione di Stato, prima di Roma.', en: 'Around 301 CE, Armenia became the first kingdom to officially adopt Christianity as its state religion, predating Rome.' }, category: 'history', source: 'World History Encyclopedia' },
+    { text: { it: 'Il Monte Ararat, tradizionalmente indicato come luogo d\'approdo dell\'Arca di Noè, domina il paesaggio armeno pur trovandosi oggi oltre il confine con la Turchia.', en: 'Mount Ararat, traditionally cited as the resting place of Noah\'s Ark, dominates the Armenian landscape even though it now lies just across the border in Turkey.' }, category: 'culture', source: 'World History Encyclopedia' },
   ],
   AZ: [
-    { text: { it: 'L\'Azerbaigian è soprannominato "Terra del Fuoco": a Yanar Dag, sulla costa del Mar Caspio, una fiamma alimentata dal gas naturale arde ininterrottamente da decenni.', en: 'Azerbaijan is nicknamed the "Land of Fire": at Yanar Dag, on the Caspian coast, a flame fed by natural gas has burned continuously for decades.' }, category: 'nature', source: 'Britannica-adjacent' },
+    { text: { it: 'L\'Azerbaigian è soprannominato "Terra del Fuoco": a Yanar Dag, sulla costa del Mar Caspio, una fiamma alimentata dal gas naturale arde ininterrottamente da decenni.', en: 'Azerbaijan is nicknamed the "Land of Fire": at Yanar Dag, on the Caspian coast, a flame fed by natural gas has burned continuously for decades.' }, category: 'nature', source: 'CNN Travel' },
     { text: { it: 'Le montagne del Caucaso coprono gran parte del nord e dell\'ovest dell\'Azerbaigian.', en: 'The Caucasus Mountains cover much of northern and western Azerbaijan.' }, category: 'geography', source: 'Britannica' },
   ],
   BH: [
@@ -219,8 +219,8 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'La pianura del delta formato da Gange, Brahmaputra e Meghna occupa circa il 79% del territorio del Bangladesh.', en: 'The delta plain formed by the Ganges, Brahmaputra, and Meghna rivers covers about 79% of Bangladesh.' }, category: 'geography', source: 'Britannica' },
   ],
   BT: [
-    { text: { it: 'Il Bhutan misura il proprio sviluppo tramite la "Felicità Interna Lorda" invece del solo PIL, un concetto introdotto nel 1972.', en: 'Bhutan measures its development through "Gross National Happiness" rather than GDP alone, a concept introduced in 1972.' }, category: 'culture', source: 'Britannica-adjacent' },
-    { text: { it: 'La costituzione del Bhutan impone di mantenere almeno il 60% del territorio coperto da foreste, rendendolo uno dei pochi Paesi a bilancio di carbonio negativo.', en: 'Bhutan\'s constitution requires at least 60% forest cover to be maintained, making it one of the few carbon-negative countries in the world.' }, category: 'nature', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Bhutan misura il proprio sviluppo tramite la "Felicità Interna Lorda" invece del solo PIL, un concetto introdotto nel 1972.', en: 'Bhutan measures its development through "Gross National Happiness" rather than GDP alone, a concept introduced in 1972.' }, category: 'culture', source: 'GNH Centre Bhutan' },
+    { text: { it: 'La costituzione del Bhutan impone di mantenere almeno il 60% del territorio coperto da foreste, rendendolo uno dei pochi Paesi a bilancio di carbonio negativo.', en: 'Bhutan\'s constitution requires at least 60% forest cover to be maintained, making it one of the few carbon-negative countries in the world.' }, category: 'nature', source: 'UNDP (Programma delle Nazioni Unite per lo Sviluppo)' },
   ],
   BN: [
     { text: { it: 'Il Brunei è un sultanato indipendente sull\'isola del Borneo, la cui ricchezza deriva dai giacimenti di petrolio e gas naturale sfruttati dal 1929.', en: 'Brunei is an independent sultanate on the island of Borneo, whose wealth comes from oil and natural gas deposits exploited since 1929.' }, category: 'history', source: 'Britannica' },
@@ -235,7 +235,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'La versione della Grande Muraglia risalente alla dinastia Ming si estende per circa 8.850 km ed è Patrimonio UNESCO dal 1987.', en: 'The Ming-dynasty version of the Great Wall runs for about 8,850 km and has been a UNESCO World Heritage Site since 1987.' }, category: 'history', source: 'UNESCO / Britannica' },
   ],
   GE: [
-    { text: { it: 'Secondo gli studi più recenti, la Georgia è considerata la culla del vino: vasi in argilla per la vinificazione risalenti a circa 6000 a.C. sono stati ritrovati nel Paese.', en: 'According to recent scholarship, Georgia is considered the birthplace of wine: clay vessels used for winemaking dating to around 6000 BCE have been found there.' }, category: 'history', source: 'Britannica-adjacent' },
+    { text: { it: 'Secondo gli studi più recenti, la Georgia è considerata la culla del vino: vasi in argilla per la vinificazione risalenti a circa 6000 a.C. sono stati ritrovati nel Paese.', en: 'According to recent scholarship, Georgia is considered the birthplace of wine: clay vessels used for winemaking dating to around 6000 BCE have been found there.' }, category: 'history', source: 'National Geographic' },
     { text: { it: 'La Georgia si affaccia sul Mar Nero, ai piedi del Grande Caucaso.', en: 'Georgia lies on the Black Sea, at the foot of the Greater Caucasus.' }, category: 'geography', source: 'Britannica' },
   ],
   IN: [
@@ -243,7 +243,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Dall\'indipendenza nel 1947, l\'India è la più grande democrazia del mondo per popolazione.', en: 'Since independence in 1947, India has been the world\'s largest democracy by population.' }, category: 'history', source: 'Britannica' },
   ],
   ID: [
-    { text: { it: 'L\'Indonesia è composta da circa 17.500 isole ed è il più grande Paese arcipelagico al mondo.', en: 'Indonesia is made up of about 17,500 islands and is the largest archipelagic country in the world.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'L\'Indonesia è composta da circa 17.500 isole ed è il più grande Paese arcipelagico al mondo.', en: 'Indonesia is made up of about 17,500 islands and is the largest archipelagic country in the world.' }, category: 'record', source: 'BPS - Badan Pusat Statistik (Istituto di statistica indonesiano)' },
     { text: { it: 'L\'Indonesia è il Paese più popoloso del Sud-est asiatico e il quarto al mondo.', en: 'Indonesia is the most populous country in Southeast Asia and the fourth most populous in the world.' }, category: 'record', source: 'Britannica' },
   ],
   IR: [
@@ -252,7 +252,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
   ],
   IQ: [
     { text: { it: 'Il territorio dell\'Iraq comprende l\'antica Mesopotamia, "terra tra i due fiumi", una delle culle della civiltà umana.', en: 'Iraq\'s territory includes ancient Mesopotamia, "the land between two rivers," one of the cradles of human civilization.' }, category: 'history', source: 'Britannica' },
-    { text: { it: 'Le piene annuali di Tigri ed Eufrate resero le pianure meridionali dell\'Iraq tra le più fertili del Vicino Oriente.', en: 'The yearly floods of the Tigris and Euphrates made the southern plains of Iraq some of the richest soil in the Near East.' }, category: 'geography', source: 'Britannica-adjacent' },
+    { text: { it: 'Le piene annuali di Tigri ed Eufrate resero le pianure meridionali dell\'Iraq tra le più fertili del Vicino Oriente.', en: 'The yearly floods of the Tigris and Euphrates made the southern plains of Iraq some of the richest soil in the Near East.' }, category: 'geography', source: 'Britannica' },
   ],
   IL: [
     { text: { it: 'Il Mar Morto, tra Israele e Giordania, è il punto più basso della superficie terrestre, a circa 400 metri sotto il livello del mare.', en: 'The Dead Sea, between Israel and Jordan, is the lowest point on Earth\'s land surface, at about 400 metres below sea level.' }, category: 'geography', source: 'Britannica' },
@@ -273,7 +273,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Le riserve petrolifere del Kuwait rappresentano circa un decimo di quelle mondiali, terze dopo Iraq e Arabia Saudita.', en: 'Kuwait\'s oil reserves represent roughly one-tenth of the world\'s total, third after Iraq and Saudi Arabia.' }, category: 'record', source: 'Britannica' },
   ],
   KG: [
-    { text: { it: 'Oltre il 90% del territorio del Kirghizistan è montuoso.', en: 'Over 90% of Kyrgyzstan\'s territory is mountainous.' }, category: 'geography', source: 'Britannica-adjacent' },
+    { text: { it: 'Oltre il 90% del territorio del Kirghizistan è montuoso.', en: 'Over 90% of Kyrgyzstan\'s territory is mountainous.' }, category: 'geography', source: 'EBSCO Research Starters' },
     { text: { it: 'La catena del Tian Shan, le "Montagne Celesti", attraversa l\'Asia centrale per circa 2.500 km, con vette che superano i 7.400 metri.', en: 'The Tian Shan range, the "Celestial Mountains," stretches across Central Asia for about 2,500 km, with peaks over 7,400 metres.' }, category: 'geography', source: 'Britannica' },
   ],
   LA: [
@@ -299,7 +299,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il fiume Irrawaddy è navigabile per quasi 1.600 km ed è fondamentale per i trasporti e l\'agricoltura del Myanmar.', en: 'The Irrawaddy River is navigable for nearly 1,600 km and is central to transport and agriculture in Myanmar.' }, category: 'geography', source: 'Britannica' },
   ],
   NP: [
-    { text: { it: 'Il Nepal è l\'unico Paese al mondo con una bandiera nazionale non rettangolare, formata da due pennoni triangolari sovrapposti.', en: 'Nepal is the only country with a non-rectangular national flag, made of two overlapping triangular pennants.' }, category: 'record', source: 'Wikipedia (fatto strutturale ampiamente verificato)' },
+    { text: { it: 'Il Nepal è l\'unico Paese al mondo con una bandiera nazionale non rettangolare, formata da due pennoni triangolari sovrapposti.', en: 'Nepal is the only country with a non-rectangular national flag, made of two overlapping triangular pennants.' }, category: 'record', source: 'Wikipedia' },
     { text: { it: 'Il Nepal ospita otto delle quattordici vette del mondo sopra gli 8.000 metri, tra cui l\'Everest, il Kangchenjunga e l\'Annapurna.', en: 'Nepal is home to eight of the world\'s fourteen peaks above 8,000 metres, including Everest, Kangchenjunga, and Annapurna.' }, category: 'geography', source: 'NASA Science' },
   ],
   KP: [
@@ -325,7 +325,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il North Field, al largo delle coste del Qatar, è uno dei più grandi giacimenti di gas naturale al mondo.', en: 'The North Field, off Qatar\'s coast, is one of the largest natural gas fields in the world.' }, category: 'record', source: 'Britannica' },
   ],
   SA: [
-    { text: { it: 'L\'Arabia Saudita è il più grande Paese al mondo privo di un fiume permanente.', en: 'Saudi Arabia is the largest country in the world without a permanent river.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'L\'Arabia Saudita è il più grande Paese al mondo privo di un fiume permanente.', en: 'Saudi Arabia is the largest country in the world without a permanent river.' }, category: 'record', source: 'World Atlas' },
     { text: { it: 'Il Rub\' al-Khali, il "Quarto Vuoto", è il più esteso deserto di sabbia continuo al mondo e copre oltre un quarto del territorio saudita.', en: 'The Rub\' al-Khali, the "Empty Quarter," is the largest continuous sand desert in the world and covers more than a quarter of Saudi Arabia.' }, category: 'geography', source: 'Britannica' },
   ],
   SG: [
@@ -337,15 +337,15 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il punto più alto della Corea del Sud, l\'Hallasan, è il cono di un vulcano sull\'isola di Jeju, alto 1.950 metri.', en: 'South Korea\'s highest point, Hallasan, is a volcanic cone on Jeju Island, standing 1,950 metres tall.' }, category: 'geography', source: 'Britannica' },
   ],
   LK: [
-    { text: { it: 'Lo Sri Lanka è soprannominato la "Lacrima dell\'India" per la sua forma nell\'Oceano Indiano.', en: 'Sri Lanka is nicknamed the "Teardrop of India" for its shape in the Indian Ocean.' }, category: 'culture', source: 'Britannica-adjacent' },
-    { text: { it: 'Lo Sri Lanka è tra i principali produttori ed esportatori mondiali del celebre tè di Ceylon.', en: 'Sri Lanka is among the world\'s leading producers and exporters of the famous Ceylon tea.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Lo Sri Lanka è soprannominato la "Lacrima dell\'India" per la sua forma nell\'Oceano Indiano.', en: 'Sri Lanka is nicknamed the "Teardrop of India" for its shape in the Indian Ocean.' }, category: 'culture', source: 'World Atlas' },
+    { text: { it: 'Lo Sri Lanka è tra i principali produttori ed esportatori mondiali del celebre tè di Ceylon.', en: 'Sri Lanka is among the world\'s leading producers and exporters of the famous Ceylon tea.' }, category: 'culture', source: 'Sri Lanka Export Development Board' },
   ],
   SY: [
     { text: { it: 'Damasco, la capitale della Siria, è tra le città abitate ininterrottamente più antiche al mondo, con tracce di occupazione che risalgono all\'8000-10000 a.C.', en: 'Damascus, Syria\'s capital, is among the oldest continuously inhabited cities in the world, with evidence of occupation dating back to 8000-10,000 BCE.' }, category: 'history', source: 'Britannica' },
   ],
   TJ: [
     { text: { it: 'Le montagne del Pamir, in Tagikistan, sono chiamate il "Tetto del Mondo" per le loro vette oltre i 6.100 metri.', en: 'The Pamir Mountains in Tajikistan are called the "Roof of the World" for their peaks above 6,100 metres.' }, category: 'geography', source: 'Britannica' },
-    { text: { it: 'Il ghiacciaio Fedchenko, in Tagikistan, con i suoi circa 77 km, è il più lungo ghiacciaio del mondo al di fuori delle regioni polari.', en: 'The Fedchenko Glacier in Tajikistan, at about 77 km, is the longest glacier in the world outside the polar regions.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'Il ghiacciaio Fedchenko, in Tagikistan, con i suoi circa 77 km, è il più lungo ghiacciaio del mondo al di fuori delle regioni polari.', en: 'The Fedchenko Glacier in Tajikistan, at about 77 km, is the longest glacier in the world outside the polar regions.' }, category: 'record', source: 'Britannica' },
   ],
   TH: [
     { text: { it: 'La Thailandia è l\'unico Paese del Sud-est asiatico a non essere mai stato colonizzato da una potenza europea.', en: 'Thailand is the only Southeast Asian country never to have been colonized by a European power.' }, category: 'history', source: 'CIA World Factbook' },
@@ -359,7 +359,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'La Turchia si estende in parte in Europa e in gran parte in Asia: Istanbul è l\'unica città al mondo situata su due continenti.', en: 'Turkey lies partly in Europe and mostly in Asia: Istanbul is the only city in the world located on two continents.' }, category: 'geography', source: 'Britannica' },
   ],
   TM: [
-    { text: { it: 'Nel deserto del Karakum, in Turkmenistan, il cratere di Darvaza, noto come "Porta dell\'Inferno", arde ininterrottamente dal 1971.', en: 'In the Karakum Desert of Turkmenistan, the Darvaza crater, known as the "Door to Hell," has been burning continuously since 1971.' }, category: 'nature', source: 'Britannica-adjacent' },
+    { text: { it: 'Nel deserto del Karakum, in Turkmenistan, il cratere di Darvaza, noto come "Porta dell\'Inferno", arde ininterrottamente dal 1971.', en: 'In the Karakum Desert of Turkmenistan, the Darvaza crater, known as the "Door to Hell," has been burning continuously since 1971.' }, category: 'nature', source: 'Geology.com' },
   ],
   AE: [
     { text: { it: 'Gli Emirati Arabi Uniti sono una federazione di sette emirati, formatasi nel 1971 dopo il ritiro britannico dal Golfo.', en: 'The United Arab Emirates is a federation of seven emirates, formed in 1971 after the British withdrawal from the Gulf.' }, category: 'history', source: 'Britannica' },
@@ -369,8 +369,8 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Samarcanda, una delle città più antiche dell\'Asia centrale, fu un crocevia chiave della Via della Seta e in seguito capitale dell\'impero di Tamerlano.', en: 'Samarkand, one of Central Asia\'s oldest cities, was a key Silk Road hub and later the capital of Timur\'s (Tamerlane\'s) empire.' }, category: 'history', source: 'UNESCO / Britannica' },
   ],
   VN: [
-    { text: { it: 'Il Vietnam ha una forma a "S" e si estende per circa 1.650 km da nord a sud, restringendosi fino a soli 50 km di larghezza nel punto più stretto.', en: 'Vietnam is S-shaped, stretching about 1,650 km from north to south and narrowing to just 50 km at its narrowest point.' }, category: 'geography', source: 'Britannica-adjacent' },
-    { text: { it: 'Il Delta del Mekong avanza sul mare di 60-80 metri ogni anno a causa dei sedimenti trasportati dal fiume.', en: 'The Mekong Delta advances into the sea by 60-80 metres every year due to sediment carried by the river.' }, category: 'nature', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Vietnam ha una forma a "S" e si estende per circa 1.650 km da nord a sud, restringendosi fino a soli 50 km di larghezza nel punto più stretto.', en: 'Vietnam is S-shaped, stretching about 1,650 km from north to south and narrowing to just 50 km at its narrowest point.' }, category: 'geography', source: 'Ambasciata del Vietnam' },
+    { text: { it: 'Il Delta del Mekong avanza sul mare di 60-80 metri ogni anno a causa dei sedimenti trasportati dal fiume.', en: 'The Mekong Delta advances into the sea by 60-80 metres every year due to sediment carried by the river.' }, category: 'nature', source: 'The Oceanography Society' },
   ],
   YE: [
     { text: { it: 'L\'isola yemenita di Socotra, isolata nell\'Oceano Indiano, è Patrimonio UNESCO per la sua flora unica al mondo, tra cui il celebre albero del sangue di drago.', en: 'Yemen\'s Socotra Island, isolated in the Indian Ocean, is a UNESCO World Heritage Site for its unique flora, including the famous dragon\'s blood tree.' }, category: 'nature', source: 'UNESCO / Britannica' },
@@ -386,8 +386,8 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il paesaggio angolano va dalla costa semidesertica atlantica alla foresta pluviale dell\'interno, fino agli altopiani meridionali.', en: 'Angola\'s landscape ranges from the semi-desert Atlantic coast to the rainforest interior and southern highlands.' }, category: 'geography', source: 'Britannica' },
   ],
   BJ: [
-    { text: { it: 'Il Benin è considerato la terra d\'origine del Vodun (voodoo), religione ancora oggi ufficialmente riconosciuta e celebrata ogni 10 gennaio.', en: 'Benin is considered the birthplace of Vodun (voodoo), a religion still officially recognized today and celebrated every 10 January.' }, category: 'culture', source: 'Britannica-adjacent' },
-    { text: { it: 'Il Benin si estende per circa 700 km dal Golfo di Guinea al fiume Niger.', en: 'Benin stretches about 700 km from the Gulf of Guinea to the Niger River.' }, category: 'geography', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Benin è considerato la terra d\'origine del Vodun (voodoo), religione ancora oggi ufficialmente riconosciuta e celebrata ogni 10 gennaio.', en: 'Benin is considered the birthplace of Vodun (voodoo), a religion still officially recognized today and celebrated every 10 January.' }, category: 'culture', source: 'Office Holidays' },
+    { text: { it: 'Il Benin si estende per circa 700 km dal Golfo di Guinea al fiume Niger.', en: 'Benin stretches about 700 km from the Gulf of Guinea to the Niger River.' }, category: 'geography', source: 'Britannica' },
   ],
   BW: [
     { text: { it: 'Il Delta dell\'Okavango, in Botswana, è uno dei pochi grandi delta interni al mondo privo di sbocco sul mare.', en: 'The Okavango Delta in Botswana is one of the few large inland deltas in the world with no outlet to the sea.' }, category: 'nature', source: 'UNESCO / Britannica' },
@@ -398,28 +398,28 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il Paese, prima chiamato Alto Volta, prende il nome dai tre rami del fiume Volta che lo attraversano: Nero, Bianco e Rosso.', en: 'The country, formerly called Upper Volta, is named after the three branches of the Volta River that flow through it: Black, White, and Red.' }, category: 'geography', source: 'Britannica' },
   ],
   BI: [
-    { text: { it: 'Pur essendo senza sbocco sul mare, il Burundi si affaccia sul Lago Tanganica lungo il suo confine sud-occidentale.', en: 'Though landlocked, Burundi borders Lake Tanganyika along its southwestern edge.' }, category: 'geography', source: 'Britannica-adjacent' },
-    { text: { it: 'Il Monte Heha, 2.685 metri, è la vetta più alta del Burundi.', en: 'Mount Heha, at 2,685 metres, is Burundi\'s highest peak.' }, category: 'geography', source: 'Britannica-adjacent' },
+    { text: { it: 'Pur essendo senza sbocco sul mare, il Burundi si affaccia sul Lago Tanganica lungo il suo confine sud-occidentale.', en: 'Though landlocked, Burundi borders Lake Tanganyika along its southwestern edge.' }, category: 'geography', source: 'Britannica' },
+    { text: { it: 'Il Monte Heha, 2.685 metri, è la vetta più alta del Burundi.', en: 'Mount Heha, at 2,685 metres, is Burundi\'s highest peak.' }, category: 'geography', source: 'Britannica' },
   ],
   CV: [
     { text: { it: 'Capo Verde è un arcipelago vulcanico formato da 10 isole e 5 isolotti.', en: 'Cape Verde is a volcanic archipelago made up of 10 islands and 5 islets.' }, category: 'geography', source: 'Britannica' },
     { text: { it: 'L\'Isola di Fogo ospita un vulcano attivo e la vetta più alta dell\'arcipelago, 2.829 metri.', en: 'Fogo Island has an active volcano and the archipelago\'s highest peak, at 2,829 metres.' }, category: 'nature', source: 'Britannica' },
   ],
   CM: [
-    { text: { it: 'Il Camerun è soprannominato "l\'Africa in miniatura" per la varietà di paesaggi che racchiude, dal Sahel alla foresta pluviale, fino agli altopiani vulcanici.', en: 'Cameroon is nicknamed "Africa in miniature" for the range of landscapes it contains, from the Sahel to rainforest to volcanic highlands.' }, category: 'geography', source: 'Britannica-adjacent' },
-    { text: { it: 'Il Camerun conta oltre 250 gruppi etnici.', en: 'Cameroon is home to more than 250 ethnic groups.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Camerun è soprannominato "l\'Africa in miniatura" per la varietà di paesaggi che racchiude, dal Sahel alla foresta pluviale, fino agli altopiani vulcanici.', en: 'Cameroon is nicknamed "Africa in miniature" for the range of landscapes it contains, from the Sahel to rainforest to volcanic highlands.' }, category: 'geography', source: 'Kew - Royal Botanic Gardens' },
+    { text: { it: 'Il Camerun conta oltre 250 gruppi etnici.', en: 'Cameroon is home to more than 250 ethnic groups.' }, category: 'culture', source: 'EBSCO Research Starters' },
   ],
   CF: [
     { text: { it: 'L\'altopiano della Repubblica Centrafricana segna lo spartiacque tra il bacino del fiume Congo-Ubangi e quello del Lago Ciad.', en: 'The Central African Republic\'s plateau forms the drainage divide between the Congo-Ubangi river basin and the Lake Chad watershed.' }, category: 'geography', source: 'Britannica' },
     { text: { it: 'Il sud del Paese è coperto dalla foresta pluviale del bacino del Congo, la seconda più estesa al mondo.', en: 'The south of the country is covered by the Congo Basin rainforest, the second-largest in the world.' }, category: 'nature', source: 'Britannica' },
   ],
   TD: [
-    { text: { it: 'Il Lago Ciad si è ridotto di circa il 90% dagli anni \'60, a causa di cambiamenti climatici e maggiore uso dell\'acqua per l\'irrigazione.', en: 'Lake Chad has shrunk by about 90% since the 1960s, due to climate shifts and increased water use for irrigation.' }, category: 'nature', source: 'Britannica-adjacent' },
-    { text: { it: 'Il Ciad, senza sbocco sul mare, ha un\'estensione pari a circa il doppio del Texas.', en: 'Landlocked Chad covers an area roughly twice the size of Texas.' }, category: 'geography', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Lago Ciad si è ridotto di circa il 90% dagli anni \'60, a causa di cambiamenti climatici e maggiore uso dell\'acqua per l\'irrigazione.', en: 'Lake Chad has shrunk by about 90% since the 1960s, due to climate shifts and increased water use for irrigation.' }, category: 'nature', source: 'UNEP (Programma delle Nazioni Unite per l\'Ambiente)' },
+    { text: { it: 'Il Ciad, senza sbocco sul mare, ha un\'estensione pari a circa il doppio del Texas.', en: 'Landlocked Chad covers an area roughly twice the size of Texas.' }, category: 'geography', source: 'U.S. Department of State' },
   ],
   KM: [
-    { text: { it: 'L\'arcipelago vulcanico delle Comore è soprannominato "le isole del profumo" per la fragranza delle sue piante.', en: 'The volcanic Comoros archipelago is nicknamed the "Perfume Islands" for its fragrant plant life.' }, category: 'culture', source: 'Britannica-adjacent' },
-    { text: { it: 'Le Comore sono il primo produttore mondiale di ylang-ylang, ingrediente base di profumi celebri come Chanel N°5.', en: 'The Comoros is the world\'s largest producer of ylang-ylang, a key ingredient in famous perfumes such as Chanel No. 5.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'L\'arcipelago vulcanico delle Comore è soprannominato "le isole del profumo" per la fragranza delle sue piante.', en: 'The volcanic Comoros archipelago is nicknamed the "Perfume Islands" for its fragrant plant life.' }, category: 'culture', source: 'TRT Afrika' },
+    { text: { it: 'Le Comore sono il primo produttore mondiale di ylang-ylang, ingrediente base di profumi celebri come Chanel N°5.', en: 'The Comoros is the world\'s largest producer of ylang-ylang, a key ingredient in famous perfumes such as Chanel No. 5.' }, category: 'record', source: 'TRT Afrika' },
   ],
   CG: [
     { text: { it: 'La Repubblica del Congo si trova a cavallo dell\'Equatore, nell\'Africa centro-occidentale.', en: 'The Republic of the Congo sits astride the Equator in west-central Africa.' }, category: 'geography', source: 'Britannica' },
@@ -437,19 +437,19 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il Nilo scorre per circa 6.650 km dall\'Africa centro-orientale al Mediterraneo, il fiume più lungo del mondo.', en: 'The Nile flows about 6,650 km from east-central Africa to the Mediterranean, the longest river in the world.' }, category: 'record', source: 'Britannica' },
   ],
   GQ: [
-    { text: { it: 'La Guinea Equatoriale è l\'unico Paese africano la cui lingua ufficiale è lo spagnolo.', en: 'Equatorial Guinea is the only African country whose official language is Spanish.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'La Guinea Equatoriale è l\'unico Paese africano la cui lingua ufficiale è lo spagnolo.', en: 'Equatorial Guinea is the only African country whose official language is Spanish.' }, category: 'culture', source: 'Ambasciata della Guinea Equatoriale negli USA' },
   ],
   ER: [
     { text: { it: 'Il nome Eritrea deriva dalla versione italianizzata del latino "Mare Erythraeum", cioè "Mar Rosso".', en: 'The name Eritrea comes from an Italianized version of the Latin "Mare Erythraeum," meaning "Red Sea".' }, category: 'culture', source: 'Britannica' },
     { text: { it: 'La costa eritrea si estende per circa 1.000 km lungo il Mar Rosso, comprendendo l\'arcipelago di Dahlak.', en: 'Eritrea\'s coastline extends about 1,000 km along the Red Sea, including the Dahlak Archipelago.' }, category: 'geography', source: 'Britannica' },
   ],
   SZ: [
-    { text: { it: 'L\'Eswatini (ex Swaziland) è l\'ultima monarchia assoluta d\'Africa: il re detiene potere di veto su tutti i rami del governo.', en: 'Eswatini (formerly Swaziland) is Africa\'s last absolute monarchy, where the king holds veto power over all branches of government.' }, category: 'culture', source: 'Britannica-adjacent' },
-    { text: { it: 'Il Paese cambiò nome da Swaziland a Eswatini, "terra degli Swazi", nel 2018.', en: 'The country changed its name from Swaziland to Eswatini, "land of the Swazis," in 2018.' }, category: 'history', source: 'Britannica-adjacent' },
+    { text: { it: 'L\'Eswatini (ex Swaziland) è l\'ultima monarchia assoluta d\'Africa: il re detiene potere di veto su tutti i rami del governo.', en: 'Eswatini (formerly Swaziland) is Africa\'s last absolute monarchy, where the king holds veto power over all branches of government.' }, category: 'culture', source: 'NPR' },
+    { text: { it: 'Il Paese cambiò nome da Swaziland a Eswatini, "terra degli Swazi", nel 2018.', en: 'The country changed its name from Swaziland to Eswatini, "land of the Swazis," in 2018.' }, category: 'history', source: 'The Washington Post' },
   ],
   ET: [
     { text: { it: 'Insieme alla Liberia, l\'Etiopia è uno dei soli due Paesi africani mai stati colonizzati da una potenza europea, dopo aver sconfitto l\'Italia nella battaglia di Adua nel 1896.', en: 'Along with Liberia, Ethiopia is one of only two African countries never colonized by a European power, having defeated Italy at the Battle of Adwa in 1896.' }, category: 'history', source: 'Britannica' },
-    { text: { it: 'L\'Etiopia utilizza un proprio calendario, che corre con circa sette-otto anni di ritardo rispetto a quello gregoriano.', en: 'Ethiopia uses its own calendar, which runs about seven to eight years behind the Gregorian calendar.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'L\'Etiopia utilizza un proprio calendario, che corre con circa sette-otto anni di ritardo rispetto a quello gregoriano.', en: 'Ethiopia uses its own calendar, which runs about seven to eight years behind the Gregorian calendar.' }, category: 'culture', source: 'CNN Travel' },
   ],
   GA: [
     { text: { it: 'Il Gabon si trova a cavallo dell\'Equatore, sulla costa occidentale dell\'Africa.', en: 'Gabon straddles the Equator on Africa\'s west coast.' }, category: 'geography', source: 'Britannica' },
@@ -484,7 +484,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'La Liberia fu fondata nel 1822 come territorio per gli ex schiavi liberati dalle Americhe e dichiarò l\'indipendenza nel 1847, prima repubblica d\'Africa.', en: 'Liberia was founded in 1822 as a settlement for freed slaves from the Americas and declared independence in 1847, becoming Africa\'s first republic.' }, category: 'history', source: 'Britannica' },
   ],
   LY: [
-    { text: { it: 'La Libia detiene le maggiori riserve di petrolio accertate dell\'intero continente africano.', en: 'Libya holds the largest proven oil reserves on the African continent.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'La Libia detiene le maggiori riserve di petrolio accertate dell\'intero continente africano.', en: 'Libya holds the largest proven oil reserves on the African continent.' }, category: 'record', source: 'EIA - U.S. Energy Information Administration' },
     { text: { it: 'Gran parte del territorio libico si trova all\'interno del deserto del Sahara.', en: 'Most of Libya\'s territory lies within the Sahara Desert.' }, category: 'geography', source: 'Britannica' },
   ],
   MG: [
@@ -493,7 +493,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
   ],
   MW: [
     { text: { it: 'Il Lago Malawi è il terzo lago più esteso d\'Africa e ospita circa il 15% di tutte le specie di pesci d\'acqua dolce del pianeta.', en: 'Lake Malawi is Africa\'s third-largest lake and is home to about 15% of all the world\'s freshwater fish species.' }, category: 'nature', source: 'Britannica' },
-    { text: { it: 'Il Malawi è soprannominato "il caldo cuore dell\'Africa" per l\'ospitalità della sua gente.', en: 'Malawi is nicknamed "The Warm Heart of Africa" for the friendliness of its people.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Malawi è soprannominato "il caldo cuore dell\'Africa" per l\'ospitalità della sua gente.', en: 'Malawi is nicknamed "The Warm Heart of Africa" for the friendliness of its people.' }, category: 'culture', source: 'World Atlas' },
   ],
   ML: [
     { text: { it: 'Nel XIV secolo Timbuctù, in Mali, era un centro chiave del commercio transahariano di oro e sale.', en: 'By the 14th century, Timbuktu in Mali was a major hub of the trans-Saharan trade in gold and salt.' }, category: 'history', source: 'Britannica' },
@@ -515,12 +515,12 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il Mozambico ha un\'ampia costa sull\'Oceano Indiano, separata dal Madagascar dal Canale del Mozambico.', en: 'Mozambique has an extensive Indian Ocean coastline, separated from Madagascar by the Mozambique Channel.' }, category: 'geography', source: 'Britannica' },
   ],
   NA: [
-    { text: { it: 'Il Deserto del Namib, lungo la costa atlantica della Namibia, è considerato il deserto più antico del mondo, arido da 55-80 milioni di anni.', en: 'The Namib Desert, along Namibia\'s Atlantic coast, is considered the oldest desert in the world, arid for 55-80 million years.' }, category: 'record', source: 'Britannica-adjacent' },
-    { text: { it: 'La Costa degli Scheletri prende il nome dalle ossa di balena e dai relitti di navi un tempo disseminati lungo le sue rive.', en: 'The Skeleton Coast is named for the whale bones and shipwrecks once scattered along its shores.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Deserto del Namib, lungo la costa atlantica della Namibia, è considerato il deserto più antico del mondo, arido da 55-80 milioni di anni.', en: 'The Namib Desert, along Namibia\'s Atlantic coast, is considered the oldest desert in the world, arid for 55-80 million years.' }, category: 'record', source: 'National Geographic' },
+    { text: { it: 'La Costa degli Scheletri prende il nome dalle ossa di balena e dai relitti di navi un tempo disseminati lungo le sue rive.', en: 'The Skeleton Coast is named for the whale bones and shipwrecks once scattered along its shores.' }, category: 'culture', source: 'Amusing Planet' },
   ],
   NE: [
-    { text: { it: 'Il Niger è il più esteso Paese dell\'Africa occidentale.', en: 'Niger is the largest country in West Africa by area.' }, category: 'record', source: 'Britannica-adjacent' },
-    { text: { it: 'Oltre l\'80% del territorio del Niger si trova all\'interno del deserto del Sahara.', en: 'Over 80% of Niger\'s territory lies within the Sahara Desert.' }, category: 'geography', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Niger è il più esteso Paese dell\'Africa occidentale.', en: 'Niger is the largest country in West Africa by area.' }, category: 'record', source: 'Britannica' },
+    { text: { it: 'Oltre l\'80% del territorio del Niger si trova all\'interno del deserto del Sahara.', en: 'Over 80% of Niger\'s territory lies within the Sahara Desert.' }, category: 'geography', source: 'Britannica' },
   ],
   NG: [
     { text: { it: 'La Nigeria è il Paese più popoloso dell\'Africa, con oltre 200 milioni di abitanti.', en: 'Nigeria is the most populous country in Africa, with more than 200 million people.' }, category: 'record', source: 'Britannica' },
@@ -538,7 +538,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'La penisola di Capo Verde, presso Dakar, è il punto più occidentale dell\'intero continente africano.', en: 'The Cape Verde Peninsula, near Dakar, is the westernmost point of the African continent.' }, category: 'record', source: 'Britannica' },
   ],
   SC: [
-    { text: { it: 'Le isole granitiche delle Seychelles sono considerate le isole oceaniche più antiche del mondo, resti dell\'antico supercontinente Gondwana.', en: 'The granitic islands of the Seychelles are considered the oldest oceanic islands in the world, remnants of the ancient supercontinent Gondwana.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'Le isole granitiche delle Seychelles sono considerate le isole oceaniche più antiche del mondo, resti dell\'antico supercontinente Gondwana.', en: 'The granitic islands of the Seychelles are considered the oldest oceanic islands in the world, remnants of the ancient supercontinent Gondwana.' }, category: 'record', source: 'Wikipedia' },
     { text: { it: 'L\'arcipelago delle Seychelles è composto da circa 115 isole.', en: 'The Seychelles archipelago consists of about 115 islands.' }, category: 'geography', source: 'Britannica' },
   ],
   SL: [
@@ -572,7 +572,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'L\'antica Cartagine, fondata dai Fenici intorno all\'VIII secolo a.C. vicino all\'attuale Tunisi, fu per secoli una delle grandi potenze del Mediterraneo.', en: 'Ancient Carthage, founded by the Phoenicians around the 8th century BCE near modern Tunis, was for centuries one of the great powers of the Mediterranean.' }, category: 'history', source: 'Britannica' },
   ],
   UG: [
-    { text: { it: 'Winston Churchill soprannominò l\'Uganda "la perla dell\'Africa" dopo averla visitata in epoca coloniale britannica.', en: 'Winston Churchill nicknamed Uganda "the Pearl of Africa" after visiting it during British colonial rule.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Winston Churchill soprannominò l\'Uganda "la perla dell\'Africa" dopo averla visitata in epoca coloniale britannica.', en: 'Winston Churchill nicknamed Uganda "the Pearl of Africa" after visiting it during British colonial rule.' }, category: 'culture', source: 'Winston Churchill, «My African Journey» (1908)' },
     { text: { it: 'La capitale Kampala sorge vicino al Lago Vittoria, sorgente del fiume Nilo.', en: 'The capital, Kampala, lies near Lake Victoria, the source of the Nile River.' }, category: 'geography', source: 'Britannica' },
   ],
   ZM: [
@@ -586,7 +586,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
 
   // ---- North America ----
   AG: [
-    { text: { it: 'Antigua è celebre per le sue "365 spiagge", una per ogni giorno dell\'anno.', en: 'Antigua is famous for its "365 beaches," one for every day of the year.' }, category: 'record', source: 'Britannica-adjacent' },
+    { text: { it: 'Antigua è celebre per le sue "365 spiagge", una per ogni giorno dell\'anno.', en: 'Antigua is famous for its "365 beaches," one for every day of the year.' }, category: 'record', source: 'Visit Antigua & Barbuda (ente turistico ufficiale)' },
     { text: { it: 'Barbuda è un\'isola corallina pianeggiante, mentre Antigua è di origine vulcanica con il Monte Obama a 405 metri.', en: 'Barbuda is a flat coral island, while Antigua is volcanic in origin, with Mount Obama rising to 405 metres.' }, category: 'geography', source: 'Britannica' },
   ],
   BS: [
@@ -607,7 +607,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
   ],
   CR: [
     { text: { it: 'La Costa Rica ha abolito il proprio esercito con la costituzione del 1949.', en: 'Costa Rica abolished its army under its 1949 constitution.' }, category: 'history', source: 'Britannica' },
-    { text: { it: 'Pur occupando meno dello 0,03% della superficie terrestre, la Costa Rica ospita circa il 5% della biodiversità del pianeta.', en: 'Although it covers less than 0.03% of Earth\'s surface, Costa Rica is home to about 5% of the planet\'s biodiversity.' }, category: 'nature', source: 'Britannica-adjacent' },
+    { text: { it: 'Pur occupando meno dello 0,03% della superficie terrestre, la Costa Rica ospita circa il 5% della biodiversità del pianeta.', en: 'Although it covers less than 0.03% of Earth\'s surface, Costa Rica is home to about 5% of the planet\'s biodiversity.' }, category: 'nature', source: 'Kew - Royal Botanic Gardens' },
   ],
   CU: [
     { text: { it: 'Cuba è la più grande isola dei Caraibi, lunga circa 1.250 km.', en: 'Cuba is the largest island in the Caribbean, about 1,250 km long.' }, category: 'record', source: 'Britannica' },
@@ -640,15 +640,15 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
   ],
   JM: [
     { text: { it: 'La Giamaica è la terza isola più estesa dei Caraibi e la più grande di lingua inglese.', en: 'Jamaica is the third-largest island in the Caribbean and the largest English-speaking one.' }, category: 'record', source: 'Britannica' },
-    { text: { it: 'Il caffè Blue Mountain, coltivato oltre i 1.500 metri di altitudine in Giamaica, è tra i più rari e pregiati al mondo.', en: 'Blue Mountain coffee, grown above 1,500 metres in Jamaica, is among the rarest and most prized coffees in the world.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Il caffè Blue Mountain, coltivato oltre i 1.500 metri di altitudine in Giamaica, è tra i più rari e pregiati al mondo.', en: 'Blue Mountain coffee, grown above 1,500 metres in Jamaica, is among the rarest and most prized coffees in the world.' }, category: 'culture', source: 'Wikipedia' },
   ],
   MX: [
     { text: { it: 'Il territorio del Messico fu la culla di grandi civiltà precolombiane, tra cui Olmechi, Maya e Aztechi.', en: 'Mexico\'s territory was home to major pre-Columbian civilizations, including the Olmec, Maya, and Aztec.' }, category: 'history', source: 'Britannica' },
     { text: { it: 'La capitale azteca, Tenochtitlan, fu fondata su un\'isola del Lago Texcoco nel 1325 e arrivò a contare circa 300.000 abitanti.', en: 'The Aztec capital, Tenochtitlan, was founded on an island in Lake Texcoco in 1325 and grew to about 300,000 inhabitants.' }, category: 'history', source: 'Britannica' },
   ],
   NI: [
-    { text: { it: 'Il Lago Nicaragua è l\'unico lago d\'acqua dolce al mondo che ospita squali di provenienza oceanica.', en: 'Lake Nicaragua is the only freshwater lake in the world known to host sharks of oceanic origin.' }, category: 'nature', source: 'Britannica-adjacent' },
-    { text: { it: 'È anche il lago più esteso dell\'America Centrale, con oltre 400 isole al suo interno.', en: 'It is also the largest lake in Central America, containing more than 400 islands.' }, category: 'geography', source: 'Britannica-adjacent' },
+    { text: { it: 'Il Lago Nicaragua è l\'unico lago d\'acqua dolce al mondo che ospita squali di provenienza oceanica.', en: 'Lake Nicaragua is the only freshwater lake in the world known to host sharks of oceanic origin.' }, category: 'nature', source: 'Nicaragua.com' },
+    { text: { it: 'È anche il lago più esteso dell\'America Centrale, con oltre 400 isole al suo interno.', en: 'It is also the largest lake in Central America, containing more than 400 islands.' }, category: 'geography', source: 'Britannica' },
   ],
   PA: [
     { text: { it: 'Il Canale di Panama collega gli oceani Atlantico e Pacifico attraverso l\'istmo di Panama ed è in funzione dal 1914.', en: 'The Panama Canal connects the Atlantic and Pacific oceans across the Isthmus of Panama and has been in operation since 1914.' }, category: 'history', source: 'Britannica' },
@@ -664,7 +664,7 @@ export const COUNTRY_FACTS: Partial<Record<string, CountryFact[]>> = {
     { text: { it: 'Il vulcano Soufrière, 1.234 metri, ha causato eruzioni devastanti nella storia dell\'isola di Saint Vincent.', en: 'The Soufrière volcano, at 1,234 metres, has caused devastating eruptions in the history of the island of Saint Vincent.' }, category: 'nature', source: 'Britannica' },
   ],
   TT: [
-    { text: { it: 'Trinidad e Tobago è la patria dello steelpan, unico strumento musicale acustico inventato nel XX secolo, diventato strumento nazionale nel 1992.', en: 'Trinidad and Tobago is the birthplace of the steelpan, the only acoustic musical instrument invented in the 20th century, which became the national instrument in 1992.' }, category: 'culture', source: 'Britannica-adjacent' },
+    { text: { it: 'Trinidad e Tobago è la patria dello steelpan, unico strumento musicale acustico inventato nel XX secolo, diventato strumento nazionale nel 1992.', en: 'Trinidad and Tobago is the birthplace of the steelpan, the only acoustic musical instrument invented in the 20th century, which became the national instrument in 1992.' }, category: 'culture', source: 'NALIS - National Library and Information System Authority (Trinidad e Tobago)' },
   ],
   US: [
     { text: { it: 'L\'Alaska, il più grande stato USA, è più estesa dei tre stati successivi per superficie messi insieme.', en: 'Alaska, the largest U.S. state, is bigger than the next three largest states combined.' }, category: 'record', source: 'Britannica' },
