@@ -108,6 +108,9 @@ async function fetchRemoteState(userId: string): Promise<RemoteState | null> {
     supabase.from('user_collection').select('*').eq('user_id', userId).maybeSingle(),
     supabase.from('user_settings').select('*').eq('user_id', userId).maybeSingle(),
   ]);
+  if (progress.error) console.error('[sync] lettura user_progress fallita:', progress.error);
+  if (collection.error) console.error('[sync] lettura user_collection fallita:', collection.error);
+  if (settings.error) console.error('[sync] lettura user_settings fallita:', settings.error);
   if (progress.error || collection.error || settings.error) return null;
   return {
     progress: progress.data as ProgressRow | null,
@@ -168,7 +171,8 @@ function markSynced() {
   useSyncStore.getState().setLastSyncedAt(Date.now());
 }
 
-function markError() {
+function markError(error?: unknown) {
+  if (error) console.error('[sync] operazione di sincronizzazione fallita:', error);
   useSyncStore.getState().setStatus(navigator.onLine ? 'error' : 'offline');
 }
 

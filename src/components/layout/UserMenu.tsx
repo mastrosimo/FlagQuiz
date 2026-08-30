@@ -10,6 +10,7 @@ export function UserMenu() {
   const navigate = useNavigate();
   const status = useAuthStore((state) => state.status);
   const user = useAuthStore((state) => state.user);
+  const profile = useAuthStore((state) => state.profile);
   const [open, setOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,11 @@ export function UserMenu() {
   };
 
   const email = user?.email ?? '';
-  const initial = email.charAt(0).toUpperCase() || '?';
+  // Se l'utente ha impostato un nome, mostra quello; altrimenti fallback sulla
+  // parte locale dell'email (prima della @), o sull'email intera se assente.
+  const displayName = profile?.displayName?.trim();
+  const shownName = displayName || email.split('@')[0] || email;
+  const initial = (displayName || email).charAt(0).toUpperCase() || '?';
 
   return (
     <div className="relative" ref={containerRef}>
@@ -76,7 +81,7 @@ export function UserMenu() {
         >
           {initial}
         </span>
-        <span className="hidden max-w-[8rem] truncate sm:inline">{email}</span>
+        <span className="hidden max-w-[8rem] truncate sm:inline">{shownName}</span>
       </button>
 
       <AnimatePresence>

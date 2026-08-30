@@ -546,6 +546,8 @@ export const en: Translations = {
     saveButton: 'Save',
     saving: 'Saving…',
     saveSuccess: 'Name updated.',
+    displayNameRequired: 'Enter a name.',
+    displayNameLockedNotice: 'The display name can only be changed once.',
     emailSectionTitle: 'Email',
     currentEmailLabel: 'Current email',
     newEmailLabel: 'New email',
@@ -583,10 +585,7 @@ export const en: Translations = {
       working: 'Syncing…',
     },
     status: {
-      syncing: 'Syncing…',
-      synced: 'Synced',
       error: 'Sync failed',
-      offline: "Offline: will sync when you're back online",
     },
   },
   a11y: {

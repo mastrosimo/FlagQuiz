@@ -8,7 +8,7 @@ import { AlertBanner } from '../components/auth/AlertBanner';
 import { useTranslation } from '../i18n/useTranslation';
 import { useAuthStore } from '../store/authStore';
 import { signOut, updateEmail, updatePassword } from '../services/authService';
-import { getDisplayName, updateDisplayName, deleteAccount } from '../services/accountService';
+import { updateDisplayName, deleteAccount } from '../services/accountService';
 import { isValidEmail, MIN_PASSWORD_LENGTH } from '../utils/validation';
 import type { TranslationKey } from '../i18n/types';
 
@@ -16,10 +16,14 @@ export function AccountPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const profile = useAuthStore((state) => state.profile);
+  const setProfile = useAuthStore((state) => state.setProfile);
 
   const [displayName, setDisplayName] = useState('');
+  const [nameError, setNameError] = useState<TranslationKey | null>(null);
   const [savingName, setSavingName] = useState(false);
   const [nameSuccess, setNameSuccess] = useState(false);
+  const nameLocked = profile?.displayNameLocked ?? false;
 
   const [newEmail, setNewEmail] = useState('');
   const [emailError, setEmailError] = useState<TranslationKey | null>(null);
@@ -38,25 +42,33 @@ export function AccountPage() {
   const [deleteError, setDeleteError] = useState<TranslationKey | null>(null);
 
   useEffect(() => {
-    if (!user) return;
-    let cancelled = false;
-    getDisplayName(user.id).then((name) => {
-      if (!cancelled && name) setDisplayName(name);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [user]);
+    setDisplayName(profile?.displayName ?? '');
+  }, [profile]);
 
   if (!user) return null;
 
   const handleSaveName = async (event: FormEvent) => {
     event.preventDefault();
+    if (nameLocked) return;
+    const trimmed = displayName.trim();
+    if (!trimmed) {
+      setNameError('account.displayNameRequired');
+      return;
+    }
+    setNameError(null);
     setSavingName(true);
     setNameSuccess(false);
-    const result = await updateDisplayName(user.id, displayName);
+    const result = await updateDisplayName(user.id, trimmed);
     setSavingName(false);
-    if (!result.errorKey) setNameSuccess(true);
+    if (result.errorKey) {
+      setNameError(result.errorKey);
+      return;
+    }
+    setDisplayName(trimmed);
+    setNameSuccess(true);
+    // Aggiorna subito lo store condiviso: la navbar riflette il nuovo nome
+    // senza reload, e il campo passa in stato "bloccato" immediatamente.
+    setProfile({ displayName: trimmed, displayNameLocked: true });
   };
 
   const handleChangeEmail = async (event: FormEvent) => {
@@ -129,25 +141,38 @@ export function AccountPage() {
 
       <Card className="mt-6 p-5">
         <p className="font-semibold text-slate-800 dark:text-slate-100">{t('account.profileSectionTitle')}</p>
-        <form className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end" onSubmit={handleSaveName}>
-          <div className="flex-1">
-            <FormField
-              id="account-display-name"
-              label={t('account.displayNameLabel')}
-              placeholder={t('account.displayNamePlaceholder')}
-              value={displayName}
-              onChange={(event) => {
-                setDisplayName(event.target.value);
-                setNameSuccess(false);
-              }}
-              maxLength={60}
-            />
+        {nameLocked ? (
+          <div className="mt-4">
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">{displayName}</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('account.displayNameLockedNotice')}</p>
           </div>
-          <Button type="submit" disabled={savingName}>
-            {savingName ? t('account.saving') : t('account.saveButton')}
-          </Button>
-        </form>
-        {nameSuccess && <p className="mt-2 text-sm text-success-600 dark:text-success-500">{t('account.saveSuccess')}</p>}
+        ) : (
+          <>
+            <form className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end" onSubmit={handleSaveName}>
+              <div className="flex-1">
+                <FormField
+                  id="account-display-name"
+                  label={t('account.displayNameLabel')}
+                  placeholder={t('account.displayNamePlaceholder')}
+                  value={displayName}
+                  onChange={(event) => {
+                    setDisplayName(event.target.value);
+                    setNameSuccess(false);
+                    setNameError(null);
+                  }}
+                  error={nameError ? t(nameError) : undefined}
+                  maxLength={60}
+                />
+              </div>
+              <Button type="submit" disabled={savingName}>
+                {savingName ? t('account.saving') : t('account.saveButton')}
+              </Button>
+            </form>
+            {nameSuccess && (
+              <p className="mt-2 text-sm text-success-600 dark:text-success-500">{t('account.saveSuccess')}</p>
+            )}
+          </>
+        )}
       </Card>
 
       <Card className="mt-6 p-5">

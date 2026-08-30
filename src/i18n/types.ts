@@ -550,6 +550,8 @@ export interface Translations {
     saveButton: string;
     saving: string;
     saveSuccess: string;
+    displayNameRequired: string;
+    displayNameLockedNotice: string;
     emailSectionTitle: string;
     currentEmailLabel: string;
     newEmailLabel: string;
@@ -587,10 +589,7 @@ export interface Translations {
       working: string;
     };
     status: {
-      syncing: string;
-      synced: string;
       error: string;
-      offline: string;
     };
   };
   a11y: {

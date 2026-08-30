@@ -548,6 +548,8 @@ export const it: Translations = {
     saveButton: 'Salva',
     saving: 'Salvataggio…',
     saveSuccess: 'Nome aggiornato.',
+    displayNameRequired: 'Inserisci un nome.',
+    displayNameLockedNotice: 'Il nome visualizzato può essere modificato una sola volta.',
     emailSectionTitle: 'Email',
     currentEmailLabel: 'Email attuale',
     newEmailLabel: 'Nuova email',
@@ -585,10 +587,7 @@ export const it: Translations = {
       working: 'Sincronizzazione in corso…',
     },
     status: {
-      syncing: 'Sincronizzazione…',
-      synced: 'Sincronizzato',
       error: 'Sincronizzazione non riuscita',
-      offline: 'Offline: verrà sincronizzato al ritorno online',
     },
   },
   a11y: {
