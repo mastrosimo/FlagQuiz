@@ -8,6 +8,10 @@ import { MissionCompleteToast } from './components/missions/MissionCompleteToast
 import { Spinner } from './components/common/Spinner';
 import { HomePage } from './pages/HomePage';
 import { useSeoSync } from './i18n/useSeoSync';
+import { AuthProvider } from './providers/AuthProvider';
+import { SyncProvider } from './providers/SyncProvider';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { MergeDialog } from './components/auth/MergeDialog';
 
 const QuizPage = lazy(() => import('./pages/QuizPage').then((m) => ({ default: m.QuizPage })));
 const CapitalQuizPage = lazy(() =>
@@ -31,6 +35,15 @@ const LocaleHomeRoute = lazy(() =>
 const CountrySlugPage = lazy(() =>
   import('./pages/seo/CountryPage').then((m) => ({ default: m.CountrySlugPage })),
 );
+const LoginPage = lazy(() => import('./pages/auth/LoginPage').then((m) => ({ default: m.LoginPage })));
+const SignupPage = lazy(() => import('./pages/auth/SignupPage').then((m) => ({ default: m.SignupPage })));
+const ForgotPasswordPage = lazy(() =>
+  import('./pages/auth/ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage })),
+);
+const ResetPasswordPage = lazy(() =>
+  import('./pages/auth/ResetPasswordPage').then((m) => ({ default: m.ResetPasswordPage })),
+);
+const AccountPage = lazy(() => import('./pages/AccountPage').then((m) => ({ default: m.AccountPage })));
 const OnlinePage = lazy(() => import('./pages/OnlinePage').then((m) => ({ default: m.OnlinePage })));
 const DuelMatchPage = lazy(() =>
   import('./pages/duel/DuelMatchPage').then((m) => ({ default: m.DuelMatchPage })),
@@ -59,6 +72,7 @@ function AppShell() {
       <AchievementToast />
       <MasteryLevelUpToast />
       <MissionCompleteToast />
+      <MergeDialog />
       <main className="flex-1">
         <Suspense fallback={<PageFallback />}>
           <Routes>
@@ -78,6 +92,18 @@ function AppShell() {
             <Route path="/learn/:code" element={<LearnCountryPage />} />
             <Route path="/achievements" element={<AchievementsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <AccountPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/:locale" element={<LocaleHomeRoute />} />
             <Route path="/it/bandiere/:slug" element={<CountrySlugPage locale="it" />} />
             <Route path="/en/flags/:slug" element={<CountrySlugPage locale="en" />} />
@@ -91,8 +117,12 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppShell />
-    </BrowserRouter>
+    <AuthProvider>
+      <SyncProvider>
+        <BrowserRouter>
+          <AppShell />
+        </BrowserRouter>
+      </SyncProvider>
+    </AuthProvider>
   );
 }

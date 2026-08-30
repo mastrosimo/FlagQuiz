@@ -462,6 +462,137 @@ export interface Translations {
     cancel: string;
     confirmButton: string;
   };
+  auth: {
+    header: {
+      login: string;
+      logout: string;
+      loggingOut: string;
+    };
+    login: {
+      title: string;
+      subtitle: string;
+      emailLabel: string;
+      passwordLabel: string;
+      submitButton: string;
+      submitting: string;
+      noAccount: string;
+      signupLink: string;
+      forgotPasswordLink: string;
+      resendConfirmationButton: string;
+      resendConfirmationSuccess: string;
+    };
+    signup: {
+      title: string;
+      subtitle: string;
+      emailLabel: string;
+      passwordLabel: string;
+      passwordHint: string;
+      confirmPasswordLabel: string;
+      submitButton: string;
+      submitting: string;
+      hasAccount: string;
+      loginLink: string;
+      successTitle: string;
+      successDescription: string;
+      resendButton: string;
+      resendSuccess: string;
+      backHome: string;
+    };
+    forgotPassword: {
+      title: string;
+      subtitle: string;
+      emailLabel: string;
+      submitButton: string;
+      submitting: string;
+      backToLogin: string;
+      successTitle: string;
+      successDescription: string;
+    };
+    resetPassword: {
+      title: string;
+      subtitle: string;
+      passwordLabel: string;
+      confirmPasswordLabel: string;
+      submitButton: string;
+      submitting: string;
+      successTitle: string;
+      successDescription: string;
+      successCta: string;
+      invalidLinkTitle: string;
+      invalidLinkDescription: string;
+      requestNewLink: string;
+      checkingLink: string;
+    };
+    errors: {
+      emailRequired: string;
+      emailInvalid: string;
+      passwordRequired: string;
+      passwordTooShort: string;
+      passwordMismatch: string;
+      invalidCredentials: string;
+      emailNotConfirmed: string;
+      userAlreadyExists: string;
+      weakPassword: string;
+      rateLimited: string;
+      samePassword: string;
+      invalidOrExpiredLink: string;
+      serviceUnavailable: string;
+      generic: string;
+    };
+  };
+  account: {
+    menuLink: string;
+    title: string;
+    subtitle: string;
+    profileSectionTitle: string;
+    displayNameLabel: string;
+    displayNamePlaceholder: string;
+    saveButton: string;
+    saving: string;
+    saveSuccess: string;
+    emailSectionTitle: string;
+    currentEmailLabel: string;
+    newEmailLabel: string;
+    changeEmailButton: string;
+    changeEmailSuccessTitle: string;
+    changeEmailSuccessDescription: string;
+    passwordSectionTitle: string;
+    newPasswordLabel: string;
+    confirmPasswordLabel: string;
+    changePasswordButton: string;
+    changePasswordSuccess: string;
+    sessionSectionTitle: string;
+    logoutButton: string;
+    dangerZoneTitle: string;
+    dangerZoneDescription: string;
+    deleteAccountButton: string;
+    deleteConfirmTitle: string;
+    deleteConfirmDescription: string;
+    deleteConfirmButton: string;
+    deleting: string;
+    cancel: string;
+  };
+  sync: {
+    mergeDialog: {
+      title: string;
+      description: string;
+      localSummaryTitle: string;
+      cloudSummaryTitle: string;
+      gamesPlayed: string;
+      flagsRecognized: string;
+      xp: string;
+      achievements: string;
+      mergeButton: string;
+      skipButton: string;
+      working: string;
+    };
+    status: {
+      syncing: string;
+      synced: string;
+      error: string;
+      offline: string;
+    };
+  };
   a11y: {
     loading: string;
   };

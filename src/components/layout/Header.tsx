@@ -6,6 +6,8 @@ import { getLevelForXp } from '../../data/levels';
 import { LevelProgressBar } from '../common/LevelProgressBar';
 import { ThemeToggle } from './ThemeToggle';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { UserMenu } from './UserMenu';
+import { SyncStatusIndicator } from './SyncStatusIndicator';
 import { useTranslation } from '../../i18n/useTranslation';
 
 function navLinkClass({ isActive }: { isActive: boolean }) {
@@ -72,6 +74,8 @@ export function Header() {
           >
             <span aria-hidden="true">🎯</span>
           </NavLink>
+          <SyncStatusIndicator />
+          <UserMenu />
           <LanguageSwitcher />
           <ThemeToggle />
           <button

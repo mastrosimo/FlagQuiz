@@ -3,5 +3,10 @@ Allow: /
 
 Disallow: /results
 Disallow: /settings
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /account
 
 Sitemap: https://flagquiz.eu/sitemap.xml
