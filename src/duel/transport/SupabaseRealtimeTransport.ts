@@ -225,6 +225,7 @@ export class SupabaseRealtimeTransport implements DuelTransport {
       )
       .on('broadcast', { event: 'rematch_proposed' }, ({ payload }) => this.handleRematchProposed(payload.role))
       .on('broadcast', { event: 'rematch_declined' }, () => this.handleRematchDeclined())
+      .on('broadcast', { event: 'rematch_started' }, ({ payload }) => void this.handleRematchStarted(payload?.code))
       .on('presence', { event: 'sync' }, () => this.handlePresenceSync(channel))
       .on('presence', { event: 'join' }, () => this.handlePresenceSync(channel))
       .on('presence', { event: 'leave' }, () => this.handlePresenceSync(channel));
@@ -393,10 +394,28 @@ export class SupabaseRealtimeTransport implements DuelTransport {
     this.emit({ type: 'REMATCH_DECLINED' });
   }
 
+  // Il guest non crea mai la partita (create_duel_match richiede un
+  // creatore), ma deve comunque unirsi a quella nuova per avere una propria
+  // riga duel_players: senza questo ascoltatore restava bloccato per sempre
+  // sulla schermata "in attesa", perche' nessun codice esisteva prima per
+  // reagire al broadcast "rematch_started" (bug reale osservato in un test
+  // dal vivo — il commento su startRematch parlava gia' di "entrambi i
+  // client si ri-agganciano", ma il codice per il lato guest non c'era mai
+  // stato scritto).
+  private async handleRematchStarted(code: string | undefined): Promise<void> {
+    if (!code || !supabase || this.localRole === 'host' || this.destroyed) return;
+    const { data, error } = await supabase.rpc('join_duel_match', { p_code: code });
+    if (error || !data) {
+      console.error('[duel] join_duel_match (rivincita) fallita:', error);
+      return;
+    }
+    await this.reconnectTo(data as DuelMatchRow);
+  }
+
   // Solo l'host crea davvero la nuova partita (create_duel_match richiede un
-  // creatore) e trasmette il nuovo codice: entrambi i client poi si
-  // ri-agganciano al nuovo canale, stesso principio del cambio URL gia'
-  // gestito da DuelMatchPage quando cambia state.match.code.
+  // creatore) e trasmette il nuovo codice: il guest si riaggancia tramite
+  // handleRematchStarted sopra, stesso principio del cambio URL gia' gestito
+  // da DuelMatchPage quando cambia state.match.code.
   private async startRematch(): Promise<void> {
     if (!supabase || this.localRole !== 'host') return;
     this.localWantsRematch = false;
@@ -407,8 +426,15 @@ export class SupabaseRealtimeTransport implements DuelTransport {
       p_question_count: DUEL_QUESTION_COUNT,
       p_time_limit_ms: DUEL_TIME_LIMIT_MS,
     });
-    if (error || !data) return;
-    void this.channel?.send({ type: 'broadcast', event: 'rematch_started', payload: { code: newCode } });
+    if (error || !data) {
+      console.error('[duel] create_duel_match (rivincita) fallita:', error);
+      return;
+    }
+    // Atteso (non "void"): il canale attuale viene rimosso dentro
+    // reconnectTo() subito dopo — senza aspettare che il broadcast sia
+    // davvero stato inviato, la rimozione del canale potrebbe vincere la
+    // corsa e il guest non riceverebbe mai il nuovo codice.
+    await this.channel?.send({ type: 'broadcast', event: 'rematch_started', payload: { code: newCode } });
     await this.reconnectTo(data as DuelMatchRow);
   }
 
@@ -420,6 +446,13 @@ export class SupabaseRealtimeTransport implements DuelTransport {
     this.lastCountdownEndsAtMs = null;
     this.lastRoundStartedAtMs = null;
     this.matchFinishedEmitted = false;
+    // Reset anche qui (non solo in startRematch, che gira solo sull'host):
+    // e' l'unico punto attraversato da entrambi i lati di una rivincita, e
+    // senza questo il lato guest arriverebbe alla nuova partita con
+    // localWantsRematch ancora true dalla precedente, bloccando in silenzio
+    // una eventuale rivincita successiva (proposeRematch la ignorerebbe).
+    this.localWantsRematch = false;
+    this.opponentWantsRematch = false;
     this.code = match.code;
     await this.subscribe(match.code);
     const questions = buildDuelQuestions(match.code, match.question_count);
