@@ -2,7 +2,7 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabaseClient';
 import { buildDuelQuestions } from '../duelEngine';
 import { generateMatchCode } from '../codeGenerator';
-import { DUEL_QUESTION_COUNT, DUEL_ROUND_TRANSITION_MS, DUEL_TIME_LIMIT_MS } from '../constants';
+import { DUEL_QUESTION_COUNT, DUEL_REVEAL_DELAY_MS, DUEL_ROUND_TRANSITION_MS, DUEL_TIME_LIMIT_MS } from '../constants';
 import type {
   DuelAnswerRecord,
   DuelEngineEvent,
@@ -430,15 +430,31 @@ export class SupabaseRealtimeTransport implements DuelTransport {
 
   private async maybeResolveRound(questionIndex: number): Promise<void> {
     if (!supabase || !this.code) return;
-    const { count } = await supabase
+    const { data } = await supabase
       .from('duel_answers')
-      .select('*', { count: 'exact', head: true })
+      .select('timed_out')
       .eq('match_code', this.code)
       .eq('question_index', questionIndex);
-    if (count === 2 && this.resolvedRoundIndex !== questionIndex) {
+    const rows = data ?? [];
+    if (rows.length !== 2 || this.resolvedRoundIndex === questionIndex) return;
+
+    const resolve = () => {
+      if (this.destroyed || this.resolvedRoundIndex === questionIndex) return;
       this.resolvedRoundIndex = questionIndex;
       this.lastRoundResolvedAt = Date.now();
       this.emit({ type: 'ROUND_RESOLVED', questionIndex });
+    };
+
+    // Se qualcuno ha ricevuto un timeout, il tempo e' gia' scaduto per
+    // davvero (la pausa del countdown l'ha gia' fornita naturalmente): solo
+    // quando entrambi rispondono in anticipo aggiungiamo la pausa apposita
+    // prima di rivelare l'esito, altrimenti il reveal risulterebbe ritardato
+    // due volte (countdown scaduto + questa attesa).
+    const bothAnsweredEarly = rows.every((row) => !row.timed_out);
+    if (bothAnsweredEarly) {
+      setTimeout(resolve, DUEL_REVEAL_DELAY_MS);
+    } else {
+      resolve();
     }
   }
 

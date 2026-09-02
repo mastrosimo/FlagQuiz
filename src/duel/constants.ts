@@ -7,6 +7,14 @@ export const DUEL_TIME_LIMIT_MS = 15000;
 export const MOCK_OPPONENT_JOIN_DELAY_MS = 700;
 export const MOCK_OPPONENT_AUTO_READY_DELAY_MS = 1100;
 export const DUEL_ROUND_TRANSITION_MS = 1500;
+// Pausa tra "entrambi hanno risposto" e la comparsa dell'esito (giusto/
+// sbagliato): senza questa attesa, chi risponde per ultimo vede il reveal
+// scattare nell'istante stesso del click. Si applica solo quando entrambi
+// rispondono prima dello scadere del tempo — non al timeout naturale, che
+// ha gia' la sua pausa nel countdown. Stessa costante concettuale lato
+// server in supabase/migrations/20260902120000_delay_duel_round_reveal.sql
+// (da tenere allineate manualmente se cambia).
+export const DUEL_REVEAL_DELAY_MS = 1200;
 export const DUEL_COUNTDOWN_MS = 3000;
 
 // Ritardo minimo prima che il computer "entri" nella partita contro il
