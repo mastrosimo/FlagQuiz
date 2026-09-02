@@ -20,6 +20,9 @@ const QUESTION_HEADING_KEY: Record<LearnQuestionType, TranslationKey> = {
 
 const FLAG_STATUS_CLASSES: Record<AnswerButtonStatus, string> = {
   idle: 'border-slate-200 hover:border-brand-400 dark:border-slate-700',
+  // Non prodotto da questo quiz (feedback immediato, mai un'attesa "in
+  // sospeso"): presente solo per l'esaustivita' richiesta da AnswerButtonStatus.
+  'selected-pending': 'border-slate-200 hover:border-brand-400 dark:border-slate-700',
   'selected-correct': 'border-success-500 ring-2 ring-success-500/40',
   'selected-wrong': 'border-danger-500 ring-2 ring-danger-500/40',
   'correct-unselected': 'border-success-500 ring-2 ring-success-500/40',

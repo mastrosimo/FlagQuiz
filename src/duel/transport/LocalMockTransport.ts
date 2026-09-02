@@ -3,11 +3,13 @@ import type {
   DuelMatchInfo,
   DuelMockControls,
   DuelPlayerId,
+  DuelPlayerStats,
   DuelTransport,
 } from '../types';
 import type { Question } from '../../types';
 import { generateMatchCode } from '../codeGenerator';
 import { resolveAnswer, buildDuelQuestions } from '../duelEngine';
+import { isFastAnswer } from '../../utils/scoring';
 import {
   DUEL_QUESTION_COUNT,
   DUEL_TIME_LIMIT_MS,
@@ -24,6 +26,10 @@ import { BOT_DIFFICULTY_CONFIG, BOT_NAME, type BotDifficulty } from '../botDiffi
 // solo dal flusso "sfida un amico" (simulazione manuale); il flusso "contro
 // il computer" usa invece BOT_NAME.
 const OPPONENT_NAMES = ['FlagBot', 'QuizRival', 'CPU_42'];
+
+function createEmptyStats(): DuelPlayerStats {
+  return { score: 0, correctCount: 0, wrongCount: 0, currentStreak: 0, bestStreak: 0, fastAnswers: 0 };
+}
 
 export interface LocalMockTransportOptions {
   /** Presente solo per il flusso "1vs1 contro il computer". */
@@ -62,8 +68,10 @@ export class LocalMockTransport implements DuelTransport {
   private advanceTimer: ReturnType<typeof setTimeout> | null = null;
   private pendingTimers: ReturnType<typeof setTimeout>[] = [];
 
-  private streaks: Record<DuelPlayerId, number> = { local: 0, opponent: 0 };
-  private totals: Record<DuelPlayerId, number> = { local: 0, opponent: 0 };
+  private stats: Record<DuelPlayerId, DuelPlayerStats> = {
+    local: createEmptyStats(),
+    opponent: createEmptyStats(),
+  };
   private destroyed = false;
 
   private localWantsRematch = false;
@@ -255,11 +263,20 @@ export class LocalMockTransport implements DuelTransport {
     if (this.answeredThisRound.has(playerId)) return;
     const question = this.questions[this.currentIndex];
     if (!question) return;
-    const record = resolveAnswer(question, code, timeMs, this.streaks[playerId], timedOut);
-    this.streaks[playerId] = record.correct ? this.streaks[playerId] + 1 : 0;
-    this.totals[playerId] += record.points;
+    const prev = this.stats[playerId];
+    const record = resolveAnswer(question, code, timeMs, prev.currentStreak, timedOut);
+    const currentStreak = record.correct ? prev.currentStreak + 1 : 0;
+    this.stats[playerId] = {
+      score: prev.score + record.points,
+      correctCount: prev.correctCount + (record.correct ? 1 : 0),
+      wrongCount: prev.wrongCount + (record.correct ? 0 : 1),
+      currentStreak,
+      bestStreak: Math.max(prev.bestStreak, currentStreak),
+      fastAnswers: prev.fastAnswers + (record.correct && isFastAnswer(record.timeMs) ? 1 : 0),
+    };
     this.answeredThisRound.add(playerId);
-    this.emit({ type: 'ANSWER_RESULT', playerId, record });
+    this.emit({ type: 'ANSWER_RESULT', playerId, questionIndex: this.currentIndex, record });
+    this.emit({ type: 'PLAYER_STATS_SYNCED', playerId, stats: this.stats[playerId] });
 
     if (playerId === 'local') this.clearRoundTimer(); // il timer del round resta solo per forzare l'avversario/timeout
     if (this.answeredThisRound.size === 2) this.resolveRound();
@@ -286,7 +303,7 @@ export class LocalMockTransport implements DuelTransport {
     this.resolvedRoundIndex = this.currentIndex;
     this.clearRoundTimer();
     this.clearOpponentAnswerTimer();
-    this.emit({ type: 'ROUND_RESOLVED' });
+    this.emit({ type: 'ROUND_RESOLVED', questionIndex: this.currentIndex });
     this.advanceTimer = setTimeout(() => {
       const nextIndex = this.currentIndex + 1;
       if (this.match && nextIndex < this.match.questionCount) {
@@ -300,9 +317,9 @@ export class LocalMockTransport implements DuelTransport {
 
   private finishMatch(): void {
     const winnerId =
-      this.totals.local === this.totals.opponent
+      this.stats.local.score === this.stats.opponent.score
         ? 'draw'
-        : this.totals.local > this.totals.opponent
+        : this.stats.local.score > this.stats.opponent.score
           ? 'local'
           : 'opponent';
     this.emit({ type: 'MATCH_FINISHED', winnerId });
@@ -332,11 +349,13 @@ export class LocalMockTransport implements DuelTransport {
     this.questions = buildDuelQuestions(match.code, match.questionCount);
     this.currentIndex = -1;
     this.answeredThisRound = new Set();
-    this.streaks = { local: 0, opponent: 0 };
-    this.totals = { local: 0, opponent: 0 };
+    this.stats = { local: createEmptyStats(), opponent: createEmptyStats() };
     this.localReady = false;
     this.opponentReady = false;
     this.emit({ type: 'REMATCH_STARTED', match, questions: this.questions });
+    (['local', 'opponent'] as DuelPlayerId[]).forEach((playerId) =>
+      this.emit({ type: 'PLAYER_STATS_SYNCED', playerId, stats: this.stats[playerId] }),
+    );
     // Entrambi hanno già acconsentito: si passa rapidamente da lobby a pronti.
     this.track(setTimeout(() => this.setReadyFor('local'), 200));
     this.track(setTimeout(() => this.setReadyFor('opponent'), 500));

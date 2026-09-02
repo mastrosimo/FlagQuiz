@@ -597,8 +597,7 @@ export const en: Translations = {
     vsComputerTitle: '🤖 Play against the computer',
     vsComputerDescription: 'Choose a difficulty and start right away.',
     vsFriendTitle: '👥 Play with a friend',
-    vsFriendDescription: 'Real-time challenges with friends are on their way.',
-    comingSoonBadge: 'Coming soon',
+    vsFriendDescription: 'Create a private match or join with a code: same 10 flags, in real time.',
   },
   duel: {
     navLabel: '1vs1',
@@ -613,6 +612,8 @@ export const en: Translations = {
       codePlaceholder: 'ABC123',
       joinButton: 'Join',
       invalidCode: 'Enter a valid 6-character code.',
+      requiresLogin: 'You need an account to challenge a friend online — log in or sign up.',
+      joinFailed: "Couldn't join this match: the code doesn't exist, it's already full, or it's your own match.",
     },
     lobby: {
       codeLabel: 'Match code',
@@ -645,14 +646,15 @@ export const en: Translations = {
     },
     disconnected: {
       title: 'Opponent disconnected',
-      description: "Reconnection in progress — the match doesn't end immediately.",
       reconnectButton: '🧪 Simulate reconnection',
     },
     result: {
-      victory: '🏆 Victory',
-      defeat: '💀 Defeat',
+      victory: '🏆 You won',
+      defeat: '💀 You lost',
       draw: '🤝 Draw',
       comparisonTitle: 'Match comparison',
+      summaryTitle: 'Question-by-question summary',
+      summaryTimedOut: 'Time expired',
       youColumn: 'You',
       opponentColumn: 'Opponent',
       scoreLabel: 'Score',

@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { DuelSessionProvider, useDuelSession } from '../../duel/useDuelSession';
 import { isValidMatchCode, normalizeMatchCode } from '../../duel/codeGenerator';
-import { DuelMockBanner } from '../../components/duel/DuelMockBanner';
 import { DuelLobbyView } from '../../components/duel/DuelLobbyView';
 import { DuelCountdown } from '../../components/duel/DuelCountdown';
 import { DuelPlayView } from '../../components/duel/DuelPlayView';
 import { DuelResultView } from '../../components/duel/DuelResultView';
 import { DuelDisconnectedOverlay } from '../../components/duel/DuelDisconnectedOverlay';
+import { useAuthStore } from '../../store/authStore';
+import { getShownName } from '../../utils/displayName';
 import { useTranslation } from '../../i18n/useTranslation';
 
 interface DuelNavState {
@@ -40,10 +41,14 @@ function DuelMatchContent() {
   );
 }
 
+// Wrappata da ProtectedRoute in App.tsx (/1vs1/:code): user e' garantito
+// non nullo qui, il guard sotto e' solo per il type narrowing di TypeScript.
 export function DuelMatchPage() {
   const { code: rawCode } = useParams<{ code: string }>();
   const location = useLocation();
   const { t } = useTranslation();
+  const user = useAuthStore((state) => state.user);
+  const profile = useAuthStore((state) => state.profile);
   const intent = (location.state as DuelNavState | null)?.intent === 'create' ? 'create' : 'join';
   const code = normalizeMatchCode(rawCode ?? '');
 
@@ -55,10 +60,22 @@ export function DuelMatchPage() {
     );
   }
 
+  if (!user) return null;
+
   return (
     <div className="px-4 pt-6">
-      <DuelMockBanner />
-      <DuelSessionProvider intent={intent} code={code} localPlayerName={t('duel.lobby.youLabel')}>
+      <DuelSessionProvider
+        intent={intent}
+        code={code}
+        localPlayerName={getShownName(profile?.displayName, user.email)}
+        transportKind="supabase-realtime"
+        userId={user.id}
+        renderError={() => (
+          <div className="mx-auto max-w-md px-4 py-16 text-center">
+            <p className="text-slate-500 dark:text-slate-400">{t('duel.home.joinFailed')}</p>
+          </div>
+        )}
+      >
         <DuelMatchContent />
       </DuelSessionProvider>
     </div>

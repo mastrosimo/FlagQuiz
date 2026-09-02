@@ -20,14 +20,16 @@ function PlayerRow({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-800">
-      <span className="font-semibold text-slate-700 dark:text-slate-200">{label}</span>
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-800">
+      <span className="min-w-0 truncate font-semibold text-slate-700 dark:text-slate-200" title={label}>
+        {label}
+      </span>
       {!connected ? (
-        <span className="text-xs font-medium text-slate-400">{notConnectedText}</span>
+        <span className="shrink-0 text-xs font-medium text-slate-400">{notConnectedText}</span>
       ) : ready ? (
-        <span className="text-xs font-bold text-success-600 dark:text-success-500">{t('duel.lobby.readyDone')}</span>
+        <span className="shrink-0 text-xs font-bold text-success-600 dark:text-success-500">{t('duel.lobby.readyDone')}</span>
       ) : (
-        <span className="text-xs font-medium text-slate-400">{notReadyText}</span>
+        <span className="shrink-0 text-xs font-medium text-slate-400">{notReadyText}</span>
       )}
     </div>
   );

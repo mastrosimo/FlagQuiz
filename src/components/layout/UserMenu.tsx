@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAuthStore } from '../../store/authStore';
 import { signOut } from '../../services/authService';
+import { getShownName } from '../../utils/displayName';
 import { useTranslation } from '../../i18n/useTranslation';
 
 export function UserMenu() {
@@ -58,11 +59,8 @@ export function UserMenu() {
   };
 
   const email = user?.email ?? '';
-  // Se l'utente ha impostato un nome, mostra quello; altrimenti fallback sulla
-  // parte locale dell'email (prima della @), o sull'email intera se assente.
-  const displayName = profile?.displayName?.trim();
-  const shownName = displayName || email.split('@')[0] || email;
-  const initial = (displayName || email).charAt(0).toUpperCase() || '?';
+  const shownName = getShownName(profile?.displayName, email);
+  const initial = shownName.charAt(0).toUpperCase() || '?';
 
   return (
     <div className="relative" ref={containerRef}>

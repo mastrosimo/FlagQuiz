@@ -14,7 +14,6 @@ export function DuelDisconnectedOverlay() {
     >
       <span className="text-4xl" aria-hidden="true">📡</span>
       <p className="font-display text-xl font-bold text-white">{t('duel.disconnected.title')}</p>
-      <p className="max-w-sm text-sm text-slate-300">{t('duel.disconnected.description')}</p>
       {mockControls && (
         <button
           type="button"

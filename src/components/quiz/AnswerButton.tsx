@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export type AnswerButtonStatus = 'idle' | 'selected-correct' | 'selected-wrong' | 'correct-unselected' | 'muted';
+export type AnswerButtonStatus = 'idle' | 'selected-pending' | 'selected-correct' | 'selected-wrong' | 'correct-unselected' | 'muted';
 
 interface AnswerButtonProps {
   letter: string;
@@ -12,6 +12,7 @@ interface AnswerButtonProps {
 
 const STATUS_CLASSES: Record<AnswerButtonStatus, string> = {
   idle: 'border-slate-200 bg-white hover:border-brand-400 hover:bg-brand-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700',
+  'selected-pending': 'border-brand-500 bg-brand-500/10 text-brand-700 dark:text-brand-400',
   'selected-correct': 'border-success-500 bg-success-500/10 text-success-600 dark:text-success-500',
   'selected-wrong': 'border-danger-500 bg-danger-500/10 text-danger-600 dark:text-danger-500',
   'correct-unselected': 'border-success-500 bg-success-500/10 text-success-600 dark:text-success-500',

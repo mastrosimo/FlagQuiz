@@ -602,7 +602,6 @@ export interface Translations {
     vsComputerDescription: string;
     vsFriendTitle: string;
     vsFriendDescription: string;
-    comingSoonBadge: string;
   };
   duel: {
     navLabel: string;
@@ -617,6 +616,8 @@ export interface Translations {
       codePlaceholder: string;
       joinButton: string;
       invalidCode: string;
+      requiresLogin: string;
+      joinFailed: string;
     };
     lobby: {
       codeLabel: string;
@@ -649,7 +650,6 @@ export interface Translations {
     };
     disconnected: {
       title: string;
-      description: string;
       reconnectButton: string;
     };
     result: {
@@ -657,6 +657,8 @@ export interface Translations {
       defeat: string;
       draw: string;
       comparisonTitle: string;
+      summaryTitle: string;
+      summaryTimedOut: string;
       youColumn: string;
       opponentColumn: string;
       scoreLabel: string;

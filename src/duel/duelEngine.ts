@@ -1,6 +1,6 @@
 import type { Question } from '../types';
 import { buildDailyChallenge } from '../utils/questionGenerator';
-import { computeAnswerScore, getComboMultiplier, isFastAnswer } from '../utils/scoring';
+import { computeAnswerScore, getComboMultiplier } from '../utils/scoring';
 import type {
   DuelAnswerRecord,
   DuelEngineEvent,
@@ -88,20 +88,14 @@ export function createInitialDuelState(
   };
 }
 
-function applyAnswer(player: DuelPlayerState, questionIndex: number, record: DuelAnswerRecord): DuelPlayerState {
+// Registra solo la risposta nello storico (serve per la UI di round e per
+// il riepilogo finale). Punteggio/streak/contatori NON vengono toccati qui:
+// arrivano esclusivamente da PLAYER_STATS_SYNCED, l'unica fonte di verita'
+// per quei numeri — vedi il commento sul tipo dell'evento in types.ts.
+function recordRawAnswer(player: DuelPlayerState, questionIndex: number, record: DuelAnswerRecord): DuelPlayerState {
   const answers = [...player.answers];
   answers[questionIndex] = record;
-  const currentStreak = record.correct ? player.currentStreak + 1 : 0;
-  return {
-    ...player,
-    answers,
-    score: player.score + record.points,
-    correctCount: player.correctCount + (record.correct ? 1 : 0),
-    wrongCount: player.wrongCount + (record.correct ? 0 : 1),
-    currentStreak,
-    bestStreak: Math.max(player.bestStreak, currentStreak),
-    fastAnswers: player.fastAnswers + (record.correct && isFastAnswer(record.timeMs) ? 1 : 0),
-  };
+  return { ...player, answers };
 }
 
 export function duelReducer(state: DuelState, event: DuelEngineEvent): DuelState {
@@ -140,11 +134,23 @@ export function duelReducer(state: DuelState, event: DuelEngineEvent): DuelState
         ...state,
         players: {
           ...state.players,
-          [event.playerId]: applyAnswer(state.players[event.playerId], state.currentQuestionIndex, event.record),
+          [event.playerId]: recordRawAnswer(state.players[event.playerId], event.questionIndex, event.record),
+        },
+      };
+
+    case 'PLAYER_STATS_SYNCED':
+      return {
+        ...state,
+        players: {
+          ...state.players,
+          [event.playerId]: { ...state.players[event.playerId], ...event.stats },
         },
       };
 
     case 'ROUND_RESOLVED':
+      // Ignora conferme tardive di un round gia' superato (vedi commento
+      // sul tipo dell'evento in types.ts).
+      if (event.questionIndex !== state.currentQuestionIndex) return state;
       return { ...state, phase: 'question-transition' };
 
     case 'MATCH_FINISHED':

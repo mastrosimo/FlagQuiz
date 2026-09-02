@@ -1,5 +1,5 @@
 export const DUEL_QUESTION_COUNT = 10;
-export const DUEL_TIME_LIMIT_MS = 8000;
+export const DUEL_TIME_LIMIT_MS = 15000;
 
 // Solo per il flusso "sfida un amico" (simulazione manuale di ingresso/pronto):
 // il comportamento risposta/velocità del bot vero e proprio è invece in

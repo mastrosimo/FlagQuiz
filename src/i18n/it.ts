@@ -599,8 +599,7 @@ export const it: Translations = {
     vsComputerTitle: '🤖 Gioca contro il computer',
     vsComputerDescription: 'Scegli la difficoltà e parti subito.',
     vsFriendTitle: '👥 Gioca con un amico',
-    vsFriendDescription: 'Le sfide in tempo reale con gli amici sono in arrivo.',
-    comingSoonBadge: 'Prossimamente',
+    vsFriendDescription: 'Crea una partita privata o entra con un codice: stesse 10 bandiere, in tempo reale.',
   },
   duel: {
     navLabel: '1vs1',
@@ -615,6 +614,8 @@ export const it: Translations = {
       codePlaceholder: 'ABC123',
       joinButton: 'Entra',
       invalidCode: 'Inserisci un codice valido di 6 caratteri.',
+      requiresLogin: 'Serve un account per sfidare un amico online — accedi o registrati.',
+      joinFailed: 'Impossibile entrare in questa partita: il codice non esiste, è già al completo, o è la tua stessa partita.',
     },
     lobby: {
       codeLabel: 'Codice partita',
@@ -647,14 +648,15 @@ export const it: Translations = {
     },
     disconnected: {
       title: 'Avversario disconnesso',
-      description: 'Riconnessione in corso — la partita non termina subito.',
       reconnectButton: '🧪 Simula riconnessione',
     },
     result: {
-      victory: '🏆 Vittoria',
-      defeat: '💀 Sconfitta',
+      victory: '🏆 Hai vinto',
+      defeat: '💀 Hai perso',
       draw: '🤝 Pareggio',
       comparisonTitle: 'Confronto partita',
+      summaryTitle: 'Riepilogo domanda per domanda',
+      summaryTimedOut: 'Tempo scaduto',
       youColumn: 'Tu',
       opponentColumn: 'Avversario',
       scoreLabel: 'Punteggio',

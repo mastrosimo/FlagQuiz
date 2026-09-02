@@ -32,3 +32,8 @@ dist-ssr
 .claude/
 scripts/dev.sh
 scripts/preview.sh
+
+# Cache locale della Supabase CLI (project ref, versioni servizi, pooler
+# url): rigenerata da `supabase link`, non va versionata.
+supabase/.temp/
+supabase/.branches/

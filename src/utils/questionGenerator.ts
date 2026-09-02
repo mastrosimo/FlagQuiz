@@ -4,12 +4,22 @@ import { seededShuffle, shuffle } from './shuffle';
 
 const OPTIONS_PER_QUESTION = 4;
 
-function buildDistractors(correct: Country, pool: Country[]): Country[] {
+// Quando `seed` e' presente, la scelta dei distrattori e l'ordine delle
+// opzioni diventano deterministici: necessario perche' due client diversi
+// (es. i due giocatori di un 1vs1, o due caricamenti della Sfida del
+// Giorno) devono vedere esattamente le stesse 4 opzioni per la stessa
+// domanda, non solo la stessa bandiera corretta. Senza seed, comportamento
+// invariato (variazione ad ogni partita, quiz singolo/pratica).
+function pickShuffle<T>(items: T[], seed?: string): T[] {
+  return seed ? seededShuffle(items, seed) : shuffle(items);
+}
+
+function buildDistractors(correct: Country, pool: Country[], seed?: string): Country[] {
   const distractors: Country[] = [];
   const usedCodes = new Set([correct.code]);
 
-  const addFrom = (candidates: Country[]) => {
-    for (const candidate of shuffle(candidates)) {
+  const addFrom = (candidates: Country[], salt: string) => {
+    for (const candidate of pickShuffle(candidates, seed ? `${seed}-${salt}` : undefined)) {
       if (distractors.length >= OPTIONS_PER_QUESTION - 1) break;
       if (usedCodes.has(candidate.code)) continue;
       distractors.push(candidate);
@@ -21,19 +31,19 @@ function buildDistractors(correct: Country, pool: Country[]): Country[] {
     const similarCountries = correct.similar
       .map((code) => COUNTRY_BY_CODE[code])
       .filter((country): country is Country => Boolean(country));
-    addFrom(similarCountries);
+    addFrom(similarCountries, 'similar');
   }
 
-  addFrom(pool.filter((country) => country.continent === correct.continent));
-  addFrom(pool.filter((country) => country.difficulty === correct.difficulty));
-  addFrom(COUNTRIES);
+  addFrom(pool.filter((country) => country.continent === correct.continent), 'continent');
+  addFrom(pool.filter((country) => country.difficulty === correct.difficulty), 'difficulty');
+  addFrom(COUNTRIES, 'all');
 
   return distractors.slice(0, OPTIONS_PER_QUESTION - 1);
 }
 
-export function buildQuestion(correct: Country, pool: Country[]): Question {
-  const distractors = buildDistractors(correct, pool);
-  const options = shuffle([correct, ...distractors]);
+export function buildQuestion(correct: Country, pool: Country[], seed?: string): Question {
+  const distractors = buildDistractors(correct, pool, seed ? `${seed}-${correct.code}` : undefined);
+  const options = pickShuffle([correct, ...distractors], seed ? `${seed}-${correct.code}-order` : undefined);
   return { correct, options };
 }
 
@@ -67,7 +77,7 @@ export function buildQuestionSet(
 
 export function buildDailyChallenge(dateKey: string, count = 10): Question[] {
   const dailyPool = seededShuffle(COUNTRIES, dateKey).slice(0, count);
-  return dailyPool.map((country) => buildQuestion(country, COUNTRIES));
+  return dailyPool.map((country) => buildQuestion(country, COUNTRIES, dateKey));
 }
 
 export function getTodayKey(): string {

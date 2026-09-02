@@ -8,6 +8,12 @@ import type { DuelAnswerRecord, DuelPlayerState } from '../../duel/types';
 import { BOT_DIFFICULTY_LABEL_KEY } from '../../duel/botDifficulty';
 import { useTranslation } from '../../i18n/useTranslation';
 
+function answerIcon(record: DuelAnswerRecord | null): string {
+  if (!record) return '—';
+  if (record.timedOut) return '⏱';
+  return record.correct ? '✅' : '❌';
+}
+
 function averageTimeMs(player: DuelPlayerState): number {
   const answered = player.answers.filter((entry): entry is DuelAnswerRecord => entry != null);
   if (!answered.length) return 0;
@@ -16,7 +22,7 @@ function averageTimeMs(player: DuelPlayerState): number {
 
 export function DuelResultView() {
   const { state, proposeRematch, declineRematch, mockControls } = useDuelSession();
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const navigate = useNavigate();
   const { local, opponent } = state.players;
 
@@ -72,6 +78,32 @@ export function DuelResultView() {
               <span className="font-bold text-slate-900 dark:text-white">{row.opponent}</span>
             </div>
           ))}
+        </div>
+
+        <p className="mt-6 mb-2 text-xs font-bold uppercase tracking-widest text-slate-400">
+          {t('duel.result.summaryTitle')}
+        </p>
+        <div className="max-h-64 overflow-y-auto rounded-2xl bg-slate-50 dark:bg-slate-800">
+          {state.questions.map((question, index) => {
+            const you = local.answers[index];
+            const opp = opponent.answers[index];
+            return (
+              <div
+                key={question.correct.code}
+                className="flex items-center justify-between gap-3 border-t border-slate-200 px-4 py-2 text-sm first:border-t-0 dark:border-slate-700"
+              >
+                <span className="min-w-0 flex-1 truncate font-medium text-slate-700 dark:text-slate-200">
+                  {index + 1}. {question.correct.name[locale]}
+                </span>
+                <span className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400" title={you?.timedOut ? t('duel.result.summaryTimedOut') : undefined}>
+                  {answerIcon(you)} {you && !you.timedOut ? `+${you.points}` : ''}
+                </span>
+                <span className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400" title={opp?.timedOut ? t('duel.result.summaryTimedOut') : undefined}>
+                  {answerIcon(opp)} {opp && !opp.timedOut ? `+${opp.points}` : ''}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-3">

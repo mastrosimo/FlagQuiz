@@ -10,9 +10,10 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import type { Question } from '../types';
-import type { DuelMatchInfo, DuelMockControls, DuelState, DuelTransport } from './types';
+import type { DuelMatchInfo, DuelMockControls, DuelState, DuelTransport, DuelTransportKind } from './types';
 import type { BotDifficulty } from './botDifficulty';
 import { LocalMockTransport } from './transport/LocalMockTransport';
+import { SupabaseRealtimeTransport } from './transport/SupabaseRealtimeTransport';
 import { buildDuelQuestions, createInitialDuelState, duelReducer } from './duelEngine';
 
 export type DuelJoinIntent = 'create' | 'join';
@@ -35,16 +36,26 @@ interface DuelSessionProviderProps {
   localPlayerName: string;
   /** Presente solo per il flusso "1vs1 contro il computer". */
   botDifficulty?: BotDifficulty;
+  /** 'supabase-realtime' per il flusso "sfida un amico" reale; richiede userId. */
+  transportKind?: DuelTransportKind;
+  /** ID dell'utente autenticato: obbligatorio solo per transportKind 'supabase-realtime'. */
+  userId?: string;
+  /** Mostrato al posto dei children se create/joinMatch fallisce (es. codice non valido/partita piena). */
+  renderError?: (message: string) => ReactNode;
   children: ReactNode;
 }
 
 /**
- * Punto in cui il "transport layer" viene scelto. Oggi è sempre il mock
- * locale: quando Supabase Realtime sarà pronto, questa sarà l'unica riga da
- * cambiare (es. `new SupabaseRealtimeTransport(...)`) — motore e componenti
- * UI non dipendono da `LocalMockTransport`, solo dall'interfaccia `DuelTransport`.
+ * Punto in cui il "transport layer" viene scelto: il mock locale per "vs
+ * Computer" (`botDifficulty` presente) e per l'uso interno di default, il
+ * transport reale su Supabase per "sfida un amico" — motore e componenti UI
+ * non dipendono da nessuno dei due, solo dall'interfaccia `DuelTransport`.
  */
-function createTransport(botDifficulty?: BotDifficulty): DuelTransport {
+function createTransport(botDifficulty?: BotDifficulty, transportKind?: DuelTransportKind, userId?: string): DuelTransport {
+  if (transportKind === 'supabase-realtime') {
+    if (!userId) throw new Error('supabase-realtime transport requires userId');
+    return new SupabaseRealtimeTransport(userId);
+  }
   return new LocalMockTransport(botDifficulty ? { bot: { difficulty: botDifficulty } } : undefined);
 }
 
@@ -53,6 +64,9 @@ export function DuelSessionProvider({
   code,
   localPlayerName,
   botDifficulty,
+  transportKind,
+  userId,
+  renderError,
   children,
 }: DuelSessionProviderProps) {
   // Creazione e distruzione del transport vivono nello stesso effect (pattern
@@ -64,9 +78,10 @@ export function DuelSessionProvider({
   // separato, si romperebbe proprio con questo doppio-invoke.
   const [transport, setTransport] = useState<DuelTransport | null>(null);
   const [setup, setSetup] = useState<{ match: DuelMatchInfo; questions: Question[] } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const instance = createTransport(botDifficulty);
+    const instance = createTransport(botDifficulty, transportKind, userId);
     setTransport(instance);
     return () => instance.destroy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,16 +97,21 @@ export function DuelSessionProvider({
     if (!transport) return;
     let cancelled = false;
     const init = intent === 'create' ? transport.createMatch(code) : transport.joinMatch(code);
-    init.then((match) => {
-      if (cancelled) return;
-      setSetup({ match, questions: buildDuelQuestions(match.code, match.questionCount) });
-    });
+    init
+      .then((match) => {
+        if (cancelled) return;
+        setSetup({ match, questions: buildDuelQuestions(match.code, match.questionCount) });
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) setError(err instanceof Error ? err.message : 'duel_join_failed');
+      });
     return () => {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transport]);
 
+  if (error) return <>{renderError?.(error) ?? null}</>;
   if (!transport || !setup) return null;
 
   return (

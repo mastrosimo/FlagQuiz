@@ -83,7 +83,14 @@ function AppShell() {
             <Route path="/1vs1" element={<Navigate to="/online" replace />} />
             <Route path="/1vs1/computer" element={<DuelBotSetupPage />} />
             <Route path="/1vs1/computer/:difficulty" element={<DuelBotMatchPage />} />
-            <Route path="/1vs1/:code" element={<DuelMatchPage />} />
+            <Route
+              path="/1vs1/:code"
+              element={
+                <ProtectedRoute>
+                  <DuelMatchPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/missions" element={<MissionsPage />} />
             <Route path="/world" element={<WorldPage />} />
             <Route path="/results" element={<ResultsPage />} />

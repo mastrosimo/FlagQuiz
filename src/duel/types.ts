@@ -37,6 +37,12 @@ export interface DuelPlayerState {
   wantsRematch: boolean;
 }
 
+/** Statistiche cumulative di un giocatore, sganciate dallo storico per-round (`answers`). */
+export type DuelPlayerStats = Pick<
+  DuelPlayerState,
+  'score' | 'correctCount' | 'wrongCount' | 'currentStreak' | 'bestStreak' | 'fastAnswers'
+>;
+
 export interface DuelMatchInfo {
   code: string;
   questionCount: number;
@@ -75,8 +81,24 @@ export type DuelEngineEvent =
   | { type: 'PLAYER_READY'; playerId: DuelPlayerId }
   | { type: 'COUNTDOWN_STARTED'; endsAt: number }
   | { type: 'ROUND_STARTED'; questionIndex: number; roundStartedAt: number }
-  | { type: 'ANSWER_RESULT'; playerId: DuelPlayerId; record: DuelAnswerRecord }
-  | { type: 'ROUND_RESOLVED' }
+  // questionIndex e' la domanda a cui la risposta appartiene realmente, non
+  // necessariamente quella corrente: con un transport in rete l'evento di
+  // un round puo' arrivare dopo che il client e' gia' passato al successivo
+  // (latenza), e senza questo campo il reducer lo scriverebbe per errore
+  // nello slot della domanda nuova (vedi duelReducer).
+  | { type: 'ANSWER_RESULT'; playerId: DuelPlayerId; questionIndex: number; record: DuelAnswerRecord }
+  // Unica fonte di verita' per punteggio/streak/contatori: SOVRASCRIVE (non
+  // incrementa) le statistiche del giocatore indicato. ANSWER_RESULT si
+  // limita a registrare la risposta nello storico (answers[]) — separare i
+  // due eventi evita sia il doppio conteggio sia il disallineamento quando
+  // un client si connette/ricarica a meta' partita (vedi
+  // hydrateExistingPlayers in SupabaseRealtimeTransport).
+  | { type: 'PLAYER_STATS_SYNCED'; playerId: DuelPlayerId; stats: DuelPlayerStats }
+  // Stesso motivo di ANSWER_RESULT: il controllo "entrambi hanno risposto"
+  // e' asincrono (una query di rete) — se nel frattempo il server e' gia'
+  // passato al round successivo, questa conferma tardiva non deve rimettere
+  // la fase su "in attesa esito" per la domanda nuova.
+  | { type: 'ROUND_RESOLVED'; questionIndex: number }
   | { type: 'MATCH_FINISHED'; winnerId: DuelPlayerId | 'draw' }
   | { type: 'OPPONENT_DISCONNECTED' }
   | { type: 'OPPONENT_RECONNECTED' }
