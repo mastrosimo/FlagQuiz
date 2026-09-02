@@ -86,6 +86,7 @@ export class SupabaseRealtimeTransport implements DuelTransport {
   // ROUND_STARTED/MATCH_FINISHED da capo con gli stessi valori.
   private lastCountdownEndsAtMs: number | null = null;
   private lastRoundStartedAtMs: number | null = null;
+  private lastKnownQuestionIndex = -1;
   private matchFinishedEmitted = false;
   private localWantsRematch = false;
   private opponentWantsRematch = false;
@@ -94,7 +95,24 @@ export class SupabaseRealtimeTransport implements DuelTransport {
 
   constructor(userId: string) {
     this.userId = userId;
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    }
   }
+
+  // Un tab in background (schermo bloccato, cambio app su mobile) puo' far
+  // rallentare o sospendere del tutto i timer JS e la connessione realtime
+  // per qualche secondo — osservato in un test dal vivo: un giocatore e'
+  // rimasto bloccato sull'ultima domanda mentre l'altro e' arrivato
+  // regolarmente alla schermata finale (stessa partita, stessi dati corretti
+  // lato server, quindi non un problema di advance_duel_match). Al ritorno
+  // in primo piano ricontrolliamo subito lo stato reale invece di aspettare
+  // che l'intervallo da 500ms o il canale si riallineino da soli.
+  private readonly handleVisibilityChange = (): void => {
+    if (document.visibilityState !== 'visible' || !this.code || this.destroyed) return;
+    void this.hydrateExistingPlayers(this.code);
+    void this.hydrateMatch(this.code);
+  };
 
   async createMatch(code?: string): Promise<DuelMatchInfo> {
     if (!supabase) throw new Error('supabase_not_configured');
@@ -186,6 +204,9 @@ export class SupabaseRealtimeTransport implements DuelTransport {
     this.destroyed = true;
     this.listeners.clear();
     this.clearRoundTick();
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    }
     if (this.opponentDisconnectTimer) clearTimeout(this.opponentDisconnectTimer);
     if (this.channel) void supabase?.removeChannel(this.channel);
     this.channel = null;
@@ -324,18 +345,39 @@ export class SupabaseRealtimeTransport implements DuelTransport {
       row.current_question_index >= 0 &&
       new Date(row.round_started_at).getTime() !== this.lastRoundStartedAtMs
     ) {
-      this.resolvedRoundIndex = -1;
       const questionIndex = row.current_question_index;
       const roundStartedAt = new Date(row.round_started_at).getTime();
       this.lastRoundStartedAtMs = roundStartedAt;
-      const emitRoundStarted = () => this.emit({ type: 'ROUND_STARTED', questionIndex, roundStartedAt });
-      // Se entrambi rispondono in anticipo, il round successivo puo' partire
-      // pochi millisecondi dopo (limitato solo dal prossimo tick, fino a
-      // 500ms) — troppo veloce per mostrare davvero l'esito del round appena
-      // concluso. Garantiamo una durata minima di reveal (stessa costante
-      // usata dal mock) ritardando qui l'emissione, senza toccare il server.
+      const previousIndex = this.lastKnownQuestionIndex;
+      this.lastKnownQuestionIndex = questionIndex;
+
+      const emitRoundStarted = () => {
+        this.resolvedRoundIndex = -1;
+        this.emit({ type: 'ROUND_STARTED', questionIndex, roundStartedAt });
+      };
+
+      // maybeResolveRound (la propria verifica "hanno risposto entrambi?")
+      // e il tick lato server che avanza la partita corrono in parallelo:
+      // se si e' l'ultimo a rispondere, il tick di un altro client puo'
+      // vincere la corsa e far arrivare qui il round GIA' avanzato prima
+      // che la propria maybeResolveRound abbia anche solo emesso
+      // ROUND_RESOLVED — osservato in un test dal vivo come evidenziazione
+      // rosso/verde mancante in modo intermittente, perche' il reducer
+      // saltava dritto da 'playing' a 'playing' (round successivo) senza
+      // mai passare da 'question-transition'. Se il round precedente non
+      // risulta ancora risolto, lo forziamo qui: garantisce che il reveal
+      // non salti mai, indipendentemente da quale controllo vince la corsa.
+      if (previousIndex >= 0 && previousIndex !== questionIndex && previousIndex !== this.resolvedRoundIndex) {
+        this.resolvedRoundIndex = previousIndex;
+        this.lastRoundResolvedAt = Date.now();
+        this.emit({ type: 'ROUND_RESOLVED', questionIndex: previousIndex });
+      }
+
+      // Garantiamo comunque una durata minima di reveal (stessa costante
+      // usata dal mock) prima di mostrare il round successivo, sia nel caso
+      // normale (resolve gia' avvenuto) sia in quello appena forzato sopra.
       const elapsedSinceResolve = this.lastRoundResolvedAt ? Date.now() - this.lastRoundResolvedAt : Infinity;
-      if (elapsedSinceResolve < DUEL_ROUND_TRANSITION_MS) {
+      if (previousIndex >= 0 && elapsedSinceResolve < DUEL_ROUND_TRANSITION_MS) {
         setTimeout(emitRoundStarted, DUEL_ROUND_TRANSITION_MS - elapsedSinceResolve);
       } else {
         emitRoundStarted();
@@ -345,7 +387,26 @@ export class SupabaseRealtimeTransport implements DuelTransport {
       this.matchFinishedEmitted = true;
       this.clearRoundTick();
       const winnerId: DuelPlayerId | 'draw' = row.winner === 'draw' ? 'draw' : row.winner === this.localRole ? 'local' : 'opponent';
-      this.emit({ type: 'MATCH_FINISHED', winnerId });
+      const emitFinished = () => this.emit({ type: 'MATCH_FINISHED', winnerId });
+
+      // Stessa corsa del blocco 'playing' sopra, ma sull'ULTIMO round: la
+      // partita puo' passare a 'finished' prima che la propria
+      // maybeResolveRound abbia rivelato l'esito dell'ultima risposta,
+      // saltando dritti alla schermata finale senza mai mostrare
+      // l'evidenziazione rosso/verde di quel round.
+      const lastIndex = this.lastKnownQuestionIndex;
+      if (lastIndex >= 0 && lastIndex !== this.resolvedRoundIndex) {
+        this.resolvedRoundIndex = lastIndex;
+        this.lastRoundResolvedAt = Date.now();
+        this.emit({ type: 'ROUND_RESOLVED', questionIndex: lastIndex });
+      }
+
+      const elapsedSinceResolve = this.lastRoundResolvedAt ? Date.now() - this.lastRoundResolvedAt : Infinity;
+      if (elapsedSinceResolve < DUEL_ROUND_TRANSITION_MS) {
+        setTimeout(emitFinished, DUEL_ROUND_TRANSITION_MS - elapsedSinceResolve);
+      } else {
+        emitFinished();
+      }
     }
   }
 
@@ -445,6 +506,7 @@ export class SupabaseRealtimeTransport implements DuelTransport {
     this.lastRoundResolvedAt = null;
     this.lastCountdownEndsAtMs = null;
     this.lastRoundStartedAtMs = null;
+    this.lastKnownQuestionIndex = -1;
     this.matchFinishedEmitted = false;
     // Reset anche qui (non solo in startRematch, che gira solo sull'host):
     // e' l'unico punto attraversato da entrambi i lati di una rivincita, e
